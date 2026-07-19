@@ -1,15 +1,29 @@
-import { Geist, Geist_Mono, Instrument_Sans } from "next/font/google"
+import { Geist_Mono, Instrument_Sans } from "next/font/google"
 
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { cn } from "@/lib/utils";
+import Header from "@/components/shared/header"
+import { Toaster } from "@/components/ui/sonner"
+import { FloatingNav } from "@/components/shared/floating-nav"
+import { SwRegister } from "@/components/shared/sw-register"
 
-const instrumentSans = Instrument_Sans({subsets:['latin'],variable:'--font-sans'})
+const instrumentSans = Instrument_Sans({ subsets: ['latin'], variable: '--font-sans' })
 
 const fontMono = Geist_Mono({
   subsets: ["latin"],
   variable: "--font-mono",
 })
+
+export const metadata = {
+  title: "Kaggo",
+  description: "Track it with Kaggo!",
+  other: {
+    "apple-mobile-web-app-capable": "yes",
+    "apple-mobile-web-app-status-bar-style": "default",
+    "apple-mobile-web-app-title": "Kaggo",
+  },
+}
 
 export default function RootLayout({
   children,
@@ -22,8 +36,16 @@ export default function RootLayout({
       suppressHydrationWarning
       className={cn("antialiased", fontMono.variable, "font-sans", instrumentSans.variable)}
     >
-      <body>
-        <ThemeProvider>{children}</ThemeProvider>
+      <body className="bg-muted">
+        <ThemeProvider>
+          <div className="bg-background max-w-[430px] mx-auto h-dvh overflow-y-auto flex flex-col relative">
+            <Header />
+            {children}
+            <FloatingNav />
+            <SwRegister />
+          </div>
+          <Toaster position="top-center" richColors />
+        </ThemeProvider>
       </body>
     </html>
   )
