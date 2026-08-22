@@ -1,5 +1,7 @@
 import { redirect } from "next/navigation"
 
-export default function Dashboard() {
-  redirect("/dashboard/shipments")
+import { ROUTES } from "@/lib/routes"
+
+export default function DashboardIndex() {
+  redirect(ROUTES.adminHome)
 }

@@ -1,30 +1,31 @@
-import Link from "next/link"
-import { Input } from "@/components/ui/input"
-import { Button } from "@/components/ui/button"
+import type { Metadata } from "next"
 
-export default function Onboarding() {
+import { requireAdminToken } from "@/lib/auth/session"
+import { VehicleOnboardingForm } from "./onboarding-form"
+
+export const metadata: Metadata = {
+  title: "Vehicle onboarding",
+  description: "Register a vehicle and pair its Kaggo GPS tracker.",
+  robots: { index: false, follow: false },
+}
+
+/**
+ * Merged onboarding screen.
+ *
+ * The designs split this across `/onboarding` (agent phone number) and
+ * `/onboarding/info` (the actual form). The backend has no notion of an
+ * "onboarding agent" identity — vehicle creation is an admin operation — so the
+ * phone gate is replaced by the admin session and the two screens are one form.
+ */
+export default async function VehicleOnboardingPage() {
+  await requireAdminToken()
+
   return (
-    <div className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto px-5 pt-10 pb-6">
-      <h2 className="mb-8 text-[20px] font-medium text-foreground">
-        New Onboarding Agent
-      </h2>
-
-      <Input
-        type="tel"
-        placeholder="Enter your phone number"
-        className="h-13 shrink-0 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
-      />
-
-      <div className="flex-1"></div>
-
-      <Button
-        render={<Link href="/onboarding/info" />}
-        nativeButton={false}
-        size="lg"
-        className="mt-auto w-full rounded-full text-base font-medium shadow-none transition-transform active:scale-98"
-      >
-        Continue
-      </Button>
+    <div className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto px-5 pt-6 pb-6">
+      <h1 className="mb-6 shrink-0 text-center text-[19px] font-semibold text-foreground">
+        Onboarding Information
+      </h1>
+      <VehicleOnboardingForm />
     </div>
   )
 }

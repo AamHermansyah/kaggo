@@ -1,17 +1,83 @@
-import Link from "next/link"
+import type { Metadata } from "next"
 import Image from "next/image"
+import Link from "next/link"
 
-export default function Page() {
+import { SupportLink } from "@/components/shared/support-link"
+import { env } from "@/lib/env"
+import { CITIES } from "@/lib/geo/cities"
+import { ROUTES } from "@/lib/routes"
+
+export const metadata: Metadata = {
+  title: "Track it with Kaggo",
+  description:
+    "Keep an eye on your package from departure to your destination. Kaggo tracks intercity road deliveries across Nigeria with live GPS.",
+  alternates: { canonical: "/" },
+}
+
+/**
+ * Structured data so search engines can render a rich result for the brand and
+ * expose the tracking entry point as a site search action.
+ */
+function StructuredData() {
+  const site = env.NEXT_PUBLIC_SITE_URL
+
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "Organization",
+        "@id": `${site}/#organization`,
+        name: "Kaggo",
+        url: site,
+        logo: `${site}/images/logo.png`,
+        areaServed: CITIES.map((city) => city.label),
+      },
+      {
+        "@type": "WebSite",
+        "@id": `${site}/#website`,
+        url: site,
+        name: "Kaggo",
+        publisher: { "@id": `${site}/#organization` },
+        inLanguage: "en-NG",
+      },
+      {
+        "@type": "Service",
+        name: "Parcel tracking",
+        provider: { "@id": `${site}/#organization` },
+        serviceType: "Intercity parcel tracking",
+        areaServed: { "@type": "Country", name: "Nigeria" },
+      },
+    ],
+  }
+
   return (
-    <div className="relative flex flex-1 flex-col">
-      {/* Hero Content */}
-      <main
-        className="flex flex-1 flex-col bg-cover bg-center px-6 pt-16 pb-12 text-center"
-        style={{
-          backgroundImage: `linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)), url('/images/hero.jpg')`,
-        }}
-      >
-        <div className="flex flex-1 flex-col items-center">
+    <script
+      type="application/ld+json"
+      // Serialised from a literal above — no user input reaches this string.
+      dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+    />
+  )
+}
+
+export default function HomePage() {
+  return (
+    <div className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto px-5 pt-3 pb-6">
+      <StructuredData />
+
+      {/* Same hero treatment as /company: a rounded card with the photo as a
+          real <Image fill> rather than a CSS background, so Next.js can size
+          and preload it. `brightness-55` replaces the old gradient overlay. */}
+      <main className="relative flex min-h-115 flex-1 flex-col items-center justify-between overflow-hidden rounded-[24px] p-6 text-center shadow-md">
+        <Image
+          src="/images/hero.jpg"
+          alt=""
+          fill
+          sizes="(max-width: 430px) 100vw, 430px"
+          className="object-cover object-center brightness-55"
+          priority
+        />
+
+        <div className="relative z-10 flex flex-col items-center pt-8">
           <h1 className="mb-3 text-[32px] leading-tight font-medium text-white">
             Track it with Kaggo
           </h1>
@@ -20,7 +86,7 @@ export default function Page() {
           </p>
 
           <Link
-            href="/track"
+            href={ROUTES.track}
             className="flex w-full max-w-85 items-center gap-3 rounded-[30px] bg-background px-6 py-4.5 text-foreground shadow-sm transition-transform active:scale-98"
           >
             <Image
@@ -36,21 +102,18 @@ export default function Page() {
           </Link>
         </div>
 
-        <div className="mt-auto flex flex-col items-center pt-10">
+        <div className="relative z-10 flex flex-col items-center pb-2">
           <h2 className="mb-2 text-[22px] font-medium text-white">
             Where are you sending to?
           </h2>
           <p className="max-w-75 text-[15px] leading-snug text-white/95">
-            Lagos, Benin, Ibadan, Abuja, Akure, Portharcourt
+            {CITIES.map((city) => city.label).join(", ")}
           </p>
         </div>
       </main>
 
-      {/* Footer */}
-      <footer className="shrink-0 p-5 text-center">
-        <button className="text-[15px] font-medium text-primary transition-opacity hover:underline active:opacity-70">
-          Contact Support
-        </button>
+      <footer className="flex shrink-0 justify-center pt-5 pb-2">
+        <SupportLink className="text-[15px]" />
       </footer>
     </div>
   )

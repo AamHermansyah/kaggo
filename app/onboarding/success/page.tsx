@@ -1,44 +1,67 @@
-"use client"
-
-import { useRouter } from "next/navigation"
+import type { Metadata } from "next"
+import Link from "next/link"
 import { Check } from "lucide-react"
+
 import { Button } from "@/components/ui/button"
+import { requireAdminToken } from "@/lib/auth/session"
+import { ROUTES } from "@/lib/routes"
 
-export default function OnboardingSuccess() {
-  const router = useRouter()
+export const metadata: Metadata = {
+  title: "Vehicle onboarded",
+  robots: { index: false, follow: false },
+}
 
-  const handleClose = () => {
-    localStorage.setItem("kaggo_onboarded", "true")
-    router.push("/")
-  }
+export default async function OnboardingSuccessPage({
+  searchParams,
+}: PageProps<"/onboarding/success">) {
+  await requireAdminToken()
+
+  const params = await searchParams
+  const raw = Array.isArray(params.plate) ? params.plate[0] : params.plate
+  const plate = typeof raw === "string" ? raw.slice(0, 20) : null
 
   return (
-    <div className="relative flex flex-1 flex-col items-center overflow-hidden px-5 pt-6 pb-6">
-      <div className="flex w-full flex-1 flex-col items-center justify-center">
-        <div className="mb-6 flex size-18 items-center justify-center rounded-full bg-[#008967]">
-          <Check className="size-10 stroke-[2.5] text-white" />
+    <div className="relative flex flex-1 flex-col items-center px-5 pt-12 pb-6">
+      <div className="my-auto flex max-w-80 flex-1 flex-col items-center justify-center text-center">
+        <div className="mb-6 flex size-18 items-center justify-center rounded-full bg-primary">
+          <Check className="size-10 stroke-[2.5] text-primary-foreground" />
         </div>
 
-        <h2 className="mb-3 text-center text-[26px] leading-snug font-semibold text-foreground">
-          Vehicle Onboarding
+        <h1 className="mb-3 text-center text-[26px] leading-snug font-semibold text-foreground">
+          Vehicle onboarding
           <br />
           successful!
-        </h2>
+        </h1>
 
         <p className="max-w-70 text-center text-[15px] text-muted-foreground">
-          This vehicle is now available on
-          <br />
-          Kaggo
+          {plate ? (
+            <>
+              <span className="font-semibold text-foreground">{plate}</span> is
+              now available on Kaggo.
+            </>
+          ) : (
+            "This vehicle is now available on Kaggo."
+          )}
         </p>
       </div>
 
-      <div className="mt-auto w-full shrink-0">
+      <div className="mt-auto flex w-full shrink-0 flex-col gap-3">
         <Button
-          onClick={handleClose}
+          render={<Link href={ROUTES.adminVehicles} />}
+          nativeButton={false}
           size="lg"
-          className="w-full rounded-full text-base font-medium shadow-none transition-transform active:scale-98"
+          className="h-13 w-full rounded-full text-[15px] font-semibold"
         >
-          Close
+          View vehicles
+        </Button>
+        <Button
+          render={<Link href={ROUTES.vehicleOnboarding} />}
+          nativeButton={false}
+          variant="outline"
+          size="lg"
+          className="h-13 w-full rounded-full text-[15px] font-medium"
+        >
+          Onboard another
         </Button>
       </div>
     </div>

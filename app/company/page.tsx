@@ -1,64 +1,82 @@
-import Link from "next/link"
+import type { Metadata } from "next"
 import Image from "next/image"
-import { Button } from "@/components/ui/button"
-import { MapPin } from "lucide-react"
+import Link from "next/link"
 
-export default function CompanyHome() {
+import { SupportLink } from "@/components/shared/support-link"
+import { Button } from "@/components/ui/button"
+import { CITIES } from "@/lib/geo/cities"
+import { ROUTES } from "@/lib/routes"
+
+export const metadata: Metadata = {
+  title: "Power your trips with Kaggo",
+  description:
+    "Give your customers live visibility over every package you move. Register your logistics company on Kaggo to manage batches, drivers and journeys.",
+  alternates: { canonical: "/company" },
+  openGraph: {
+    title: "Power your trips with Kaggo",
+    description:
+      "Register your logistics company on Kaggo to manage batches, drivers and journeys.",
+    url: "/company",
+  },
+}
+
+export default function CompanyLandingPage() {
   return (
     <div className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto px-5 pt-3 pb-6">
-      {/* Hero Container */}
-      <div className="relative flex min-h-115 flex-1 flex-col items-center justify-between overflow-hidden rounded-[24px] p-6 text-center shadow-md">
-        {/* Background Image */}
+      <main className="relative flex min-h-115 flex-1 flex-col items-center justify-between overflow-hidden rounded-[24px] p-6 text-center shadow-md">
         <Image
           src="/images/hero.jpg"
-          alt="Logistics background"
+          alt=""
           fill
+          sizes="(max-width: 430px) 100vw, 430px"
           className="object-cover object-center brightness-55"
           priority
         />
 
-        {/* Top Text Overlay */}
-        <div className="relative z-10 flex max-w-80 flex-col items-center pt-8">
-          <h2 className="mb-3 text-[26px] leading-tight font-bold tracking-tight text-white">
+        {/* Type scale matched to the landing page hero. */}
+        <div className="relative z-10 flex flex-col items-center pt-8">
+          <h1 className="mb-3 text-[32px] leading-tight font-medium text-white">
             Power your trips with MyKaggo
-          </h2>
-          <p className="text-[13.5px] leading-relaxed font-normal text-white/90">
+          </h1>
+          <p className="max-w-75 text-[17px] leading-snug text-white">
             Your customers never have to worry about where their packages are
           </p>
         </div>
 
-        {/* Center CTA Button */}
         <div className="relative z-10 my-auto py-6">
           <Button
-            render={<Link href="/company/register" />}
+            render={<Link href={ROUTES.companyRegister} />}
             nativeButton={false}
             size="lg"
-            className="flex h-13 items-center gap-2 rounded-full bg-white px-8 text-[15px] font-semibold text-[#008967] shadow-lg transition-transform hover:bg-white/90 active:scale-98"
+            variant="secondary"
+            className="flex h-13 items-center gap-2 rounded-full bg-white px-8 text-[15px] font-semibold text-primary shadow-lg transition-transform hover:bg-white/90 active:scale-98"
           >
-            <MapPin className="size-4 stroke-[2.5] text-[#008967]" />
-            <span>Get Started</span>
+            <Image
+              src="/images/logo.png"
+              alt=""
+              width={40}
+              height={48}
+              data-icon="inline-start"
+              className="size-5 shrink-0 object-contain"
+            />
+            Get Started
           </Button>
         </div>
 
-        {/* Bottom Coverage Info */}
-        <div className="relative z-10 flex flex-col items-center pb-2 text-center">
-          <span className="mb-1 text-[13px] font-medium text-white/90">
+        <div className="relative z-10 flex flex-col items-center pb-2">
+          <h2 className="mb-2 text-[22px] font-medium text-white">
             We are everywhere
-          </span>
-          <span className="text-[11.5px] font-normal tracking-wide text-white/75">
-            Lagos, Benin, Ibadan, Abuja, Akure, Portharcourt...
-          </span>
+          </h2>
+          <p className="max-w-75 text-[15px] leading-snug text-white/95">
+            {CITIES
+              .map((city) => city.label)
+              .join(", ")}
+          </p>
         </div>
-      </div>
+      </main>
 
-      {/* Footer Support Link */}
       <div className="flex shrink-0 justify-center pt-5 pb-2">
-        <button
-          type="button"
-          className="text-[14px] font-medium text-[#008967] transition-opacity hover:underline active:opacity-70"
-        >
-          Contact Support
-        </button>
+        <SupportLink subject="Kaggo company enquiry" />
       </div>
     </div>
   )

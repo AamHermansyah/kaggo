@@ -1,105 +1,132 @@
-const CACHE_NAME = "kaggo-v3"
+/**
+ * Kaggo service worker.
+ *
+ * SECURITY: this never caches HTML or RSC responses.
+ *
+ * An earlier version cached every navigation, which meant a signed-in rider's
+ * parcels — and, worse, the admin dashboard's user list and revenue — were
+ * written to the Cache API and served back to whoever opened the app next on
+ * that device, signed in or not.
+ *
+ * Offline support is provided instead by one precached, session-free fallback
+ * page: real pages always go to the network, and only the failure path is
+ * served from cache.
+ */
+const CACHE_NAME = "kaggo-v5"
 
-const STATIC_ASSETS = [
-  "/",
-  "/icons/icon-192x192.png?v=2",
-  "/icons/icon-512x512.png?v=2",
+const OFFLINE_URL = "/offline"
+
+const PRECACHE = [
+  OFFLINE_URL,
+  "/icons/icon-192x192.png?v=3",
+  "/icons/icon-512x512.png?v=3",
+  "/icons/icon-maskable-192x192.png?v=3",
+  "/icons/icon-maskable-512x512.png?v=3",
   "/images/logo.png",
   "/images/logo-with-text.png",
   "/images/hero.jpg",
 ]
 
-// Install: cache static assets
+/** Immutable, identity-free assets. Everything else is network-only. */
+const CACHEABLE_PREFIXES = ["/icons/", "/images/", "/_next/static/"]
+
 self.addEventListener("install", (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(STATIC_ASSETS)
-    })
+    caches
+      .open(CACHE_NAME)
+      // One missing file must not abort the whole install.
+      .then((cache) =>
+        Promise.allSettled(PRECACHE.map((asset) => cache.add(asset)))
+      )
   )
   self.skipWaiting()
 })
 
-// Activate: clean up old caches
 self.addEventListener("activate", (event) => {
   event.waitUntil(
-    caches.keys().then((cacheNames) => {
-      return Promise.all(
-        cacheNames
-          .filter((name) => name !== CACHE_NAME)
-          .map((name) => caches.delete(name))
-      )
-    })
+    Promise.all([
+      caches
+        .keys()
+        .then((names) =>
+          Promise.all(
+            names
+              .filter((name) => name !== CACHE_NAME)
+              .map((name) => caches.delete(name))
+          )
+        ),
+      // Lets the browser answer navigations from its own HTTP cache without
+      // waking this worker first.
+      self.registration.navigationPreload?.enable(),
+    ])
   )
   self.clients.claim()
 })
 
-// Fetch: Network First for pages, Cache First for assets
+function isCacheableAsset(url) {
+  return CACHEABLE_PREFIXES.some((prefix) => url.pathname.startsWith(prefix))
+}
+
+const OFFLINE_FALLBACK_HTML =
+  "<!doctype html><meta charset=utf-8><title>You are offline</title>" +
+  "<body style=\"font-family:system-ui;margin:0;display:grid;place-items:center;height:100vh;text-align:center\">" +
+  "<div><h1>You are offline</h1><p>Reconnect and try again.</p></div>"
+
 self.addEventListener("fetch", (event) => {
   const { request } = event
-  const url = new URL(request.url)
 
-  // Skip non-GET requests
+  // Mutations (Server Actions, logout posts) must always reach the server.
   if (request.method !== "GET") return
 
-  // Skip chrome-extension and other non-http(s) requests
+  const url = new URL(request.url)
+
+  // Only same-origin, only http(s).
+  if (url.origin !== self.location.origin) return
   if (!url.protocol.startsWith("http")) return
 
-  // For navigation requests (pages): Network First
+  /**
+   * Navigations: network-first with NO caching of the response. On failure the
+   * precached offline page is shown. The address bar keeps the requested URL,
+   * so the page's "Try again" simply reloads it.
+   */
   if (request.mode === "navigate") {
     event.respondWith(
-      fetch(request)
-        .then((response) => {
-          // Cache a copy of the response
-          const responseClone = response.clone()
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(request, responseClone)
-          })
-          return response
-        })
-        .catch(() => {
-          // If network fails, try cache
-          return caches.match(request).then((cached) => {
-            return cached || caches.match("/")
-          })
-        })
+      (async () => {
+        try {
+          const preloaded = await event.preloadResponse
+          if (preloaded) return preloaded
+          return await fetch(request)
+        } catch {
+          const cached = await caches.match(OFFLINE_URL)
+          return (
+            cached ??
+            new Response(OFFLINE_FALLBACK_HTML, {
+              status: 503,
+              headers: { "Content-Type": "text/html; charset=utf-8" },
+            })
+          )
+        }
+      })()
     )
     return
   }
 
-  // For static assets: Cache First
-  if (
-    url.pathname.startsWith("/icons/") ||
-    url.pathname.startsWith("/images/") ||
-    url.pathname.startsWith("/_next/static/")
-  ) {
-    event.respondWith(
-      caches.match(request).then((cached) => {
-        if (cached) return cached
+  // RSC payloads are session-scoped: never cached, never served from cache.
+  if (request.headers.get("RSC") || url.searchParams.has("_rsc")) return
 
-        return fetch(request).then((response) => {
-          const responseClone = response.clone()
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(request, responseClone)
-          })
-          return response
-        })
-      })
-    )
-    return
-  }
+  if (!isCacheableAsset(url)) return
 
-  // For everything else: Network First with cache fallback
   event.respondWith(
-    fetch(request)
-      .then((response) => {
-        const responseClone = response.clone()
-        caches.open(CACHE_NAME).then((cache) => {
-          cache.put(request, responseClone)
-        })
+    caches.match(request).then((cached) => {
+      if (cached) return cached
+
+      return fetch(request).then((response) => {
+        // Opaque and error responses are not worth persisting.
+        if (response.ok && response.type === "basic") {
+          const copy = response.clone()
+          caches.open(CACHE_NAME).then((cache) => cache.put(request, copy))
+        }
         return response
       })
-      .catch(() => {
-        return caches.match(request)
-      })
+    })
   )
 })

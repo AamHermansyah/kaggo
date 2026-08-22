@@ -1,12 +1,14 @@
+import type { Metadata, Viewport } from "next"
 import { Geist_Mono, Instrument_Sans } from "next/font/google"
 
 import "./globals.css"
-import { ThemeProvider } from "@/components/theme-provider"
-import { cn } from "@/lib/utils"
-import Header from "@/components/shared/header"
-import { Toaster } from "@/components/ui/sonner"
 import { FloatingNav } from "@/components/shared/floating-nav"
+import Header from "@/components/shared/header"
 import { SwRegister } from "@/components/shared/sw-register"
+import { ThemeProvider } from "@/components/theme-provider"
+import { Toaster } from "@/components/ui/sonner"
+import { env } from "@/lib/env"
+import { cn } from "@/lib/utils"
 
 const instrumentSans = Instrument_Sans({
   subsets: ["latin"],
@@ -18,14 +20,77 @@ const fontMono = Geist_Mono({
   variable: "--font-mono",
 })
 
-export const metadata = {
-  title: "MyKaggo",
-  description: "Track it with MyKaggo!",
-  other: {
-    "apple-mobile-web-app-capable": "yes",
-    "apple-mobile-web-app-status-bar-style": "default",
-    "apple-mobile-web-app-title": "MyKaggo",
+const DESCRIPTION =
+  "Track your parcel from departure to destination. Kaggo gives senders and receivers live visibility over intercity road deliveries across Nigeria."
+
+/**
+ * Site-wide metadata.
+ *
+ * `metadataBase` makes every relative OG/canonical URL absolute, and the title
+ * template lets each page contribute only its own name. Private areas opt out
+ * of indexing individually rather than here, so the marketing pages stay
+ * crawlable.
+ */
+export const metadata: Metadata = {
+  metadataBase: new URL(env.NEXT_PUBLIC_SITE_URL),
+  title: {
+    default: "Kaggo — Track it with Kaggo",
+    template: "%s · Kaggo",
   },
+  description: DESCRIPTION,
+  applicationName: "Kaggo",
+  keywords: [
+    "parcel tracking",
+    "package tracking Nigeria",
+    "intercity delivery",
+    "logistics tracking",
+    "Kaggo",
+  ],
+  category: "logistics",
+  manifest: "/manifest.webmanifest",
+  // No `alternates.canonical` here on purpose: metadata is inherited, so a
+  // canonical set on the root layout would make every page declare itself a
+  // duplicate of "/". Each indexable page sets its own.
+  openGraph: {
+    type: "website",
+    siteName: "Kaggo",
+    title: "Kaggo — Track it with Kaggo",
+    description: DESCRIPTION,
+    url: "/",
+    locale: "en_NG",
+    images: [
+      {
+        url: "/images/hero.jpg",
+        width: 1200,
+        height: 630,
+        alt: "Kaggo parcel tracking",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Kaggo — Track it with Kaggo",
+    description: DESCRIPTION,
+    images: ["/images/hero.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" },
+  },
+  appleWebApp: {
+    capable: true,
+    title: "MyKaggo",
+    statusBarStyle: "default",
+  },
+  formatDetection: { telephone: false },
+}
+
+export const viewport: Viewport = {
+  themeColor: "#008967",
+  width: "device-width",
+  initialScale: 1,
+  viewportFit: "cover",
 }
 
 export default function RootLayout({
@@ -35,7 +100,7 @@ export default function RootLayout({
 }>) {
   return (
     <html
-      lang="en"
+      lang="en-NG"
       suppressHydrationWarning
       className={cn(
         "antialiased",

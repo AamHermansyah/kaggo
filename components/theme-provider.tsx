@@ -52,14 +52,9 @@ export function ThemeProvider({
     [storageKey]
   )
 
-  React.useEffect(() => {
-    try {
-      const saved = localStorage.getItem(storageKey)
-      if (saved && !forcedTheme) {
-        setThemeState(saved)
-      }
-    } catch {}
-  }, [forcedTheme, storageKey])
+  // The app is deliberately light-only (`forcedTheme` defaults to "light"), so
+  // there is no stored preference to restore — `setTheme` still writes to
+  // localStorage for whenever a theme switcher comes back.
 
   React.useEffect(() => {
     const root = document.documentElement

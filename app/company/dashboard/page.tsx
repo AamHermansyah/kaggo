@@ -1,101 +1,93 @@
+import { Suspense } from "react"
+import type { Metadata } from "next"
 import Link from "next/link"
-import { ArrowRight } from "lucide-react"
+import { ArrowRight, LogOut } from "lucide-react"
 
-export default function CompanyDashboardPage() {
+import { DataBoundary } from "@/components/shared/data-boundary"
+import { SupportLink } from "@/components/shared/support-link"
+import { Button } from "@/components/ui/button"
+import { requireCompanyToken } from "@/lib/auth/session"
+import { ROUTES } from "@/lib/routes"
+import { companyLogoutAction } from "../actions"
+import {
+  CompanyOverviewPanel,
+  CompanyOverviewSkeleton,
+} from "./overview-panel"
+
+export const metadata: Metadata = {
+  title: "Company dashboard",
+  description: "Manage your batches and vehicles on Kaggo.",
+  robots: { index: false, follow: false },
+}
+
+const QUICK_ACTIONS = [
+  {
+    href: ROUTES.companyBatches,
+    title: "Batch Manager",
+    description: "Group packages into journeys and assign drivers",
+  },
+  {
+    href: ROUTES.companyVehicles,
+    title: "Manage Vehicles",
+    description: "Your registered fleet and Kaggo devices",
+  },
+]
+
+export default async function CompanyDashboardPage() {
+  const token = await requireCompanyToken()
+
   return (
     <div className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto px-5 pt-6 pb-6">
-      {/* Company Info */}
-      <div className="mb-6 flex shrink-0 flex-col">
-        <h2 className="text-[20px] font-bold tracking-tight text-foreground">
-          AKTC Transport LTD
-        </h2>
-        <p className="mt-1 text-[14px] font-medium text-foreground/70">
-          Company Code:{" "}
-          <span className="font-semibold text-[#008967]">125546</span>
-        </p>
-      </div>
+      <DataBoundary
+        title="Could not load your company summary"
+        description="The company service did not respond. Your quick actions below still work."
+      >
+        <Suspense fallback={<CompanyOverviewSkeleton />}>
+          <CompanyOverviewPanel token={token} />
+        </Suspense>
+      </DataBoundary>
 
-      {/* Stats Summary Card */}
-      <div className="mb-8 grid shrink-0 grid-cols-4 rounded-2xl border border-[#008967]/15 bg-[#f4fbf7] p-5 text-center dark:bg-primary/10">
-        <div className="flex flex-col items-center gap-1">
-          <span className="text-[18px] font-bold text-foreground">389</span>
-          <span className="text-[12px] font-medium text-foreground/75">
-            Packages
-          </span>
-        </div>
-        <div className="flex flex-col items-center gap-1 border-l border-border/30">
-          <span className="text-[18px] font-bold text-foreground">4</span>
-          <span className="text-[12px] font-medium text-foreground/75">
-            Batches
-          </span>
-        </div>
-        <div className="flex flex-col items-center gap-1 border-l border-border/30">
-          <span className="text-[18px] font-bold text-foreground">6</span>
-          <span className="text-[12px] font-medium text-foreground/75">
-            Journey
-          </span>
-        </div>
-        <div className="flex flex-col items-center gap-1 border-l border-border/30">
-          <span className="text-[18px] font-bold text-foreground">3</span>
-          <span className="text-[12px] font-medium text-foreground/75">
-            Completed
-          </span>
-        </div>
-      </div>
-
-      {/* Quick Actions */}
       <div className="mb-8 flex shrink-0 flex-col gap-4">
-        <h3 className="text-[17px] font-bold tracking-tight text-foreground">
+        <h2 className="text-[17px] font-bold tracking-tight text-foreground">
           Quick Actions
-        </h3>
+        </h2>
 
-        {/* Action 1: Batch Manager */}
-        <Link
-          href="/company/batches"
-          className="flex items-center justify-between rounded-2xl border border-border/70 bg-card p-5 shadow-xs transition-all hover:border-[#008967]/60 active:scale-99"
-        >
-          <div className="flex flex-col">
-            <span className="mb-1 text-[16px] font-semibold text-[#008967]">
-              Batch Manager
+        {QUICK_ACTIONS.map((action) => (
+          <Link
+            key={action.href}
+            href={action.href}
+            className="flex items-center justify-between gap-4 rounded-2xl border border-border/70 bg-card p-5 shadow-xs transition-all hover:border-primary/60 active:scale-99"
+          >
+            <span className="flex min-w-0 flex-col">
+              <span className="mb-1 text-[16px] font-semibold text-primary">
+                {action.title}
+              </span>
+              <span className="text-[13px] font-normal text-foreground/70">
+                {action.description}
+              </span>
             </span>
-            <span className="text-[13px] font-normal text-foreground/70">
-              10 Active Today
+            <span className="flex size-9 shrink-0 items-center justify-center rounded-full bg-secondary text-primary">
+              <ArrowRight className="size-4 stroke-2" />
             </span>
-          </div>
-          <div className="flex size-9 items-center justify-center rounded-full bg-[#f4fbf7] text-[#008967] dark:bg-primary/20">
-            <ArrowRight className="size-4 stroke-2" />
-          </div>
-        </Link>
-
-        {/* Action 2: Manage Vehicles */}
-        <Link
-          href="/company/vehicles"
-          className="flex items-center justify-between rounded-2xl border border-border/70 bg-card p-5 shadow-xs transition-all hover:border-[#008967]/60 active:scale-99"
-        >
-          <div className="flex flex-col">
-            <span className="mb-1 text-[16px] font-semibold text-[#008967]">
-              Manage Vehicles
-            </span>
-            <span className="text-[13px] font-normal text-foreground/70">
-              127 Registered
-            </span>
-          </div>
-          <div className="flex size-9 items-center justify-center rounded-full bg-[#f4fbf7] text-[#008967] dark:bg-primary/20">
-            <ArrowRight className="size-4 stroke-2" />
-          </div>
-        </Link>
+          </Link>
+        ))}
       </div>
 
-      <div className="flex-1"></div>
+      <div className="flex-1" />
 
-      {/* Footer Support Link */}
-      <div className="mt-auto flex shrink-0 justify-center pt-4 pb-2">
-        <button
-          type="button"
-          className="text-[14px] font-medium text-[#008967] transition-opacity hover:underline active:opacity-70"
-        >
-          Contact Support
-        </button>
+      <div className="mt-auto flex shrink-0 flex-col items-center gap-4 pt-4">
+        <SupportLink />
+        <form action={companyLogoutAction}>
+          <Button
+            type="submit"
+            variant="outline"
+            size="sm"
+            className="rounded-full"
+          >
+            <LogOut data-icon="inline-start" />
+            Sign out
+          </Button>
+        </form>
       </div>
     </div>
   )

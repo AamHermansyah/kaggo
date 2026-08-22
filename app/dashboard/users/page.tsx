@@ -1,5 +1,30 @@
-import { UserList } from "@/components/dashboard/user-list"
+import type { Metadata } from "next"
 
-export default function UsersPage() {
-  return <UserList />
+import { AdminShell } from "@/components/dashboard/admin-shell"
+import { UserList } from "@/components/dashboard/user-list"
+import { requireAdminToken } from "@/lib/auth/session"
+import { parseAdminParams } from "@/lib/dashboard/params"
+
+export const metadata: Metadata = {
+  title: "Users",
+  description: "Riders identified on Kaggo and their sent/received totals.",
+}
+
+export default async function UsersPage({
+  searchParams,
+}: PageProps<"/dashboard/users">) {
+  const token = await requireAdminToken()
+  const params = parseAdminParams(await searchParams)
+
+  return (
+    <AdminShell
+      token={token}
+      range={params.range}
+      query={params.query}
+      active="users"
+      listTitle="Could not load users"
+    >
+      <UserList token={token} params={params} />
+    </AdminShell>
+  )
 }
