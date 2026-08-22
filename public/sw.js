@@ -1,12 +1,12 @@
-const CACHE_NAME = "kaggo-v1"
+const CACHE_NAME = "kaggo-v3"
 
 const STATIC_ASSETS = [
   "/",
-  "/icons/icon-192x192.png",
-  "/icons/icon-512x512.png",
-  "/images/kaggo.png",
-  "/images/kaggo-by-rovasoft.png",
-  "/images/hero.png",
+  "/icons/icon-192x192.png?v=2",
+  "/icons/icon-512x512.png?v=2",
+  "/images/logo.png",
+  "/images/logo-with-text.png",
+  "/images/hero.jpg",
 ]
 
 // Install: cache static assets

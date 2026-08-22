@@ -8,11 +8,11 @@ export default function TrackItem() {
         <span className="text-primary">ID: 08030987654</span>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full bg-primary" />
+            <div className="size-2 rounded-full bg-primary" />
             <span>56</span>
           </div>
           <div className="flex items-center gap-1.5">
-            <div className="w-2 h-2 rounded-full bg-destructive" />
+            <div className="size-2 rounded-full bg-destructive" />
             <span>34</span>
           </div>
         </div>

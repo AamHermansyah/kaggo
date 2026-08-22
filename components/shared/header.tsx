@@ -18,8 +18,44 @@ export default function Header() {
   // Route specific configuration
   if (pathname === "/") {
     variant = "home"
+  } else if (pathname === "/company") {
+    variant = "company-home"
   } else if (pathname?.startsWith("/dashboard")) {
     variant = "dashboard"
+  } else if (pathname === "/company/dashboard") {
+    title = "Dashboard"
+    showBack = false
+  } else if (pathname === "/company/register") {
+    title = "Create Account"
+    showBack = false
+  } else if (pathname === "/company/login") {
+    title = "Login"
+    showBack = false
+  } else if (
+    pathname === "/company/submitted" ||
+    pathname === "/company/batches/assign-driver/success" ||
+    pathname === "/company/vehicles/onboarding/success" ||
+    pathname === "/onboarding/success"
+  ) {
+    return null // No header for success screens
+  } else if (pathname === "/company/batches") {
+    title = "Batch Manager"
+    showBack = true
+  } else if (pathname === "/company/batches/create") {
+    title = "Create New Batch"
+    showBack = true
+  } else if (pathname?.startsWith("/company/batches") && pathname?.endsWith("/packages")) {
+    title = "Package List"
+    showBack = true
+  } else if (pathname === "/company/batches/assign-driver") {
+    title = "Assign Driver"
+    showBack = true
+  } else if (pathname === "/company/vehicles") {
+    title = "Vehicles"
+    showBack = true
+  } else if (pathname === "/company/vehicles/onboarding") {
+    title = "Vehicle Onboarding"
+    showBack = true
   } else if (pathname === "/track") {
     title = "Track Item"
   } else if (pathname === "/list-item") {
@@ -27,8 +63,6 @@ export default function Header() {
   } else if (pathname === "/onboarding" || pathname === "/onboarding/info") {
     title = "Kaggo Vehicle Onboarding"
     showBack = false
-  } else if (pathname === "/onboarding/success") {
-    return null // No header for success page
   } else {
     // Fallback for any other path: format the first path segment
     const pathSegment = pathname?.split('/')[1] || ""
@@ -38,11 +72,11 @@ export default function Header() {
   if (variant === "home") {
     return (
       <header className="flex items-center justify-between px-6 py-4 z-10 shrink-0">
-        <Image 
-          src="/images/kaggo-by-rovasoft.png" 
-          alt="Kaggo By Rovasoft" 
-          width={100} 
-          height={40} 
+        <Image
+          src="/images/logo-with-text.png"
+          alt="MyKaggo"
+          width={600}
+          height={171}
           className="h-9 w-auto object-contain"
           priority
         />
@@ -53,18 +87,36 @@ export default function Header() {
     )
   }
 
+  if (variant === "company-home") {
+    return (
+      <header className="flex items-center justify-between px-6 py-4 z-10 shrink-0 bg-background">
+        <Image
+          src="/images/logo-with-text.png"
+          alt="MyKaggo"
+          width={600}
+          height={171}
+          className="h-9 w-auto object-contain"
+          priority
+        />
+        <Button render={<Link href="/company/login" />} nativeButton={false} className="rounded-md px-6 shadow-none font-medium text-sm bg-[#008967] hover:bg-[#007558] text-white">
+          Login
+        </Button>
+      </header>
+    )
+  }
+
   if (variant === "dashboard") {
     return (
-      <header className="flex items-center gap-4 px-5 pt-8 pb-4 z-10 shrink-0 bg-background">
-        <Image 
-          src="/images/kaggo-by-rovasoft.png" 
-          alt="Kaggo By Rovasoft" 
-          width={100} 
-          height={40} 
+      <header className="flex items-center justify-between gap-4 px-5 pt-8 pb-4 z-10 shrink-0 bg-background">
+        <Image
+          src="/images/logo.png"
+          alt="Kaggo"
+          width={425}
+          height={512}
           className="h-9 w-auto object-contain shrink-0"
           priority
         />
-        <h1 className="text-[22px] font-medium text-foreground ml-2">Dashboard</h1>
+        <h1 className="text-xl font-medium text-foreground ml-2">Dashboard</h1>
       </header>
     )
   }
@@ -72,12 +124,12 @@ export default function Header() {
   return (
     <header className="flex items-center justify-center px-4 h-14 border-b border-border/40 shrink-0 relative bg-background">
       {showBack && (
-        <button 
-          onClick={() => router.back()} 
+        <button
+          onClick={() => router.back()}
           className="absolute left-4 p-2 -ml-2 text-foreground active:opacity-70 transition-opacity"
           aria-label="Go back"
         >
-          <ChevronLeft className="w-6 h-6 stroke-[1.5]" />
+          <ChevronLeft className="size-6 stroke-[1.5]" />
         </button>
       )}
       <h1 className="text-[17px] font-medium text-foreground">

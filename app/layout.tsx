@@ -16,12 +16,12 @@ const fontMono = Geist_Mono({
 })
 
 export const metadata = {
-  title: "Kaggo",
-  description: "Track it with Kaggo!",
+  title: "MyKaggo",
+  description: "Track it with MyKaggo!",
   other: {
     "apple-mobile-web-app-capable": "yes",
     "apple-mobile-web-app-status-bar-style": "default",
-    "apple-mobile-web-app-title": "Kaggo",
+    "apple-mobile-web-app-title": "MyKaggo",
   },
 }
 
@@ -38,7 +38,7 @@ export default function RootLayout({
     >
       <body className="bg-muted">
         <ThemeProvider>
-          <div className="bg-background max-w-[430px] mx-auto h-dvh overflow-y-auto flex flex-col relative">
+          <div className="bg-background max-w-107.5 mx-auto h-dvh overflow-y-auto flex flex-col relative">
             <Header />
             {children}
             <FloatingNav />

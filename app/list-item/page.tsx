@@ -28,7 +28,7 @@ export default function ListItemFirstTime() {
         
         <Separator className="w-[calc(100%+3rem)] -mx-6 mb-6" />
 
-        <Button render={<Link href="/send-item" />} nativeButton={false} size="lg" className="w-full rounded-full text-base font-medium active:scale-[0.98] transition-transform shadow-none">
+        <Button render={<Link href="/send-item" />} nativeButton={false} size="lg" className="w-full rounded-full text-base font-medium active:scale-98 transition-transform shadow-none">
           Continue
         </Button>
       </div>

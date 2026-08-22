@@ -50,7 +50,7 @@ export default function TrackItemCard({ data }: TrackItemCardProps) {
       {/* Top Row */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <div className={cn("w-2 h-2 rounded-full", status === "active" ? "bg-[#008967]" : "bg-destructive")} />
+          <div className={cn("size-2 rounded-full", status === "active" ? "bg-[#008967]" : "bg-destructive")} />
           <h3 className="font-semibold text-[17px] text-foreground">{itemName}</h3>
         </div>
         <Button variant="outline" size="sm" className="h-8 rounded-lg px-3 text-xs font-medium border-border/80 shadow-none">
@@ -61,12 +61,12 @@ export default function TrackItemCard({ data }: TrackItemCardProps) {
       {/* Info Rows */}
       <div className="flex flex-col gap-2.5 mb-3">
         <div className="flex items-center gap-3 text-[14px]">
-          <MapPin className="w-[18px] h-[18px] text-foreground/80 stroke-2" />
+          <MapPin className="size-4.5 text-foreground/80 stroke-2" />
           <span className="text-foreground/90">{location}</span>
         </div>
 
         <div className="flex items-center gap-3 text-[14px]">
-          <CheckCircle2 className="w-[18px] h-[18px] text-foreground/80 stroke-2" />
+          <CheckCircle2 className="size-4.5 text-foreground/80 stroke-2" />
           <span className="text-foreground/90">
             <span className="text-[#008967]">Status: </span>
             {statusText}
@@ -75,11 +75,11 @@ export default function TrackItemCard({ data }: TrackItemCardProps) {
 
         <div className="flex items-center gap-5 text-[13px] mt-0.5">
           <div className="flex items-center gap-2">
-            <Clock className="w-4 h-4 text-foreground/80 stroke-2" />
+            <Clock className="size-4 text-foreground/80 stroke-2" />
             <span className="text-foreground/90">{time}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Timer className="w-4 h-4 text-foreground/80 stroke-2" />
+            <Timer className="size-4 text-foreground/80 stroke-2" />
             <span className="text-foreground/90">{arrivalTime}</span>
           </div>
         </div>

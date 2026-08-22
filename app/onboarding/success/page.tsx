@@ -16,21 +16,21 @@ export default function OnboardingSuccess() {
     <div className="flex flex-col flex-1 px-5 pt-6 pb-6 relative items-center overflow-hidden">
       
       <div className="flex flex-col items-center justify-center flex-1 w-full">
-        <div className="w-[72px] h-[72px] rounded-full bg-[#008967] flex items-center justify-center mb-6">
-          <Check className="w-10 h-10 text-white stroke-[2.5]" />
+        <div className="size-18 rounded-full bg-[#008967] flex items-center justify-center mb-6">
+          <Check className="size-10 text-white stroke-[2.5]" />
         </div>
         
         <h2 className="text-[26px] font-semibold text-foreground text-center mb-3 leading-snug">
           Vehicle Onboarding<br/>successful!
         </h2>
         
-        <p className="text-muted-foreground text-[15px] text-center max-w-[280px]">
+        <p className="text-muted-foreground text-[15px] text-center max-w-70">
           This vehicle is now available on<br/>Kaggo
         </p>
       </div>
 
       <div className="w-full shrink-0 mt-auto">
-        <Button onClick={handleClose} size="lg" className="w-full rounded-full text-base font-medium active:scale-[0.98] transition-transform shadow-none">
+        <Button onClick={handleClose} size="lg" className="w-full rounded-full text-base font-medium active:scale-98 transition-transform shadow-none">
           Close
         </Button>
       </div>

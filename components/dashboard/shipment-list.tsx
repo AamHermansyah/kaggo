@@ -14,9 +14,9 @@ export function ShipmentList() {
           <div className="flex justify-between items-start mb-3">
             <div className="flex items-start gap-3">
               <div className="flex flex-col items-center mt-1.5 shrink-0">
-                <div className="w-2 h-2 rounded-full bg-[#008967]" />
+                <div className="size-2 rounded-full bg-[#008967]" />
                 <div className="w-px h-4 bg-border my-1" />
-                <div className="w-2 h-2 rounded-full bg-destructive" />
+                <div className="size-2 rounded-full bg-destructive" />
               </div>
               <div className="flex flex-col gap-3 text-[15px] font-medium text-foreground">
                 <span>08034567890</span>
@@ -29,11 +29,11 @@ export function ShipmentList() {
             </div>
           </div>
           <div className="flex items-center gap-3 text-[14px] mb-2">
-            <CheckCircle2 className="w-[18px] h-[18px] text-foreground/80 stroke-2" />
+            <CheckCircle2 className="size-4.5 text-foreground/80 stroke-2" />
             <span className="text-foreground/90">Arrived Gwagwalada, Abuja</span>
           </div>
           <div className="flex items-center gap-3 text-[14px]">
-            <Clock className="w-[18px] h-[18px] text-foreground/80 stroke-2" />
+            <Clock className="size-4.5 text-foreground/80 stroke-2" />
             <span className="text-foreground/90">Today, 6:45 P.M</span>
           </div>
         </div>
@@ -43,9 +43,9 @@ export function ShipmentList() {
           <div className="flex justify-between items-start mb-3">
             <div className="flex items-start gap-3">
               <div className="flex flex-col items-center mt-1.5 shrink-0">
-                <div className="w-2 h-2 rounded-full bg-[#008967]" />
+                <div className="size-2 rounded-full bg-[#008967]" />
                 <div className="w-px h-4 bg-border my-1" />
-                <div className="w-2 h-2 rounded-full bg-destructive" />
+                <div className="size-2 rounded-full bg-destructive" />
               </div>
               <div className="flex flex-col gap-3 text-[15px] font-medium text-foreground">
                 <span>08034567890</span>
@@ -58,11 +58,11 @@ export function ShipmentList() {
             </div>
           </div>
           <div className="flex items-center gap-3 text-[14px] mb-2">
-            <CheckCircle2 className="w-[18px] h-[18px] text-foreground/80 stroke-2" />
+            <CheckCircle2 className="size-4.5 text-foreground/80 stroke-2" />
             <span className="text-foreground/90">Arrived Gwagwalada, Abuja</span>
           </div>
           <div className="flex items-center gap-3 text-[14px]">
-            <Clock className="w-[18px] h-[18px] text-foreground/80 stroke-2" />
+            <Clock className="size-4.5 text-foreground/80 stroke-2" />
             <span className="text-foreground/90">Today, 6:45 P.M</span>
           </div>
         </div>
@@ -72,9 +72,9 @@ export function ShipmentList() {
           <div className="flex justify-between items-start mb-3">
             <div className="flex items-start gap-3">
               <div className="flex flex-col items-center mt-1.5 shrink-0">
-                <div className="w-2 h-2 rounded-full bg-[#008967]" />
+                <div className="size-2 rounded-full bg-[#008967]" />
                 <div className="w-px h-4 bg-border my-1" />
-                <div className="w-2 h-2 rounded-full bg-destructive" />
+                <div className="size-2 rounded-full bg-destructive" />
               </div>
               <div className="flex flex-col gap-3 text-[15px] font-medium text-foreground">
                 <span>08034567890</span>
@@ -87,7 +87,7 @@ export function ShipmentList() {
             </div>
           </div>
           <div className="flex items-center gap-3 text-[14px] mb-2">
-            <CheckCircle2 className="w-[18px] h-[18px] text-foreground/80 stroke-2" />
+            <CheckCircle2 className="size-4.5 text-foreground/80 stroke-2" />
             <span className="text-foreground/90">Arrived Gwagwalada, Abuja</span>
           </div>
         </div>

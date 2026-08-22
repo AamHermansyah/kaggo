@@ -11,11 +11,11 @@ export function UserList() {
           <div key={i} className="flex justify-between items-center pb-2">
             <div className="flex flex-col gap-2">
               <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-[#008967]" />
+                <div className="size-1.5 rounded-full bg-[#008967]" />
                 <span className="text-[14px] text-foreground font-medium">56</span>
               </div>
               <div className="flex items-center gap-2">
-                <div className="w-1.5 h-1.5 rounded-full bg-destructive" />
+                <div className="size-1.5 rounded-full bg-destructive" />
                 <span className="text-[14px] text-foreground font-medium">34</span>
               </div>
             </div>

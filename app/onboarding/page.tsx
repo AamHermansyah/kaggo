@@ -12,12 +12,12 @@ export default function Onboarding() {
       <Input 
         type="tel"
         placeholder="Enter your phone number" 
-        className="h-[52px] rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
+        className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
       />
       
       <div className="flex-1"></div>
       
-      <Button render={<Link href="/onboarding/info" />} nativeButton={false} size="lg" className="w-full rounded-full text-base font-medium active:scale-[0.98] transition-transform shadow-none mt-auto">
+      <Button render={<Link href="/onboarding/info" />} nativeButton={false} size="lg" className="w-full rounded-full text-base font-medium active:scale-98 transition-transform shadow-none mt-auto">
         Continue
       </Button>
     </div>

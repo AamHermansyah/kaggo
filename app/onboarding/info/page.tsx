@@ -35,38 +35,38 @@ export default function OnboardingInfo() {
       <form className="flex flex-col gap-3 shrink-0 flex-1">
         <Input
           placeholder="Driver's full name"
-          className="h-[52px] rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
+          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
           required
         />
         <Input
           type="tel"
           placeholder="Driver's phone number"
-          className="h-[52px] rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
+          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
           required
         />
         <Input
           placeholder="Company/Affiliation"
-          className="h-[52px] rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
+          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
           required
         />
         <Input
           placeholder="Number plate"
-          className="h-[52px] rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
+          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
           required
         />
         <Input
           placeholder="Vehicle make & Model"
-          className="h-[52px] rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
+          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
           required
         />
         <Input
           placeholder="Vehicle Colour"
-          className="h-[52px] rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
+          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
           required
         />
         <Input
           placeholder="Device ID"
-          className="h-[52px] rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
+          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
           required
         />
 
@@ -76,9 +76,9 @@ export default function OnboardingInfo() {
           onClick={handleSubmit}
           disabled={isSubmitting}
           size="lg"
-          className="w-full rounded-full text-base font-medium active:scale-[0.98] transition-transform shadow-none mt-auto shrink-0"
+          className="w-full rounded-full text-base font-medium active:scale-98 transition-transform shadow-none mt-auto shrink-0"
         >
-          {isSubmitting ? <Loader2 className="w-5 h-5 animate-spin" /> : "Assign Kaggo Device"}
+          {isSubmitting ? <Loader2 className="size-5 animate-spin" /> : "Assign Kaggo Device"}
         </Button>
       </form>
     </div>

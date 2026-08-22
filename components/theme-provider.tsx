@@ -1,24 +1,95 @@
 "use client"
 
 import * as React from "react"
-import { ThemeProvider as NextThemesProvider } from "next-themes"
 
-function ThemeProvider({
-  children,
-  ...props
-}: React.ComponentProps<typeof NextThemesProvider>) {
-  return (
-    <NextThemesProvider
-      attribute="class"
-      defaultTheme="light"
-      forcedTheme="light"
-      disableTransitionOnChange
-      {...props}
-    >
-      {children}
-    </NextThemesProvider>
-  )
+interface ThemeProviderProps {
+  children: React.ReactNode
+  attribute?: string
+  defaultTheme?: string
+  forcedTheme?: string
+  enableSystem?: boolean
+  disableTransitionOnChange?: boolean
+  storageKey?: string
+  [key: string]: unknown
 }
 
-export { ThemeProvider }
+interface ThemeContextType {
+  theme: string | undefined
+  setTheme: (theme: string) => void
+  forcedTheme?: string
+  resolvedTheme?: string
+  themes: string[]
+  systemTheme?: "light" | "dark"
+}
 
+const ThemeContext = React.createContext<ThemeContextType>({
+  theme: "light",
+  setTheme: () => {},
+  forcedTheme: "light",
+  resolvedTheme: "light",
+  themes: ["light", "dark", "system"],
+  systemTheme: "light",
+})
+
+export function ThemeProvider({
+  children,
+  defaultTheme = "light",
+  forcedTheme = "light",
+  storageKey = "theme",
+  attribute = "class",
+}: ThemeProviderProps) {
+  const [theme, setThemeState] = React.useState<string>(forcedTheme || defaultTheme)
+
+  const setTheme = React.useCallback(
+    (newTheme: string) => {
+      setThemeState(newTheme)
+      try {
+        localStorage.setItem(storageKey, newTheme)
+      } catch {}
+    },
+    [storageKey]
+  )
+
+  React.useEffect(() => {
+    try {
+      const saved = localStorage.getItem(storageKey)
+      if (saved && !forcedTheme) {
+        setThemeState(saved)
+      }
+    } catch {}
+  }, [forcedTheme, storageKey])
+
+  React.useEffect(() => {
+    const root = document.documentElement
+    const currentTheme = forcedTheme || theme
+
+    if (attribute === "class") {
+      root.classList.remove("light", "dark")
+      if (currentTheme !== "system") {
+        root.classList.add(currentTheme)
+      }
+    } else {
+      if (currentTheme) {
+        root.setAttribute(attribute, currentTheme)
+      }
+    }
+  }, [theme, forcedTheme, attribute])
+
+  const value = React.useMemo(
+    () => ({
+      theme,
+      setTheme,
+      forcedTheme,
+      resolvedTheme: forcedTheme || theme,
+      themes: ["light", "dark", "system"],
+      systemTheme: "light" as const,
+    }),
+    [theme, setTheme, forcedTheme]
+  )
+
+  return <ThemeContext.Provider value={value}>{children}</ThemeContext.Provider>
+}
+
+export function useTheme() {
+  return React.useContext(ThemeContext)
+}

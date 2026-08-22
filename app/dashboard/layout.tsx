@@ -12,14 +12,15 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   const isShipments = pathname.includes("/dashboard/shipments")
   const isUsers = pathname.includes("/dashboard/users")
   const isVehicles = pathname.includes("/dashboard/vehicles")
+  const isCompanies = pathname.includes("/dashboard/companies")
 
   return (
     <div className="flex flex-col flex-1 px-5 pt-2 pb-6 relative overflow-x-hidden overflow-y-auto">
 
       {/* Search & Filter */}
       <div className="flex items-center justify-between mb-8 gap-4">
-        <div className="relative flex-1 max-w-[140px]">
-          <Search className="w-4 h-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
+        <div className="relative flex-1 max-w-35">
+          <Search className="size-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
             placeholder="Search"
@@ -72,11 +73,17 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           <span className="text-[12px] text-foreground/80 font-medium">Vehicles</span>
         </Link>
 
-        {/* Revenue (Not a link, just stat) */}
-        <div className="flex flex-col items-center gap-1 opacity-50">
-          <span className="text-[17px] font-bold text-foreground">700M+</span>
-          <span className="text-[12px] text-foreground/80 font-medium">Revenue</span>
-        </div>
+        {/* Companies Link */}
+        <Link
+          href="/dashboard/companies"
+          className={cn(
+            "flex flex-col items-center gap-1 transition-opacity",
+            !isCompanies && "opacity-50 hover:opacity-80"
+          )}
+        >
+          <span className="text-[17px] font-bold text-foreground">700</span>
+          <span className="text-[12px] text-foreground/80 font-medium">Companies</span>
+        </Link>
 
       </div>
 
