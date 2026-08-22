@@ -5,30 +5,35 @@ import { Separator } from "@/components/ui/separator"
 
 export default function ListItemFirstTime() {
   return (
-    <div className="flex flex-col flex-1 px-6 pt-10 pb-6 relative overflow-hidden">
-      <h2 className="text-xl font-medium mb-8">
+    <div className="relative flex flex-1 flex-col overflow-hidden px-6 pt-10 pb-6">
+      <h2 className="mb-8 text-xl font-medium">
         Using Kaggo for the first time?
       </h2>
-      
-      <Input 
-        type="tel" 
-        placeholder="Enter your phone number" 
-        className="h-14 rounded-xl text-base px-4 border-border/60 shadow-none mb-4"
+
+      <Input
+        type="tel"
+        placeholder="Enter your phone number"
+        className="mb-4 h-14 rounded-xl border-border/60 px-4 text-base shadow-none"
       />
-      
+
       <div className="flex-1"></div>
-      
-      <div className="flex flex-col items-center mt-auto w-full">
-        <Link 
-          href="/list-item/new-device" 
-          className="text-primary text-[15px] font-medium hover:underline active:opacity-70 transition-opacity mb-6"
+
+      <div className="mt-auto flex w-full flex-col items-center">
+        <Link
+          href="/list-item/new-device"
+          className="mb-6 text-[15px] font-medium text-primary transition-opacity hover:underline active:opacity-70"
         >
           Set up Kaggo on a new device
         </Link>
-        
-        <Separator className="w-[calc(100%+3rem)] -mx-6 mb-6" />
 
-        <Button render={<Link href="/send-item" />} nativeButton={false} size="lg" className="w-full rounded-full text-base font-medium active:scale-98 transition-transform shadow-none">
+        <Separator className="-mx-6 mb-6 w-[calc(100%+3rem)]" />
+
+        <Button
+          render={<Link href="/send-item" />}
+          nativeButton={false}
+          size="lg"
+          className="w-full rounded-full text-base font-medium shadow-none transition-transform active:scale-98"
+        >
           Continue
         </Button>
       </div>

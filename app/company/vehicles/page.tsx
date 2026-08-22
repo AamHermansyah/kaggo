@@ -59,43 +59,46 @@ export default function CompanyVehiclesPage() {
   )
 
   return (
-    <div className="flex flex-col flex-1 px-5 pt-4 pb-6 relative overflow-x-hidden overflow-y-auto">
+    <div className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto px-5 pt-4 pb-6">
       {/* Top Search & Add Vehicle Bar */}
-      <div className="flex items-center justify-between gap-4 mb-6 shrink-0">
-        <div className="relative flex-1 max-w-37.5">
-          <Search className="size-4 text-muted-foreground absolute left-3 top-1/2 -translate-y-1/2" />
+      <div className="mb-6 flex shrink-0 items-center justify-between gap-4">
+        <div className="relative max-w-37.5 flex-1">
+          <Search className="absolute top-1/2 left-3 size-4 -translate-y-1/2 text-muted-foreground" />
           <input
             type="text"
             placeholder="Search"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full h-9 pl-9 pr-3 rounded-full border text-[13.5px] bg-transparent outline-none focus:border-[#008967]"
+            className="h-9 w-full rounded-full border bg-transparent pr-3 pl-9 text-[13.5px] outline-none focus:border-[#008967]"
           />
         </div>
 
         <Link
           href="/company/vehicles/onboarding"
-          className="text-[#008967] text-[13.5px] font-semibold hover:underline active:opacity-70 transition-opacity shrink-0"
+          className="shrink-0 text-[13.5px] font-semibold text-[#008967] transition-opacity hover:underline active:opacity-70"
         >
           Add New Vehicle
         </Link>
       </div>
 
       {/* Available Count */}
-      <p className="text-[13.5px] text-foreground/75 font-medium mb-6 shrink-0">
+      <p className="mb-6 shrink-0 text-[13.5px] font-medium text-foreground/75">
         127 vehicles available
       </p>
 
       {/* Vehicle Items List */}
-      <div className="flex flex-col gap-6 shrink-0">
+      <div className="flex shrink-0 flex-col gap-6">
         {filteredVehicles.map((vehicle) => (
-          <div key={vehicle.id} className="flex justify-between items-start pb-2 border-b border-border/30">
+          <div
+            key={vehicle.id}
+            className="flex items-start justify-between border-b border-border/30 pb-2"
+          >
             {/* Left Details */}
             <div className="flex flex-col gap-1.5">
               <span className="text-[15px] font-medium text-foreground">
                 {vehicle.driverName}
               </span>
-              <span className="text-[13.5px] text-foreground/80 font-normal">
+              <span className="text-[13.5px] font-normal text-foreground/80">
                 {vehicle.model}
               </span>
               <div className="flex items-center gap-1 text-[13px] text-foreground/70">
@@ -105,13 +108,13 @@ export default function CompanyVehiclesPage() {
 
             {/* Right Details */}
             <div className="flex flex-col items-end gap-1.5">
-              <span className="text-[14px] text-foreground/90 font-normal">
+              <span className="text-[14px] font-normal text-foreground/90">
                 {vehicle.phone}
               </span>
-              <span className="text-[14px] text-[#008967] font-semibold">
+              <span className="text-[14px] font-semibold text-[#008967]">
                 {vehicle.plateNumber}
               </span>
-              <span className="text-[13px] text-foreground/90 font-medium">
+              <span className="text-[13px] font-medium text-foreground/90">
                 {vehicle.deviceId}
               </span>
             </div>

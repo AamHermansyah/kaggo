@@ -4,25 +4,25 @@ import { Button } from "@/components/ui/button"
 
 export default function BatchManagerPage() {
   return (
-    <div className="flex flex-col flex-1 px-5 pt-6 pb-6 relative overflow-x-hidden overflow-y-auto">
+    <div className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto px-5 pt-6 pb-6">
       {/* Title */}
-      <h2 className="text-[20px] font-bold text-foreground tracking-tight mb-6 shrink-0">
+      <h2 className="mb-6 shrink-0 text-[20px] font-bold tracking-tight text-foreground">
         Active Batches
       </h2>
 
       {/* Batch List */}
-      <div className="flex flex-col gap-6 shrink-0 mb-8">
+      <div className="mb-8 flex shrink-0 flex-col gap-6">
         {/* Batch 2 - Unassigned Driver */}
-        <div className="flex justify-between items-start border-b border-border/40 pb-6">
+        <div className="flex items-start justify-between border-b border-border/40 pb-6">
           <div className="flex flex-col gap-3">
             {/* Route Points */}
             <div className="flex items-center gap-3">
-              <div className="flex flex-col items-center shrink-0">
+              <div className="flex shrink-0 flex-col items-center">
                 <div className="size-2.5 rounded-full bg-[#008967]" />
-                <div className="w-px h-3.5 bg-border my-0.5" />
+                <div className="my-0.5 h-3.5 w-px bg-border" />
                 <div className="size-2.5 rounded-full bg-destructive" />
               </div>
-              <div className="flex flex-col text-[15px] font-medium text-foreground gap-1">
+              <div className="flex flex-col gap-1 text-[15px] font-medium text-foreground">
                 <span>Lagos</span>
                 <span>Abuja</span>
               </div>
@@ -31,7 +31,7 @@ export default function BatchManagerPage() {
             {/* Assign Driver Action Link */}
             <Link
               href="/company/batches/assign-driver"
-              className="flex items-center gap-1.5 text-[#008967] text-[13.5px] font-medium hover:underline active:opacity-70 transition-opacity mt-1"
+              className="mt-1 flex items-center gap-1.5 text-[13.5px] font-medium text-[#008967] transition-opacity hover:underline active:opacity-70"
             >
               <CheckCircle2 className="size-4 stroke-2" />
               <span>Assign Driver</span>
@@ -39,39 +39,53 @@ export default function BatchManagerPage() {
           </div>
 
           {/* Batch Info Right */}
-          <Link href="/company/batches/2/packages" className="flex flex-col items-end gap-1 hover:opacity-80 transition-opacity">
-            <span className="text-[15px] font-bold text-foreground">Batch 2</span>
-            <span className="text-[14px] text-[#008967] font-semibold">127 Packages</span>
+          <Link
+            href="/company/batches/2/packages"
+            className="flex flex-col items-end gap-1 transition-opacity hover:opacity-80"
+          >
+            <span className="text-[15px] font-bold text-foreground">
+              Batch 2
+            </span>
+            <span className="text-[14px] font-semibold text-[#008967]">
+              127 Packages
+            </span>
           </Link>
         </div>
 
         {/* Batch 1 - Driver Assigned & In Transit */}
-        <div className="flex justify-between items-start border-b border-border/40 pb-6">
+        <div className="flex items-start justify-between border-b border-border/40 pb-6">
           <div className="flex flex-col gap-3">
             {/* Route Points */}
             <div className="flex items-center gap-3">
-              <div className="flex flex-col items-center shrink-0">
+              <div className="flex shrink-0 flex-col items-center">
                 <div className="size-2.5 rounded-full bg-[#008967]" />
-                <div className="w-px h-3.5 bg-border my-0.5" />
+                <div className="my-0.5 h-3.5 w-px bg-border" />
                 <div className="size-2.5 rounded-full bg-destructive" />
               </div>
-              <div className="flex flex-col text-[15px] font-medium text-foreground gap-1">
+              <div className="flex flex-col gap-1 text-[15px] font-medium text-foreground">
                 <span>Lagos</span>
                 <span>Abuja</span>
               </div>
             </div>
 
             {/* Route ETA Info */}
-            <div className="flex items-center gap-1.5 text-foreground/75 text-[13px] font-normal mt-1">
-              <Clock className="size-4 text-foreground/60 stroke-2" />
+            <div className="mt-1 flex items-center gap-1.5 text-[13px] font-normal text-foreground/75">
+              <Clock className="size-4 stroke-2 text-foreground/60" />
               <span>Lagos 9:00 A.M (ETA 10h 30m)</span>
             </div>
           </div>
 
           {/* Batch Info Right */}
-          <Link href="/company/batches/1/packages" className="flex flex-col items-end gap-1 hover:opacity-80 transition-opacity">
-            <span className="text-[15px] font-bold text-foreground">Batch 1</span>
-            <span className="text-[14px] text-[#008967] font-semibold">340 Packages</span>
+          <Link
+            href="/company/batches/1/packages"
+            className="flex flex-col items-end gap-1 transition-opacity hover:opacity-80"
+          >
+            <span className="text-[15px] font-bold text-foreground">
+              Batch 1
+            </span>
+            <span className="text-[14px] font-semibold text-[#008967]">
+              340 Packages
+            </span>
           </Link>
         </div>
       </div>
@@ -83,7 +97,7 @@ export default function BatchManagerPage() {
         render={<Link href="/company/batches/create" />}
         nativeButton={false}
         size="lg"
-        className="w-full rounded-full h-13 text-[15px] font-semibold bg-[#008967] hover:bg-[#007558] text-white active:scale-98 transition-transform shadow-none mt-auto shrink-0"
+        className="mt-auto h-13 w-full shrink-0 rounded-full bg-[#008967] text-[15px] font-semibold text-white shadow-none transition-transform hover:bg-[#007558] active:scale-98"
       >
         Create New Batch
       </Button>

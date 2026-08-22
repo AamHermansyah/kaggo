@@ -21,64 +21,68 @@ export default function OnboardingInfo() {
   }
 
   return (
-    <div className="flex flex-col flex-1 px-5 pt-6 pb-6 relative overflow-x-hidden overflow-y-auto">
+    <div className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto px-5 pt-6 pb-6">
       {/* Top Status */}
-      <div className="flex items-center justify-between mb-8 text-[11px] font-medium w-full shrink-0">
+      <div className="mb-8 flex w-full shrink-0 items-center justify-between text-[11px] font-medium">
         <span className="text-[#008967]">Agent ID: 08034567890</span>
         <span className="text-foreground">Total: 300</span>
       </div>
 
-      <h2 className="text-[19px] font-semibold text-center mb-6 text-foreground shrink-0">
+      <h2 className="mb-6 shrink-0 text-center text-[19px] font-semibold text-foreground">
         Onboarding Information
       </h2>
 
-      <form className="flex flex-col gap-3 shrink-0 flex-1">
+      <form className="flex flex-1 shrink-0 flex-col gap-3">
         <Input
           placeholder="Driver's full name"
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
+          className="h-13 shrink-0 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
           required
         />
         <Input
           type="tel"
           placeholder="Driver's phone number"
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
+          className="h-13 shrink-0 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
           required
         />
         <Input
           placeholder="Company/Affiliation"
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
+          className="h-13 shrink-0 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
           required
         />
         <Input
           placeholder="Number plate"
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
+          className="h-13 shrink-0 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
           required
         />
         <Input
           placeholder="Vehicle make & Model"
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
+          className="h-13 shrink-0 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
           required
         />
         <Input
           placeholder="Vehicle Colour"
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
+          className="h-13 shrink-0 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
           required
         />
         <Input
           placeholder="Device ID"
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none shrink-0"
+          className="h-13 shrink-0 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
           required
         />
 
-        <div className="flex-1 mt-6"></div>
+        <div className="mt-6 flex-1"></div>
 
         <Button
           onClick={handleSubmit}
           disabled={isSubmitting}
           size="lg"
-          className="w-full rounded-full text-base font-medium active:scale-98 transition-transform shadow-none mt-auto shrink-0"
+          className="mt-auto w-full shrink-0 rounded-full text-base font-medium shadow-none transition-transform active:scale-98"
         >
-          {isSubmitting ? <Loader2 className="size-5 animate-spin" /> : "Assign Kaggo Device"}
+          {isSubmitting ? (
+            <Loader2 className="size-5 animate-spin" />
+          ) : (
+            "Assign Kaggo Device"
+          )}
         </Button>
       </form>
     </div>

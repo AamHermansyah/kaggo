@@ -38,7 +38,9 @@ export function ThemeProvider({
   storageKey = "theme",
   attribute = "class",
 }: ThemeProviderProps) {
-  const [theme, setThemeState] = React.useState<string>(forcedTheme || defaultTheme)
+  const [theme, setThemeState] = React.useState<string>(
+    forcedTheme || defaultTheme
+  )
 
   const setTheme = React.useCallback(
     (newTheme: string) => {

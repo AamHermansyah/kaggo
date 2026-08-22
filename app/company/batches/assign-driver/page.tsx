@@ -19,11 +19,13 @@ export default function AssignDriverPage() {
   return (
     <form
       onSubmit={handleAssign}
-      className="flex flex-col flex-1 px-5 pt-6 pb-6 relative overflow-x-hidden overflow-y-auto"
+      className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto px-5 pt-6 pb-6"
     >
       {/* Description */}
-      <p className="text-[13.5px] text-foreground/75 leading-relaxed font-normal mb-6 shrink-0">
-        This driver will be assigned to all packages in this batch. The driver’s GPS device will be activated and journey tracking will begin according to Kaggo’s journey rules.
+      <p className="mb-6 shrink-0 text-[13.5px] leading-relaxed font-normal text-foreground/75">
+        This driver will be assigned to all packages in this batch. The driver’s
+        GPS device will be activated and journey tracking will begin according
+        to Kaggo’s journey rules.
       </p>
 
       {/* Input */}
@@ -32,16 +34,16 @@ export default function AssignDriverPage() {
           placeholder="Vehicle ID/Driver’s phone number"
           value={vehicleId}
           onChange={(e) => setVehicleId(e.target.value)}
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none"
+          className="h-13 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
         />
       </div>
 
       {/* Vehicle Preview Card */}
-      <Card className="shrink-0 bg-[#F4F7F6] dark:bg-muted/40 border-none rounded-[16px] py-6 px-4 mb-6 shadow-none flex flex-col items-center justify-center text-center">
-        <h3 className="text-[34px] font-bold text-foreground leading-none tracking-tight mb-2">
+      <Card className="mb-6 flex shrink-0 flex-col items-center justify-center rounded-[16px] border-none bg-[#F4F7F6] px-4 py-6 text-center shadow-none dark:bg-muted/40">
+        <h3 className="mb-2 text-[34px] leading-none font-bold tracking-tight text-foreground">
           KJA 255 GA
         </h3>
-        <div className="flex items-center justify-center gap-2 text-[14px] font-medium text-foreground/90 mb-1">
+        <div className="mb-1 flex items-center justify-center gap-2 text-[14px] font-medium text-foreground/90">
           <span>Toyota Hiace, White</span>
           <div className="flex items-center gap-1 text-foreground/80">
             <BatteryMedium className="size-4.5 stroke-[1.5]" />
@@ -59,7 +61,7 @@ export default function AssignDriverPage() {
       <Button
         type="submit"
         size="lg"
-        className="w-full rounded-full h-13 text-[15px] font-semibold bg-[#008967] hover:bg-[#007558] text-white active:scale-98 transition-transform shadow-none mt-auto shrink-0"
+        className="mt-auto h-13 w-full shrink-0 rounded-full bg-[#008967] text-[15px] font-semibold text-white shadow-none transition-transform hover:bg-[#007558] active:scale-98"
       >
         Assign Driver
       </Button>

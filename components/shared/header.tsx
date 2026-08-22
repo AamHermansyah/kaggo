@@ -44,7 +44,10 @@ export default function Header() {
   } else if (pathname === "/company/batches/create") {
     title = "Create New Batch"
     showBack = true
-  } else if (pathname?.startsWith("/company/batches") && pathname?.endsWith("/packages")) {
+  } else if (
+    pathname?.startsWith("/company/batches") &&
+    pathname?.endsWith("/packages")
+  ) {
     title = "Package List"
     showBack = true
   } else if (pathname === "/company/batches/assign-driver") {
@@ -65,13 +68,15 @@ export default function Header() {
     showBack = false
   } else {
     // Fallback for any other path: format the first path segment
-    const pathSegment = pathname?.split('/')[1] || ""
-    title = pathSegment.charAt(0).toUpperCase() + pathSegment.slice(1).replace(/-/g, ' ')
+    const pathSegment = pathname?.split("/")[1] || ""
+    title =
+      pathSegment.charAt(0).toUpperCase() +
+      pathSegment.slice(1).replace(/-/g, " ")
   }
 
   if (variant === "home") {
     return (
-      <header className="flex items-center justify-between px-6 py-4 z-10 shrink-0">
+      <header className="z-10 flex shrink-0 items-center justify-between px-6 py-4">
         <Image
           src="/images/logo-with-text.png"
           alt="MyKaggo"
@@ -80,7 +85,11 @@ export default function Header() {
           className="h-9 w-auto object-contain"
           priority
         />
-        <Button render={<Link href="/list-item" />} nativeButton={false} className="rounded-md px-5 shadow-none font-medium text-sm">
+        <Button
+          render={<Link href="/list-item" />}
+          nativeButton={false}
+          className="rounded-md px-5 text-sm font-medium shadow-none"
+        >
           List item
         </Button>
       </header>
@@ -89,7 +98,7 @@ export default function Header() {
 
   if (variant === "company-home") {
     return (
-      <header className="flex items-center justify-between px-6 py-4 z-10 shrink-0 bg-background">
+      <header className="z-10 flex shrink-0 items-center justify-between bg-background px-6 py-4">
         <Image
           src="/images/logo-with-text.png"
           alt="MyKaggo"
@@ -98,7 +107,11 @@ export default function Header() {
           className="h-9 w-auto object-contain"
           priority
         />
-        <Button render={<Link href="/company/login" />} nativeButton={false} className="rounded-md px-6 shadow-none font-medium text-sm bg-[#008967] hover:bg-[#007558] text-white">
+        <Button
+          render={<Link href="/company/login" />}
+          nativeButton={false}
+          className="rounded-md bg-[#008967] px-6 text-sm font-medium text-white shadow-none hover:bg-[#007558]"
+        >
           Login
         </Button>
       </header>
@@ -107,34 +120,32 @@ export default function Header() {
 
   if (variant === "dashboard") {
     return (
-      <header className="flex items-center justify-between gap-4 px-5 pt-8 pb-4 z-10 shrink-0 bg-background">
+      <header className="z-10 flex shrink-0 items-center justify-between gap-4 bg-background px-5 pt-8 pb-4">
         <Image
           src="/images/logo.png"
           alt="Kaggo"
           width={425}
           height={512}
-          className="h-9 w-auto object-contain shrink-0"
+          className="h-9 w-auto shrink-0 object-contain"
           priority
         />
-        <h1 className="text-xl font-medium text-foreground ml-2">Dashboard</h1>
+        <h1 className="ml-2 text-xl font-medium text-foreground">Dashboard</h1>
       </header>
     )
   }
 
   return (
-    <header className="flex items-center justify-center px-4 h-14 border-b border-border/40 shrink-0 relative bg-background">
+    <header className="relative flex h-14 shrink-0 items-center justify-center border-b border-border/40 bg-background px-4">
       {showBack && (
         <button
           onClick={() => router.back()}
-          className="absolute left-4 p-2 -ml-2 text-foreground active:opacity-70 transition-opacity"
+          className="absolute left-4 -ml-2 p-2 text-foreground transition-opacity active:opacity-70"
           aria-label="Go back"
         >
           <ChevronLeft className="size-6 stroke-[1.5]" />
         </button>
       )}
-      <h1 className="text-[17px] font-medium text-foreground">
-        {title}
-      </h1>
+      <h1 className="text-[17px] font-medium text-foreground">{title}</h1>
     </header>
   )
 }

@@ -34,27 +34,47 @@ export function FloatingNav() {
     { name: "Company: Package List", path: "/company/batches/2/packages" },
     { name: "Company: Assign Driver", path: "/company/batches/assign-driver" },
     { name: "Company: Vehicles", path: "/company/vehicles" },
-    { name: "Company: Vehicle Onboarding", path: "/company/vehicles/onboarding" },
+    {
+      name: "Company: Vehicle Onboarding",
+      path: "/company/vehicles/onboarding",
+    },
   ]
 
   return (
-    <div className="absolute bottom-4 right-4 z-50">
+    <div className="absolute right-4 bottom-4 z-50">
       <DropdownMenu>
-        <DropdownMenuTrigger render={
-          <Button variant="outline" size="icon" className="size-12 rounded-full shadow-lg border-primary/20 bg-background/80 backdrop-blur-md">
-            <Menu className="size-6 text-primary" />
-          </Button>
-        } />
-        <DropdownMenuContent align="end" className="w-56 rounded-xl shadow-xl border-border/60">
+        <DropdownMenuTrigger
+          render={
+            <Button
+              variant="outline"
+              size="icon"
+              className="size-12 rounded-full border-primary/20 bg-background/80 shadow-lg backdrop-blur-md"
+            >
+              <Menu className="size-6 text-primary" />
+            </Button>
+          }
+        />
+        <DropdownMenuContent
+          align="end"
+          className="w-56 rounded-xl border-border/60 shadow-xl"
+        >
           <DropdownMenuGroup>
-            <DropdownMenuLabel className="text-muted-foreground text-xs uppercase tracking-wider font-semibold">Available Pages</DropdownMenuLabel>
+            <DropdownMenuLabel className="text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+              Available Pages
+            </DropdownMenuLabel>
             <DropdownMenuSeparator />
             {routes.map((route) => (
-              <DropdownMenuItem key={route.path} render={
-                <Link href={route.path} className="w-full cursor-pointer py-2.5 font-medium">
-                  {route.name}
-                </Link>
-              } />
+              <DropdownMenuItem
+                key={route.path}
+                render={
+                  <Link
+                    href={route.path}
+                    className="w-full cursor-pointer py-2.5 font-medium"
+                  >
+                    {route.name}
+                  </Link>
+                }
+              />
             ))}
           </DropdownMenuGroup>
         </DropdownMenuContent>

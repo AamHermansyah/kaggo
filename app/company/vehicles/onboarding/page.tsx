@@ -22,12 +22,12 @@ export default function CompanyVehicleOnboardingPage() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col flex-1 px-5 pt-6 pb-6 relative overflow-x-hidden overflow-y-auto"
+      className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto px-5 pt-6 pb-6"
     >
       {/* Form Fields */}
-      <div className="flex flex-col gap-3.5 mb-6 shrink-0">
+      <div className="mb-6 flex shrink-0 flex-col gap-3.5">
         {/* Pre-filled Company Box */}
-        <div className="h-13 rounded-xl bg-[#F0F9F5] dark:bg-primary/10 border border-border/60 px-4 flex items-center text-[15px] font-medium text-foreground">
+        <div className="flex h-13 items-center rounded-xl border border-border/60 bg-[#F0F9F5] px-4 text-[15px] font-medium text-foreground dark:bg-primary/10">
           AKTC Transport Company
         </div>
 
@@ -35,38 +35,38 @@ export default function CompanyVehicleOnboardingPage() {
           placeholder="Driver’s full name"
           value={driverName}
           onChange={(e) => setDriverName(e.target.value)}
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none"
+          className="h-13 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
         />
         <Input
           type="tel"
           placeholder="Driver’s phone number"
           value={driverPhone}
           onChange={(e) => setDriverPhone(e.target.value)}
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none"
+          className="h-13 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
         />
         <Input
           placeholder="Number plate"
           value={numberPlate}
           onChange={(e) => setNumberPlate(e.target.value)}
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none"
+          className="h-13 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
         />
         <Input
           placeholder="Vehicle make & Model"
           value={vehicleModel}
           onChange={(e) => setVehicleModel(e.target.value)}
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none"
+          className="h-13 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
         />
         <Input
           placeholder="Vehicle Colour"
           value={vehicleColor}
           onChange={(e) => setVehicleColor(e.target.value)}
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none"
+          className="h-13 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
         />
         <Input
           placeholder="Device ID"
           value={deviceId}
           onChange={(e) => setDeviceId(e.target.value)}
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none"
+          className="h-13 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
         />
       </div>
 
@@ -76,7 +76,7 @@ export default function CompanyVehicleOnboardingPage() {
       <Button
         type="submit"
         size="lg"
-        className="w-full rounded-full h-13 text-[15px] font-semibold bg-[#008967] hover:bg-[#007558] text-white active:scale-98 transition-transform shadow-none mt-auto shrink-0"
+        className="mt-auto h-13 w-full shrink-0 rounded-full bg-[#008967] text-[15px] font-semibold text-white shadow-none transition-transform hover:bg-[#007558] active:scale-98"
       >
         Assign Kaggo Device
       </Button>

@@ -4,7 +4,8 @@ export default function manifest(): MetadataRoute.Manifest {
   return {
     name: "Kaggo - Track & Deliver",
     short_name: "Kaggo",
-    description: "Track it with Kaggo! Send items, track packages, and manage deliveries.",
+    description:
+      "Track it with Kaggo! Send items, track packages, and manage deliveries.",
     start_url: "/",
     display: "standalone",
     background_color: "#ffffff",

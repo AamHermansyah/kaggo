@@ -23,22 +23,22 @@ export default async function PackageListPage({
   const batchNum = id || "2"
 
   return (
-    <div className="flex flex-col flex-1 px-5 pt-6 pb-6 relative overflow-x-hidden overflow-y-auto">
+    <div className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto px-5 pt-6 pb-6">
       {/* Route & Batch Header */}
-      <div className="flex flex-col mb-6 shrink-0">
-        <h2 className="text-[22px] font-bold text-foreground tracking-tight">
+      <div className="mb-6 flex shrink-0 flex-col">
+        <h2 className="text-[22px] font-bold tracking-tight text-foreground">
           Lagos - Abuja
         </h2>
-        <div className="flex items-center justify-between text-[14px] text-foreground/80 mt-1 font-medium">
+        <div className="mt-1 flex items-center justify-between text-[14px] font-medium text-foreground/80">
           <span>Batch {batchNum} - Packages</span>
-          <span className="text-foreground font-semibold">127 Total</span>
+          <span className="font-semibold text-foreground">127 Total</span>
         </div>
       </div>
 
       {/* Packages Table Container */}
-      <div className="flex flex-col w-full shrink-0">
+      <div className="flex w-full shrink-0 flex-col">
         {/* Table Header Bar */}
-        <div className="bg-[#008967] text-white rounded-lg py-2.5 px-4 text-[13px] font-semibold flex items-center justify-between mb-3 shadow-xs">
+        <div className="mb-3 flex items-center justify-between rounded-lg bg-[#008967] px-4 py-2.5 text-[13px] font-semibold text-white shadow-xs">
           <span className="w-1/3 text-left">Customer</span>
           <span className="w-1/3 text-center">Item</span>
           <span className="w-1/3 text-right">Status</span>
@@ -49,12 +49,12 @@ export default async function PackageListPage({
           {mockPackages.map((pkg) => (
             <div
               key={pkg.id}
-              className="flex items-center justify-between py-3.5 px-2 border-b border-border/40 text-[14px]"
+              className="flex items-center justify-between border-b border-border/40 px-2 py-3.5 text-[14px]"
             >
-              <span className="w-1/3 text-left text-foreground font-medium">
+              <span className="w-1/3 text-left font-medium text-foreground">
                 {pkg.customer}
               </span>
-              <span className="w-1/3 text-center text-foreground/80 font-normal">
+              <span className="w-1/3 text-center font-normal text-foreground/80">
                 {pkg.item}
               </span>
               <span

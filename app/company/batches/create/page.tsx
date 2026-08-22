@@ -23,44 +23,44 @@ export default function CreateBatchPage() {
   return (
     <form
       onSubmit={handleSubmit}
-      className="flex flex-col flex-1 px-5 pt-6 pb-6 relative overflow-x-hidden overflow-y-auto"
+      className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto px-5 pt-6 pb-6"
     >
       {/* Route Title */}
-      <h2 className="text-[20px] font-bold text-foreground tracking-tight mb-6 shrink-0">
+      <h2 className="mb-6 shrink-0 text-[20px] font-bold tracking-tight text-foreground">
         Route
       </h2>
 
       {/* Form Fields */}
-      <div className="flex flex-col gap-3.5 mb-6 shrink-0">
+      <div className="mb-6 flex shrink-0 flex-col gap-3.5">
         <Input
           placeholder="Departure"
           value={departure}
           onChange={(e) => setDeparture(e.target.value)}
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none"
+          className="h-13 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
         />
         <Input
           placeholder="Destination"
           value={destination}
           onChange={(e) => setDestination(e.target.value)}
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none"
+          className="h-13 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
         />
         <Input
           placeholder="Drop off starting time"
           value={dropOffStartTime}
           onChange={(e) => setDropOffStartTime(e.target.value)}
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none"
+          className="h-13 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
         />
         <Input
           placeholder="Drop off closing time"
           value={dropOffCloseTime}
           onChange={(e) => setDropOffCloseTime(e.target.value)}
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none"
+          className="h-13 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
         />
         <Input
           placeholder="Batch number"
           value={batchNumber}
           onChange={(e) => setBatchNumber(e.target.value)}
-          className="h-13 rounded-xl text-[15px] px-4 border-border/60 shadow-none"
+          className="h-13 rounded-xl border-border/60 px-4 text-[15px] shadow-none"
         />
       </div>
 
@@ -70,7 +70,7 @@ export default function CreateBatchPage() {
       <Button
         type="submit"
         size="lg"
-        className="w-full rounded-full h-13 text-[15px] font-semibold bg-[#008967] hover:bg-[#007558] text-white active:scale-98 transition-transform shadow-none mt-auto shrink-0"
+        className="mt-auto h-13 w-full shrink-0 rounded-full bg-[#008967] text-[15px] font-semibold text-white shadow-none transition-transform hover:bg-[#007558] active:scale-98"
       >
         Create Batch
       </Button>

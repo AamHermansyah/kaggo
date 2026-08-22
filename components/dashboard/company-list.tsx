@@ -50,7 +50,10 @@ export function CompanyList() {
     setExpandedId((prev) => (prev === id ? null : id))
   }
 
-  const handleAction = (companyId: string, actionName: "Approve" | "Reject" | "Suspend") => {
+  const handleAction = (
+    companyId: string,
+    actionName: "Approve" | "Reject" | "Suspend"
+  ) => {
     const company = companies.find((c) => c.id === companyId)
     const companyName = company ? company.name : "Company"
 
@@ -68,7 +71,7 @@ export function CompanyList() {
       {/* Heading */}
       <div className="flex flex-col">
         <h2 className="text-[22px] font-semibold text-foreground">Companies</h2>
-        <p className="text-[15px] text-foreground/80 mt-1">15,231</p>
+        <p className="mt-1 text-[15px] text-foreground/80">15,231</p>
       </div>
 
       {/* Company List */}
@@ -78,33 +81,37 @@ export function CompanyList() {
 
           return (
             <div key={company.id} className="flex flex-col pb-1">
-              <div className="flex justify-between items-start">
+              <div className="flex items-start justify-between">
                 {/* Left details */}
                 <div className="flex flex-col gap-2">
-                  <span className="text-[15px] text-foreground font-medium leading-tight">
+                  <span className="text-[15px] leading-tight font-medium text-foreground">
                     {company.name}
                   </span>
-                  <span className="text-[14px] text-foreground/80 leading-tight">
+                  <span className="text-[14px] leading-tight text-foreground/80">
                     {company.phone}
                   </span>
-                  <span className="text-[14px] text-foreground/80 leading-tight">
+                  <span className="text-[14px] leading-tight text-foreground/80">
                     {company.vehicles}
                   </span>
                 </div>
 
                 {/* Right details & toggle */}
                 <div className="flex flex-col items-end gap-2">
-                  <span className="text-[14px] text-foreground/90 font-medium leading-tight">
+                  <span className="text-[14px] leading-tight font-medium text-foreground/90">
                     {company.code}
                   </span>
-                  <span className="text-[14px] text-foreground/80 leading-tight">
+                  <span className="text-[14px] leading-tight text-foreground/80">
                     {company.completed}
                   </span>
                   <button
                     type="button"
                     onClick={() => toggleExpand(company.id)}
-                    className="size-5 rounded-full border border-[#008967] flex items-center justify-center text-[#008967] hover:bg-[#008967]/10 transition-colors mt-0.5"
-                    aria-label={isExpanded ? "Collapse company actions" : "Expand company actions"}
+                    className="mt-0.5 flex size-5 items-center justify-center rounded-full border border-[#008967] text-[#008967] transition-colors hover:bg-[#008967]/10"
+                    aria-label={
+                      isExpanded
+                        ? "Collapse company actions"
+                        : "Expand company actions"
+                    }
                   >
                     {isExpanded ? (
                       <ChevronUp className="size-3.5 stroke-[2.5]" />
@@ -117,25 +124,25 @@ export function CompanyList() {
 
               {/* Expandable Action Box */}
               {isExpanded && (
-                <div className="mt-3 bg-[#f4fbf7] dark:bg-primary/10 border border-[#008967]/20 rounded-xl px-5 py-3.5 flex items-center justify-end gap-6 transition-all animate-in fade-in-50 duration-200">
+                <div className="mt-3 flex animate-in items-center justify-end gap-6 rounded-xl border border-[#008967]/20 bg-[#f4fbf7] px-5 py-3.5 transition-all duration-200 fade-in-50 dark:bg-primary/10">
                   <button
                     type="button"
                     onClick={() => handleAction(company.id, "Approve")}
-                    className="text-[#008967] text-[14px] font-medium hover:underline active:opacity-70 transition-opacity"
+                    className="text-[14px] font-medium text-[#008967] transition-opacity hover:underline active:opacity-70"
                   >
                     Approve
                   </button>
                   <button
                     type="button"
                     onClick={() => handleAction(company.id, "Reject")}
-                    className="text-[#008967] text-[14px] font-medium hover:underline active:opacity-70 transition-opacity"
+                    className="text-[14px] font-medium text-[#008967] transition-opacity hover:underline active:opacity-70"
                   >
                     Reject
                   </button>
                   <button
                     type="button"
                     onClick={() => handleAction(company.id, "Suspend")}
-                    className="text-[#008967] text-[14px] font-medium hover:underline active:opacity-70 transition-opacity"
+                    className="text-[14px] font-medium text-[#008967] transition-opacity hover:underline active:opacity-70"
                   >
                     Suspend
                   </button>

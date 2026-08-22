@@ -4,20 +4,20 @@ import { Button } from "@/components/ui/button"
 
 export default function VehicleOnboardingSuccessPage() {
   return (
-    <div className="flex flex-col flex-1 px-5 pt-12 pb-6 relative items-center justify-between overflow-x-hidden overflow-y-auto">
-      <div className="flex-1 flex flex-col items-center justify-center text-center max-w-80 my-auto">
+    <div className="relative flex flex-1 flex-col items-center justify-between overflow-x-hidden overflow-y-auto px-5 pt-12 pb-6">
+      <div className="my-auto flex max-w-80 flex-1 flex-col items-center justify-center text-center">
         {/* Success Icon */}
-        <div className="size-19 rounded-full bg-[#008967] flex items-center justify-center mb-6 shadow-md">
-          <Check className="size-10 text-white stroke-[2.5]" />
+        <div className="mb-6 flex size-19 items-center justify-center rounded-full bg-[#008967] shadow-md">
+          <Check className="size-10 stroke-[2.5] text-white" />
         </div>
 
         {/* Title */}
-        <h2 className="text-[24px] font-bold text-foreground text-center mb-3 tracking-tight">
+        <h2 className="mb-3 text-center text-[24px] font-bold tracking-tight text-foreground">
           Vehicle Onboarding successful!
         </h2>
 
         {/* Description */}
-        <p className="text-foreground/75 text-[14px] text-center leading-relaxed font-normal">
+        <p className="text-center text-[14px] leading-relaxed font-normal text-foreground/75">
           This vehicle is now available on MyKaggo
         </p>
       </div>
@@ -27,7 +27,7 @@ export default function VehicleOnboardingSuccessPage() {
         render={<Link href="/company/vehicles" />}
         nativeButton={false}
         size="lg"
-        className="w-full rounded-full h-13 text-[15px] font-semibold bg-[#008967] hover:bg-[#007558] text-white active:scale-98 transition-transform shadow-none mt-auto shrink-0"
+        className="mt-auto h-13 w-full shrink-0 rounded-full bg-[#008967] text-[15px] font-semibold text-white shadow-none transition-transform hover:bg-[#007558] active:scale-98"
       >
         Close
       </Button>

@@ -13,24 +13,31 @@ export default function OnboardingSuccess() {
   }
 
   return (
-    <div className="flex flex-col flex-1 px-5 pt-6 pb-6 relative items-center overflow-hidden">
-      
-      <div className="flex flex-col items-center justify-center flex-1 w-full">
-        <div className="size-18 rounded-full bg-[#008967] flex items-center justify-center mb-6">
-          <Check className="size-10 text-white stroke-[2.5]" />
+    <div className="relative flex flex-1 flex-col items-center overflow-hidden px-5 pt-6 pb-6">
+      <div className="flex w-full flex-1 flex-col items-center justify-center">
+        <div className="mb-6 flex size-18 items-center justify-center rounded-full bg-[#008967]">
+          <Check className="size-10 stroke-[2.5] text-white" />
         </div>
-        
-        <h2 className="text-[26px] font-semibold text-foreground text-center mb-3 leading-snug">
-          Vehicle Onboarding<br/>successful!
+
+        <h2 className="mb-3 text-center text-[26px] leading-snug font-semibold text-foreground">
+          Vehicle Onboarding
+          <br />
+          successful!
         </h2>
-        
-        <p className="text-muted-foreground text-[15px] text-center max-w-70">
-          This vehicle is now available on<br/>Kaggo
+
+        <p className="max-w-70 text-center text-[15px] text-muted-foreground">
+          This vehicle is now available on
+          <br />
+          Kaggo
         </p>
       </div>
 
-      <div className="w-full shrink-0 mt-auto">
-        <Button onClick={handleClose} size="lg" className="w-full rounded-full text-base font-medium active:scale-98 transition-transform shadow-none">
+      <div className="mt-auto w-full shrink-0">
+        <Button
+          onClick={handleClose}
+          size="lg"
+          className="w-full rounded-full text-base font-medium shadow-none transition-transform active:scale-98"
+        >
           Close
         </Button>
       </div>

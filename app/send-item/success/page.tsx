@@ -2,9 +2,9 @@ import { Check } from "lucide-react"
 
 export default function SendItemSuccess() {
   return (
-    <div className="flex flex-col flex-1 px-5 pt-6 relative items-center">
+    <div className="relative flex flex-1 flex-col items-center px-5 pt-6">
       {/* Top Status */}
-      <div className="flex items-center justify-between mb-20 text-xs font-medium w-full">
+      <div className="mb-20 flex w-full items-center justify-between text-xs font-medium">
         <span className="text-primary">ID: 08034567890</span>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1.5">
@@ -18,17 +18,21 @@ export default function SendItemSuccess() {
         </div>
       </div>
 
-      <div className="flex flex-col items-center justify-center flex-1 w-full -mt-20">
-        <div className="size-18 rounded-full bg-[#008967] flex items-center justify-center mb-6">
-          <Check className="size-10 text-white stroke-[2.5]" />
+      <div className="-mt-20 flex w-full flex-1 flex-col items-center justify-center">
+        <div className="mb-6 flex size-18 items-center justify-center rounded-full bg-[#008967]">
+          <Check className="size-10 stroke-[2.5] text-white" />
         </div>
-        
-        <h2 className="text-[26px] font-semibold text-foreground text-center mb-3 leading-snug">
-          Package listing<br/>successful!
+
+        <h2 className="mb-3 text-center text-[26px] leading-snug font-semibold text-foreground">
+          Package listing
+          <br />
+          successful!
         </h2>
-        
-        <p className="text-muted-foreground text-[15px] text-center max-w-70">
-          Receiver can now track package<br/>with their phone number
+
+        <p className="max-w-70 text-center text-[15px] text-muted-foreground">
+          Receiver can now track package
+          <br />
+          with their phone number
         </p>
       </div>
     </div>

@@ -2,9 +2,9 @@ import TrackItemCard from "@/components/shared/track-item-card"
 
 export default function TrackItem() {
   return (
-    <div className="flex flex-col flex-1 px-5 pt-6 pb-6 relative overflow-x-hidden overflow-y-auto">
+    <div className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto px-5 pt-6 pb-6">
       {/* Top Status */}
-      <div className="flex items-center justify-between mb-8 text-xs font-medium w-full shrink-0">
+      <div className="mb-8 flex w-full shrink-0 items-center justify-between text-xs font-medium">
         <span className="text-primary">ID: 08030987654</span>
         <div className="flex items-center gap-4">
           <div className="flex items-center gap-1.5">
@@ -18,11 +18,11 @@ export default function TrackItem() {
         </div>
       </div>
 
-      <h2 className="text-[20px] font-medium text-foreground mb-5 shrink-0">
+      <h2 className="mb-5 shrink-0 text-[20px] font-medium text-foreground">
         2 listing found
       </h2>
 
-      <div className="flex flex-col shrink-0 mb-8">
+      <div className="mb-8 flex shrink-0 flex-col">
         <TrackItemCard
           data={{
             status: "active",
@@ -33,7 +33,7 @@ export default function TrackItem() {
             arrivalTime: "Arriving in 6 hrs 35 mins",
             vehiclePlate: "AAA 123 KJ",
             vehicleModel: "Toyota Hiace, White",
-            company: "AKTC Transport Company Ltd"
+            company: "AKTC Transport Company Ltd",
           }}
         />
 
@@ -49,15 +49,15 @@ export default function TrackItem() {
             vehicleModel: "Toyota Hiace, Blue",
             company: "NURTW",
             companyIsGreen: true,
-            showReceivedButton: true
+            showReceivedButton: true,
           }}
         />
       </div>
 
       <div className="flex-1"></div>
 
-      <div className="flex justify-center mt-auto pt-6 shrink-0">
-        <button className="text-primary text-[14px] font-medium hover:underline active:opacity-70 transition-opacity">
+      <div className="mt-auto flex shrink-0 justify-center pt-6">
+        <button className="text-[14px] font-medium text-primary transition-opacity hover:underline active:opacity-70">
           Contact Support
         </button>
       </div>
