@@ -96,6 +96,16 @@ export const metadata: Metadata = {
     startupImage: [...APPLE_SPLASH_SCREENS],
   },
   formatDetection: { telephone: false },
+  other: {
+    /**
+     * `appleWebApp.capable` only emits the standardised
+     * `mobile-web-app-capable`, which iOS did not understand before 16.4.
+     * Without the `apple-` prefixed variant the app never enters standalone
+     * mode — and iOS ignores `apple-touch-startup-image` entirely unless it
+     * does, which is why the launch screens above appeared to do nothing.
+     */
+    "apple-mobile-web-app-capable": "yes",
+  },
 }
 
 export const viewport: Viewport = {
