@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default async function OnboardingSuccessPage({
   searchParams,
-}: PageProps<"/onboarding/success">) {
+}: PageProps<"/dashboard/vehicles/new/success">) {
   await requireAdminToken()
 
   const params = await searchParams

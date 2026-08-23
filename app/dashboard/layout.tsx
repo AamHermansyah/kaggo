@@ -1,8 +1,13 @@
 import type { Metadata } from "next"
 
+import { ROUTES } from "@/lib/routes"
+
 export const metadata: Metadata = {
   title: { default: "Admin", template: "%s · MyKaggo Admin" },
   robots: { index: false, follow: false },
+  // Points this section at the admin manifest, so staff who install from
+  // here get the "MyKaggo Admin" app opening on the dashboard.
+  manifest: ROUTES.adminManifest,
 }
 
 /**

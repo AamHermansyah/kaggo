@@ -22,7 +22,7 @@ const RULES: readonly HeaderRule[] = [
   /* chrome-less success screens ---------------------------------------- */
   { match: "/company/submitted", variant: "none" },
   { match: "/company/batches/assign-driver/success", variant: "none" },
-  { match: "/onboarding/success", variant: "none" },
+  { match: "/dashboard/vehicles/new/success", variant: "none" },
   { match: "/send-item/success", variant: "none" },
   // Served by the service worker as a full-page fallback; chrome would only
   // offer navigation that cannot work while offline.
@@ -35,8 +35,9 @@ const RULES: readonly HeaderRule[] = [
   /* admin portal -------------------------------------------------------- */
   { match: "/dashboard/login", variant: "inner", title: "Admin sign in", showBack: false },
   { match: "/dashboard/settings", variant: "admin", title: "Settings" },
+  // More specific than "/dashboard*", so it has to come first.
+  { match: "/dashboard/vehicles/new", variant: "admin", title: "Vehicle Onboarding" },
   { match: "/dashboard*", variant: "admin", title: "Dashboard" },
-  { match: "/onboarding*", variant: "admin", title: "Vehicle Onboarding" },
 
   /* company portal ------------------------------------------------------ */
   { match: "/company/dashboard", variant: "inner", title: "Dashboard", showBack: false },

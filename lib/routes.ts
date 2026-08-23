@@ -18,17 +18,19 @@ export const ROUTES = {
 
   /* admin portal --------------------------------------------------------- */
   adminLogin: "/dashboard/login",
+  adminManifest: "/dashboard/manifest.webmanifest",
   adminHome: "/dashboard/shipments",
   adminShipments: "/dashboard/shipments",
   adminUsers: "/dashboard/users",
   adminVehicles: "/dashboard/vehicles",
   adminRevenue: "/dashboard/revenue",
   adminSettings: "/dashboard/settings",
-  vehicleOnboarding: "/onboarding",
-  vehicleOnboardingSuccess: "/onboarding/success",
+  vehicleOnboarding: "/dashboard/vehicles/new",
+  vehicleOnboardingSuccess: "/dashboard/vehicles/new/success",
 
   /* company portal ------------------------------------------------------- */
   companyHome: "/company",
+  companyManifest: "/company/manifest.webmanifest",
   companyLogin: "/company/login",
   companyRegister: "/company/register",
   companySubmitted: "/company/submitted",
@@ -40,11 +42,28 @@ export const ROUTES = {
   companyVehicleOnboarding: "/company/vehicles/onboarding",
 } as const
 
-/** Paths that require an admin session. */
+/**
+ * Paths that require an admin session.
+ *
+ * `/onboarding` is now only a redirect stub kept for old links — the flow
+ * itself moved under `/dashboard` so the admin PWA's `scope` covers it.
+ * Without that, tapping "Add new vehicle" inside the installed app would
+ * leave the standalone window and open a browser tab.
+ */
 export const ADMIN_PROTECTED_PREFIXES = ["/dashboard", "/onboarding"] as const
 
-/** Admin paths that must stay reachable while signed out. */
-export const ADMIN_PUBLIC_PATHS = [ROUTES.adminLogin] as const
+/**
+ * Admin paths that must stay reachable while signed out.
+ *
+ * The manifest is included because the browser fetches it to offer the
+ * install prompt, which happens before anyone signs in. Without this the
+ * proxy would redirect that fetch to the login page and the admin app would
+ * never become installable. It carries no data.
+ */
+export const ADMIN_PUBLIC_PATHS = [
+  ROUTES.adminLogin,
+  ROUTES.adminManifest,
+] as const
 
 /** Paths that require a company session. */
 export const COMPANY_PROTECTED_PREFIXES = [

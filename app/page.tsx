@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
+import { Building2 } from "lucide-react"
 
 import { SupportLink } from "@/components/shared/support-link"
 import { env } from "@/lib/env"
@@ -112,7 +113,19 @@ export default function HomePage() {
         </div>
       </main>
 
-      <footer className="flex shrink-0 justify-center pt-5 pb-2">
+      {/*
+        The only route from the rider side into the company portal. An installed
+        PWA has no address bar, so without a visible link a logistics operator
+        who opened the app could never reach their own sign-in.
+      */}
+      <footer className="flex shrink-0 flex-col items-center gap-3 pt-5 pb-2">
+        <Link
+          href={ROUTES.companyHome}
+          className="flex items-center gap-1.5 text-[14px] font-medium text-primary transition-opacity hover:underline active:opacity-70"
+        >
+          <Building2 className="size-4 stroke-[1.5]" />
+          For logistics companies
+        </Link>
         <SupportLink className="text-[15px]" />
       </footer>
     </div>

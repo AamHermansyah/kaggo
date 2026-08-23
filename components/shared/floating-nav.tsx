@@ -42,7 +42,7 @@ const ROUTE_GROUPS: Array<{ label: string; routes: Array<{ name: string; path: s
       { name: "Vehicles", path: "/dashboard/vehicles" },
       { name: "Revenue", path: "/dashboard/revenue" },
       { name: "Settings", path: "/dashboard/settings" },
-      { name: "Vehicle Onboarding", path: "/onboarding" },
+      { name: "Admin: Vehicle Onboarding", path: "/dashboard/vehicles/new" },
     ],
   },
   {
