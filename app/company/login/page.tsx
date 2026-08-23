@@ -7,7 +7,7 @@ import { CompanyLoginForm } from "./login-form"
 
 export const metadata: Metadata = {
   title: "Company login",
-  description: "Sign in to the Kaggo logistics company portal.",
+  description: "Sign in to the MyKaggo logistics company portal.",
   robots: { index: false, follow: false },
 }
 

@@ -8,9 +8,9 @@ import { CITIES } from "@/lib/geo/cities"
 import { ROUTES } from "@/lib/routes"
 
 export const metadata: Metadata = {
-  title: "Track it with Kaggo",
+  title: "Track it with MyKaggo",
   description:
-    "Keep an eye on your package from departure to your destination. Kaggo tracks intercity road deliveries across Nigeria with live GPS.",
+    "Keep an eye on your package from departure to your destination. MyKaggo tracks intercity road deliveries across Nigeria with live GPS.",
   alternates: { canonical: "/" },
 }
 
@@ -27,7 +27,7 @@ function StructuredData() {
       {
         "@type": "Organization",
         "@id": `${site}/#organization`,
-        name: "Kaggo",
+        name: "MyKaggo",
         url: site,
         logo: `${site}/images/logo.png`,
         areaServed: CITIES.map((city) => city.label),
@@ -36,7 +36,7 @@ function StructuredData() {
         "@type": "WebSite",
         "@id": `${site}/#website`,
         url: site,
-        name: "Kaggo",
+        name: "MyKaggo",
         publisher: { "@id": `${site}/#organization` },
         inLanguage: "en-NG",
       },
@@ -79,7 +79,7 @@ export default function HomePage() {
 
         <div className="relative z-10 flex flex-col items-center pt-8">
           <h1 className="mb-3 text-[32px] leading-tight font-medium text-white">
-            Track it with Kaggo
+            Track it with MyKaggo
           </h1>
           <p className="mb-10 max-w-75 text-[17px] leading-snug text-white">
             Keep an eye on your package from departure to your destination

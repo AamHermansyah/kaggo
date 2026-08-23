@@ -37,10 +37,10 @@ export default async function OnboardingSuccessPage({
           {plate ? (
             <>
               <span className="font-semibold text-foreground">{plate}</span> is
-              now available on Kaggo.
+              now available on MyKaggo.
             </>
           ) : (
-            "This vehicle is now available on Kaggo."
+            "This vehicle is now available on MyKaggo."
           )}
         </p>
       </div>

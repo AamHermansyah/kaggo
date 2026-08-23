@@ -1,11 +1,10 @@
 "use client"
 
 import { useEffect } from "react"
-import Link from "next/link"
 import { ServerCrash } from "lucide-react"
 
+import { HomeButton } from "@/components/shared/home-button"
 import { Button } from "@/components/ui/button"
-import { ROUTES } from "@/lib/routes"
 
 /**
  * Route-level 5xx boundary.
@@ -57,15 +56,7 @@ export default function AppError({
         >
           Try again
         </Button>
-        <Button
-          render={<Link href={ROUTES.home} />}
-          nativeButton={false}
-          variant="outline"
-          size="lg"
-          className="w-full rounded-full"
-        >
-          Back to home
-        </Button>
+        <HomeButton />
       </div>
     </div>
   )

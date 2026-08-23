@@ -10,7 +10,7 @@ import { IdentifyForm } from "./identify-form"
 export const metadata: Metadata = {
   title: "List an item",
   description:
-    "Enter your phone number to start listing a parcel for tracking on Kaggo.",
+    "Enter your phone number to start listing a parcel for tracking on MyKaggo.",
   robots: { index: false, follow: false },
 }
 
@@ -32,7 +32,7 @@ export default async function ListItemPage({
       {params.expired ? (
         <Alert className="mb-6 shrink-0">
           <AlertDescription>
-            We could not recognise your Kaggo identity any more. Enter your
+            We could not recognise your MyKaggo identity any more. Enter your
             phone number to continue.
           </AlertDescription>
         </Alert>

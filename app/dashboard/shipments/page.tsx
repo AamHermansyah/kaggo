@@ -7,7 +7,7 @@ import { parseAdminParams } from "@/lib/dashboard/params"
 
 export const metadata: Metadata = {
   title: "Shipments",
-  description: "Every parcel listed on Kaggo, including soft-deleted records.",
+  description: "Every parcel listed on MyKaggo, including soft-deleted records.",
 }
 
 export default async function ShipmentsPage({

@@ -20,7 +20,7 @@ export default async function CompanyVehiclesPage() {
 
       <BackendPending
         title="Fleet management is not available yet"
-        description="The company service has no vehicle endpoints. Vehicles are currently onboarded by Kaggo staff through the admin portal — ask your Kaggo contact to register a vehicle and it will be usable immediately."
+        description="The company service has no vehicle endpoints. Vehicles are currently onboarded by MyKaggo staff through the admin portal — ask your MyKaggo contact to register a vehicle and it will be usable immediately."
         backHref={ROUTES.companyDashboard}
         backLabel="Back to dashboard"
       />

@@ -3,6 +3,7 @@
 import Link from "next/link"
 
 import { FormAlert } from "@/components/shared/form/form-alert"
+import { PasswordField } from "@/components/shared/form/password-field"
 import { SubmitButton } from "@/components/shared/form/submit-button"
 import { TextField } from "@/components/shared/form/text-field"
 import { FieldGroup } from "@/components/ui/field"
@@ -32,12 +33,11 @@ export function CompanyLoginForm({ nextPath }: { nextPath?: string }) {
           autoFocus
           placeholder="Email"
         />
-        <TextField
+        <PasswordField
           control={form.control}
           name="password"
           label="Password"
           hideLabel
-          type="password"
           autoComplete="current-password"
           placeholder="Password"
         />

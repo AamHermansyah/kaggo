@@ -31,7 +31,7 @@ const CITY_OPTIONS = CITIES.map((city) => ({
  *
  * 1. "From"/"To" are city selects rather than free text. `POST /shipments`
  *    requires coordinates and the backend ships no geocoder, so the cities
- *    Kaggo actually covers carry their own lat/lng (see `lib/geo/cities.ts`).
+ *    MyKaggo actually covers carry their own lat/lng (see `lib/geo/cities.ts`).
  * 2. The "track through a logistics company" mode is gone. It needed a company
  *    code and a batch picker, and the rider API exposes neither — a shipment
  *    cannot be created without a driver and a plate. The company-side batch

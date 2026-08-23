@@ -1,14 +1,12 @@
 import type { Metadata } from "next"
-import Link from "next/link"
 import { CloudOff } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
-import { ROUTES } from "@/lib/routes"
+import { HomeButton } from "@/components/shared/home-button"
 import { RetryButton } from "./retry-button"
 
 export const metadata: Metadata = {
   title: "You are offline",
-  description: "Kaggo could not reach the network.",
+  description: "MyKaggo could not reach the network.",
   robots: { index: false, follow: false },
 }
 
@@ -31,22 +29,14 @@ export default function OfflinePage() {
           You are offline
         </h1>
         <p className="max-w-80 text-[14px] leading-relaxed text-foreground/70">
-          Kaggo needs a connection to show live tracking. Your listings are safe
+          MyKaggo needs a connection to show live tracking. Your listings are safe
           — everything will be here once you are back online.
         </p>
       </div>
 
       <div className="flex w-full max-w-80 flex-col gap-3">
         <RetryButton />
-        <Button
-          render={<Link href={ROUTES.home} />}
-          nativeButton={false}
-          variant="outline"
-          size="lg"
-          className="h-13 w-full rounded-full text-[15px] font-medium"
-        >
-          Go to home
-        </Button>
+        <HomeButton className="h-13 text-[15px] font-medium" />
       </div>
     </div>
   )

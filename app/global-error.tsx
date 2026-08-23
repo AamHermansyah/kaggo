@@ -26,14 +26,14 @@ export default function GlobalError({
   return (
     <html lang="en">
       <body className="bg-muted antialiased">
-        <title>Something went wrong · Kaggo</title>
+        <title>Something went wrong · MyKaggo</title>
         <main className="mx-auto flex h-dvh max-w-107.5 flex-col items-center justify-center gap-6 bg-background px-6 text-center">
           <div className="flex flex-col gap-2">
             <p className="text-[13px] font-semibold tracking-widest text-destructive uppercase">
               Error 500
             </p>
             <h1 className="text-[24px] font-bold tracking-tight text-foreground">
-              Kaggo failed to start
+              MyKaggo failed to start
             </h1>
             <p className="max-w-80 text-[14px] leading-relaxed text-foreground/70">
               A critical error stopped the app from rendering. Please try again.

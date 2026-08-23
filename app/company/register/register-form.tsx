@@ -1,6 +1,7 @@
 "use client"
 
 import { FormAlert } from "@/components/shared/form/form-alert"
+import { PasswordField } from "@/components/shared/form/password-field"
 import { SubmitButton } from "@/components/shared/form/submit-button"
 import { TextField } from "@/components/shared/form/text-field"
 import { FieldGroup } from "@/components/ui/field"
@@ -61,22 +62,20 @@ export function CompanyRegisterForm() {
           autoComplete="tel"
           placeholder="Phone Number"
         />
-        <TextField
+        <PasswordField
           control={form.control}
           name="password"
           label="Create password"
           hideLabel
-          type="password"
+          showStrength
           autoComplete="new-password"
           placeholder="Create Password"
-          description="At least 8 characters."
         />
-        <TextField
+        <PasswordField
           control={form.control}
           name="confirmPassword"
           label="Confirm password"
           hideLabel
-          type="password"
           autoComplete="new-password"
           placeholder="Confirm Password"
         />

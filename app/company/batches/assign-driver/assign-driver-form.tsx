@@ -64,7 +64,7 @@ export function AssignDriverForm({ batchId }: { batchId: string }) {
       <p className="mb-6 shrink-0 text-[13.5px] leading-relaxed text-foreground/75">
         This driver will be assigned to all packages in this batch. The
         driver&rsquo;s GPS device will be activated and journey tracking will
-        begin according to Kaggo&rsquo;s journey rules.
+        begin according to MyKaggo&rsquo;s journey rules.
       </p>
 
       <input type="hidden" {...form.register("batchId")} />

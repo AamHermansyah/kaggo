@@ -8,7 +8,7 @@ import { AdminLoginForm } from "./login-form"
 
 export const metadata: Metadata = {
   title: "Admin sign in",
-  description: "Sign in to the Kaggo admin portal.",
+  description: "Sign in to the MyKaggo admin portal.",
   robots: { index: false, follow: false },
 }
 
@@ -37,7 +37,7 @@ export default async function AdminLoginPage({
           Admin portal
         </h1>
         <p className="text-[13.5px] leading-relaxed text-foreground/70">
-          Sign in with your Kaggo staff account to manage shipments, users,
+          Sign in with your MyKaggo staff account to manage shipments, users,
           vehicles and pricing.
         </p>
       </div>

@@ -8,14 +8,14 @@ import { CITIES } from "@/lib/geo/cities"
 import { ROUTES } from "@/lib/routes"
 
 export const metadata: Metadata = {
-  title: "Power your trips with Kaggo",
+  title: "Power your trips with MyKaggo",
   description:
-    "Give your customers live visibility over every package you move. Register your logistics company on Kaggo to manage batches, drivers and journeys.",
+    "Give your customers live visibility over every package you move. Register your logistics company on MyKaggo to manage batches, drivers and journeys.",
   alternates: { canonical: "/company" },
   openGraph: {
-    title: "Power your trips with Kaggo",
+    title: "Power your trips with MyKaggo",
     description:
-      "Register your logistics company on Kaggo to manage batches, drivers and journeys.",
+      "Register your logistics company on MyKaggo to manage batches, drivers and journeys.",
     url: "/company",
   },
 }
@@ -76,7 +76,7 @@ export default function CompanyLandingPage() {
       </main>
 
       <div className="flex shrink-0 justify-center pt-5 pb-2">
-        <SupportLink subject="Kaggo company enquiry" />
+        <SupportLink subject="MyKaggo company enquiry" />
       </div>
     </div>
   )

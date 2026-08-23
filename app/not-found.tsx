@@ -1,18 +1,32 @@
 import type { Metadata } from "next"
+import { headers } from "next/headers"
 import Link from "next/link"
 import { Compass } from "lucide-react"
 
+import { HomeButton } from "@/components/shared/home-button"
 import { Button } from "@/components/ui/button"
+import { homeFor, PATHNAME_HEADER } from "@/lib/home"
 import { ROUTES } from "@/lib/routes"
 
 export const metadata: Metadata = {
   title: "Page not found",
-  description: "The page you were looking for does not exist on Kaggo.",
+  description: "The page you were looking for does not exist on MyKaggo.",
   robots: { index: false, follow: false },
 }
 
-/** Global 404. Rendered inside the root layout, so it keeps the app shell. */
-export default function NotFound() {
+/**
+ * Global 404. Rendered inside the root layout, so it keeps the app shell.
+ *
+ * The requested path comes from the header the proxy stamps rather than from
+ * `usePathname()`: Next renders the `/_not-found` segment for unmatched URLs,
+ * so the router would report that instead of what the visitor typed — and the
+ * escape hatch would send a company user to the rider landing page.
+ */
+export default async function NotFound() {
+  const requestHeaders = await headers()
+  const pathname = requestHeaders.get(PATHNAME_HEADER) ?? ROUTES.home
+  const isRiderArea = homeFor(pathname).href === ROUTES.home
+
   return (
     <div className="flex flex-1 flex-col items-center justify-center gap-6 px-6 py-16 text-center">
       <div className="flex size-19 items-center justify-center rounded-full bg-primary/10 text-primary">
@@ -32,23 +46,19 @@ export default function NotFound() {
       </div>
 
       <div className="flex w-full max-w-80 flex-col gap-3">
-        <Button
-          render={<Link href={ROUTES.home} />}
-          nativeButton={false}
-          size="lg"
-          className="w-full rounded-full"
-        >
-          Back to home
-        </Button>
-        <Button
-          render={<Link href={ROUTES.track} />}
-          nativeButton={false}
-          variant="outline"
-          size="lg"
-          className="w-full rounded-full"
-        >
-          Track a package
-        </Button>
+        <HomeButton variant="default" pathname={pathname} />
+        {/* Tracking is a rider feature — not a useful next step for staff. */}
+        {isRiderArea ? (
+          <Button
+            render={<Link href={ROUTES.track} />}
+            nativeButton={false}
+            variant="outline"
+            size="lg"
+            className="w-full rounded-full"
+          >
+            Track a package
+          </Button>
+        ) : null}
       </div>
     </div>
   )

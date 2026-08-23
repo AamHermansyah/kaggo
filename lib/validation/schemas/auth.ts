@@ -1,5 +1,10 @@
 import { z } from "zod"
 
+import {
+  isAcceptablePassword,
+  PASSWORD_MIN_LENGTH,
+  PASSWORD_TOO_WEAK,
+} from "../password"
 import { isValidPhone, normalizePhone, PHONE_ERROR } from "../phone"
 
 const email = z
@@ -16,10 +21,18 @@ const email = z
  */
 const existingPassword = z.string().min(1, "Password is required").max(200)
 
+/**
+ * Registration passwords must clear the "weak" band.
+ *
+ * The same schema runs in the browser (instant meter feedback) and inside the
+ * Server Action, so the strength rule is enforced server-side too — the meter
+ * alone would be trivial to skip.
+ */
 const newPassword = z
   .string()
-  .min(8, "Use at least 8 characters")
+  .min(PASSWORD_MIN_LENGTH, `Use at least ${PASSWORD_MIN_LENGTH} characters`)
   .max(200, "Keep it under 200 characters")
+  .refine(isAcceptablePassword, PASSWORD_TOO_WEAK)
 
 export const adminLoginSchema = z.object({
   email,

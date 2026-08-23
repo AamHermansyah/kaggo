@@ -5,7 +5,7 @@ import { VehicleOnboardingForm } from "./onboarding-form"
 
 export const metadata: Metadata = {
   title: "Vehicle onboarding",
-  description: "Register a vehicle and pair its Kaggo GPS tracker.",
+  description: "Register a vehicle and pair its MyKaggo GPS tracker.",
   robots: { index: false, follow: false },
 }
 

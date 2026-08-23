@@ -11,7 +11,7 @@ const SUPPORT_EMAIL =
 export function SupportLink({
   className,
   label = "Contact Support",
-  subject = "Kaggo support request",
+  subject = "MyKaggo support request",
 }: {
   className?: string
   label?: string

@@ -4,6 +4,7 @@ import { useEffect } from "react"
 import Link from "next/link"
 
 import { ErrorState } from "@/components/shared/error-state"
+import { HomeButton } from "@/components/shared/home-button"
 import { Button } from "@/components/ui/button"
 import { ROUTES } from "@/lib/routes"
 
@@ -26,15 +27,18 @@ export default function CompanyError({
         description="This section could not be rendered. Retry, or sign in again if the problem persists."
         onRetry={() => unstable_retry()}
       />
-      <Button
-        render={<Link href={ROUTES.companyLogin} />}
-        nativeButton={false}
-        variant="outline"
-        size="sm"
-        className="self-center rounded-full"
-      >
-        Back to login
-      </Button>
+      <div className="mx-auto flex w-full max-w-70 flex-col gap-2">
+        <HomeButton size="sm" />
+        <Button
+          render={<Link href={ROUTES.companyLogin} />}
+          nativeButton={false}
+          variant="outline"
+          size="sm"
+          className="w-full rounded-full"
+        >
+          Back to login
+        </Button>
+      </div>
     </div>
   )
 }

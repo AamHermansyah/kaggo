@@ -12,7 +12,7 @@
  * page: real pages always go to the network, and only the failure path is
  * served from cache.
  */
-const CACHE_NAME = "kaggo-v5"
+const CACHE_NAME = "kaggo-v6"
 
 const OFFLINE_URL = "/offline"
 

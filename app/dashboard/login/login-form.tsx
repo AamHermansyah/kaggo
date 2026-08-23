@@ -1,6 +1,7 @@
 "use client"
 
 import { FormAlert } from "@/components/shared/form/form-alert"
+import { PasswordField } from "@/components/shared/form/password-field"
 import { SubmitButton } from "@/components/shared/form/submit-button"
 import { TextField } from "@/components/shared/form/text-field"
 import { FieldGroup } from "@/components/ui/field"
@@ -28,11 +29,10 @@ export function AdminLoginForm({ nextPath }: { nextPath?: string }) {
           autoFocus
           placeholder="you@kaggo.app"
         />
-        <TextField
+        <PasswordField
           control={form.control}
           name="password"
           label="Password"
-          type="password"
           autoComplete="current-password"
           placeholder="••••••••"
         />

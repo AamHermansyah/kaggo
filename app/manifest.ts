@@ -28,10 +28,13 @@ export default function manifest(): MetadataRoute.Manifest {
     // A stable `id` keeps this the same installed app across future
     // `start_url` changes.
     id: "/",
-    name: "Kaggo — Track & Deliver",
-    short_name: "Kaggo",
+    // Chrome renders `name` underneath the icon on the Android splash
+    // screen, so it is the bare brand rather than a tagline — the tagline
+    // lives in `description`, which the install dialog shows instead.
+    name: "MyKaggo",
+    short_name: "MyKaggo",
     description:
-      "Track your parcel from departure to destination. Kaggo gives senders and receivers live visibility over intercity road deliveries across Nigeria.",
+      "Track your parcel from departure to destination. MyKaggo gives senders and receivers live visibility over intercity road deliveries across Nigeria.",
     lang: "en-NG",
     dir: "ltr",
     categories: ["business", "travel", "utilities"],
@@ -45,7 +48,11 @@ export default function manifest(): MetadataRoute.Manifest {
     display_override: ["standalone", "minimal-ui"],
     orientation: "portrait",
 
-    background_color: "#ffffff",
+    // Android draws its splash as the icon over `background_color` with
+    // `name` underneath, so brand green here reproduces the iOS launch
+    // image: the white-on-green icon blends into the background and only
+    // the mark and "MyKaggo" read.
+    background_color: "#008967",
     theme_color: "#008967",
 
     icons: [
@@ -71,28 +78,28 @@ export default function manifest(): MetadataRoute.Manifest {
         sizes: "430x892",
         type: "image/jpeg",
         form_factor: "narrow",
-        label: "Track a parcel from the Kaggo home screen",
+        label: "Track a parcel from the MyKaggo home screen",
       },
       {
         src: "/screenshots/mobile-company.jpg",
         sizes: "430x892",
         type: "image/jpeg",
         form_factor: "narrow",
-        label: "Register your logistics company on Kaggo",
+        label: "Register your logistics company on MyKaggo",
       },
       {
         src: "/screenshots/desktop-home.jpg",
         sizes: "1280x800",
         type: "image/jpeg",
         form_factor: "wide",
-        label: "Track a parcel from the Kaggo home screen",
+        label: "Track a parcel from the MyKaggo home screen",
       },
       {
         src: "/screenshots/desktop-company.jpg",
         sizes: "1280x800",
         type: "image/jpeg",
         form_factor: "wide",
-        label: "Register your logistics company on Kaggo",
+        label: "Register your logistics company on MyKaggo",
       },
     ],
 

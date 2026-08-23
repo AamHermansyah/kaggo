@@ -11,7 +11,9 @@
     "format": "prettier --write \"**/*.{ts,tsx}\"",
     "typecheck": "tsc --noEmit",
     "sw:check": "node scripts/sw-check.mjs",
-    "shots": "node scripts/screenshots.mjs"
+    "shots": "node scripts/screenshots.mjs",
+    "password:check": "node --experimental-strip-types scripts/password-check.mjs",
+    "splash": "node scripts/splash.mjs"
   },
   "dependencies": {
     "@base-ui/react": "^1.6.0",

@@ -1,6 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server"
 
 import { COOKIE } from "@/lib/auth/cookie-names"
+import { PATHNAME_HEADER } from "@/lib/home"
 import {
   ADMIN_PROTECTED_PREFIXES,
   ADMIN_PUBLIC_PATHS,
@@ -90,7 +91,18 @@ export function proxy(request: NextRequest): NextResponse {
     return redirectToLogin(request, ROUTES.riderIdentify)
   }
 
-  return NextResponse.next()
+  /**
+   * Unmatched URLs render the `/_not-found` segment, so `usePathname()` inside
+   * `not-found.tsx` reports that instead of what the visitor asked for. Passing
+   * the real path down lets the 404 offer the right portal's home.
+   *
+   * `set` (not `append`) overwrites anything the client sent, so the header
+   * cannot be spoofed on requests that reach the proxy.
+   */
+  const headers = new Headers(request.headers)
+  headers.set(PATHNAME_HEADER, pathname)
+
+  return NextResponse.next({ request: { headers } })
 }
 
 export const config = {

@@ -7,7 +7,7 @@ import { parseAdminParams } from "@/lib/dashboard/params"
 
 export const metadata: Metadata = {
   title: "Users",
-  description: "Riders identified on Kaggo and their sent/received totals.",
+  description: "Riders identified on MyKaggo and their sent/received totals.",
 }
 
 export default async function UsersPage({

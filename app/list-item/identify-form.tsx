@@ -46,8 +46,8 @@ export function IdentifyForm({
         className="mb-8 shrink-0 text-xl font-medium text-foreground"
       >
         {needsCounterparty
-          ? "Using Kaggo on a new device?"
-          : "Using Kaggo for the first time?"}
+          ? "Using MyKaggo on a new device?"
+          : "Using MyKaggo for the first time?"}
       </h1>
 
       <FieldGroup className="mb-4 shrink-0 gap-4">
@@ -88,8 +88,8 @@ export function IdentifyForm({
           className="mb-6 text-[15px] font-medium text-primary transition-opacity hover:underline active:opacity-70"
         >
           {needsCounterparty
-            ? "Set up Kaggo for the first time"
-            : "Set up Kaggo on a new device"}
+            ? "Set up MyKaggo for the first time"
+            : "Set up MyKaggo on a new device"}
         </button>
 
         <Separator className="-mx-6 mb-6 w-[calc(100%+3rem)]" />

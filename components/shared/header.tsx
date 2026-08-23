@@ -14,7 +14,7 @@ function BrandMark({ withText = true }: { withText?: boolean }) {
   return (
     <Image
       src={withText ? "/images/logo-with-text.png" : "/images/logo.png"}
-      alt="Kaggo"
+      alt="MyKaggo"
       width={withText ? 600 : 425}
       height={withText ? 171 : 512}
       className="h-9 w-auto shrink-0 object-contain"

@@ -1,0 +1,153 @@
+/**
+ * Generates the iOS launch images and the media queries that select them.
+ *
+ * Android does not accept a custom splash image at all — Chrome composites one
+ * from the manifest `icons`, `name` and `background_color`. iOS is the only
+ * platform where an exact image can be supplied, via
+ * `<link rel="apple-touch-startup-image" media="...">`.
+ *
+ * Run with `npm run splash`. It rewrites public/splash/* and prints the
+ * `startupImage` array to paste into app/layout.tsx if the device list changes.
+ */
+import sharp from "sharp"
+import fs from "node:fs"
+import path from "node:path"
+
+const SOURCE = "public/images/logo-splashscreen.png"
+const OUT_DIR = "public/splash"
+const BRAND = { r: 0, g: 0x89, b: 0x67, alpha: 1 }
+
+/** Artwork width as a fraction of the device's shorter side. */
+const ARTWORK_RATIO = 0.62
+
+/**
+ * The source artwork ships on its own green (#008753), a shade off the brand
+ * token. Pasting it straight onto a #008967 canvas leaves a visible square, so
+ * the white mark is lifted out first.
+ *
+ * Background and foreground are both flat, so per-pixel coverage can be solved
+ * exactly: `alpha = (pixel - background) / (white - background)`, averaged over
+ * the channels. That keeps the anti-aliased edges a hard threshold would chew
+ * up, and the result composites cleanly onto any background.
+ */
+async function extractArtwork() {
+  const { data, info } = await sharp(SOURCE)
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true })
+
+  const bg = [data[0], data[1], data[2]]
+  const span = bg.map((channel) => 255 - channel)
+
+  for (let i = 0; i < data.length; i += 4) {
+    let coverage = 0
+    for (let c = 0; c < 3; c++) {
+      coverage += span[c] === 0 ? 0 : (data[i + c] - bg[c]) / span[c]
+    }
+    coverage = Math.max(0, Math.min(1, coverage / 3))
+
+    data[i] = 255
+    data[i + 1] = 255
+    data[i + 2] = 255
+    data[i + 3] = Math.round(coverage * 255)
+  }
+
+  console.log(
+    `source background #${bg.map((c) => c.toString(16).padStart(2, "0")).join("")} lifted to a white mask\n`
+  )
+
+  return sharp(data, {
+    raw: { width: info.width, height: info.height, channels: 4 },
+  })
+    .png()
+    .toBuffer()
+}
+
+const ARTWORK = await extractArtwork()
+
+/** Portrait geometry of the devices currently in circulation. */
+const DEVICES = [
+  { name: "iphone-se", width: 375, height: 667, ratio: 2 },
+  { name: "iphone-8-plus", width: 414, height: 736, ratio: 3 },
+  { name: "iphone-x", width: 375, height: 812, ratio: 3 },
+  { name: "iphone-xr", width: 414, height: 896, ratio: 2 },
+  { name: "iphone-xs-max", width: 414, height: 896, ratio: 3 },
+  { name: "iphone-12", width: 390, height: 844, ratio: 3 },
+  { name: "iphone-12-pro-max", width: 428, height: 926, ratio: 3 },
+  { name: "iphone-14-pro", width: 393, height: 852, ratio: 3 },
+  { name: "iphone-14-pro-max", width: 430, height: 932, ratio: 3 },
+  { name: "iphone-16-pro", width: 402, height: 874, ratio: 3 },
+  { name: "iphone-16-pro-max", width: 440, height: 956, ratio: 3 },
+  { name: "ipad-mini", width: 768, height: 1024, ratio: 2 },
+  { name: "ipad-pro-10", width: 834, height: 1112, ratio: 2 },
+  { name: "ipad-air", width: 820, height: 1180, ratio: 2 },
+  { name: "ipad-pro-11", width: 834, height: 1194, ratio: 2 },
+  { name: "ipad-pro-12", width: 1024, height: 1366, ratio: 2 },
+]
+
+fs.rmSync(OUT_DIR, { recursive: true, force: true })
+fs.mkdirSync(OUT_DIR, { recursive: true })
+
+const entries = []
+let totalBytes = 0
+
+for (const device of DEVICES) {
+  const pixelWidth = device.width * device.ratio
+  const pixelHeight = device.height * device.ratio
+  const artwork = Math.round(Math.min(pixelWidth, pixelHeight) * ARTWORK_RATIO)
+
+  const logo = await sharp(ARTWORK)
+    .resize({ width: artwork, height: artwork, fit: "inside" })
+    .toBuffer()
+
+  const file = `${device.name}-${pixelWidth}x${pixelHeight}.png`
+  const out = path.join(OUT_DIR, file)
+
+  await sharp({
+    create: {
+      width: pixelWidth,
+      height: pixelHeight,
+      channels: 4,
+      background: BRAND,
+    },
+  })
+    .composite([
+      {
+        input: logo,
+        left: Math.round((pixelWidth - artwork) / 2),
+        top: Math.round((pixelHeight - artwork) / 2),
+      },
+    ])
+    // Flat brand green plus white artwork palettises to a tiny file.
+    .png({ compressionLevel: 9, palette: true })
+    .toFile(out)
+
+  const bytes = fs.statSync(out).size
+  totalBytes += bytes
+
+  entries.push({
+    url: `/splash/${file}`,
+    media: `(device-width: ${device.width}px) and (device-height: ${device.height}px) and (-webkit-device-pixel-ratio: ${device.ratio}) and (orientation: portrait)`,
+  })
+
+  console.log(
+    `${out.padEnd(48)} ${pixelWidth}x${pixelHeight}  artwork ${artwork}px  ${(bytes / 1024).toFixed(1)}KB`
+  )
+}
+
+const MODULE = "lib/splash-screens.ts"
+
+// Emitted rather than hand-maintained so the device list has one home.
+fs.writeFileSync(
+  MODULE,
+  `// GENERATED by scripts/splash.mjs — run \`npm run splash\` to update.
+// iOS launch images. Android builds its splash from the manifest instead.
+export const APPLE_SPLASH_SCREENS = ${JSON.stringify(entries, null, 2)} as const
+`,
+  "utf8"
+)
+
+console.log(
+  `\n${entries.length} images, ${(totalBytes / 1024).toFixed(0)}KB total`
+)
+console.log(`wrote ${MODULE}`)

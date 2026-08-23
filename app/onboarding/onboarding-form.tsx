@@ -106,7 +106,7 @@ export function VehicleOnboardingForm() {
 
       <FieldSet className="mb-6 shrink-0">
         <FieldLegend className="mb-3 text-[15px] font-semibold">
-          Kaggo device
+          MyKaggo device
         </FieldLegend>
         <FieldGroup className="gap-3">
           <TextField
@@ -139,7 +139,7 @@ export function VehicleOnboardingForm() {
         pendingLabel="Assigning device"
         className="mt-auto"
       >
-        Assign Kaggo Device
+        Assign MyKaggo Device
       </SubmitButton>
     </form>
   )

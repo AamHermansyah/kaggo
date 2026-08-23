@@ -16,7 +16,7 @@ import {
 
 export const metadata: Metadata = {
   title: "Company dashboard",
-  description: "Manage your batches and vehicles on Kaggo.",
+  description: "Manage your batches and vehicles on MyKaggo.",
   robots: { index: false, follow: false },
 }
 
@@ -29,7 +29,7 @@ const QUICK_ACTIONS = [
   {
     href: ROUTES.companyVehicles,
     title: "Manage Vehicles",
-    description: "Your registered fleet and Kaggo devices",
+    description: "Your registered fleet and MyKaggo devices",
   },
 ]
 
