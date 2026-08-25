@@ -3,6 +3,7 @@ import "server-only"
 import { cookies } from "next/headers"
 
 import { isProduction } from "@/lib/env"
+import type { AdminRole } from "@/lib/api/types"
 import { COOKIE } from "./cookie-names"
 import { readJwtExpiry, seal, unseal } from "./signing"
 
@@ -99,8 +100,41 @@ async function clearCookie(name: string): Promise<void> {
   store.delete({ name, path: "/" })
 }
 
-export const setAdminCookie = (token: string) => setStaffCookie(COOKIE.admin, token)
-export const readAdminCookie = () => readStaffCookie(COOKIE.admin)
+/**
+ * The admin cookie carries the role alongside the token.
+ *
+ * v1.1 gates suspend / reactivate / delete / country-pricing behind SUPERADMIN,
+ * and the UI needs to know which buttons to render. The payload is signed, so a
+ * visitor cannot promote themselves by editing it — but this is only ever used
+ * to *hide* controls. The backend re-checks the role on every call and answers
+ * 401, so a forged role would buy nothing.
+ */
+export interface AdminSession {
+  token: string
+  role: AdminRole
+  email: string
+}
+
+export async function setAdminCookie(session: AdminSession): Promise<void> {
+  const store = await cookies()
+  store.set(
+    COOKIE.admin,
+    seal(session),
+    options("strict", staffMaxAge(session.token))
+  )
+}
+
+export async function readAdminCookie(): Promise<AdminSession | null> {
+  const store = await cookies()
+  const session = unseal<AdminSession>(store.get(COOKIE.admin)?.value)
+  if (!session?.token || !session.role) return null
+
+  const exp = readJwtExpiry(session.token)
+  if (exp && exp <= Math.floor(Date.now() / 1000)) return null
+
+  return session
+}
+
 export const clearAdminCookie = () => clearCookie(COOKIE.admin)
 
 export const setCompanyCookie = (token: string) =>

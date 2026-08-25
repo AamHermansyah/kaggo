@@ -9,6 +9,7 @@ import {
   readAdminCookie,
   readCompanyCookie,
   readRiderCookie,
+  type AdminSession,
   type RiderSession,
 } from "./cookies"
 import { ROUTES } from "@/lib/routes"
@@ -28,9 +29,14 @@ export const getRiderSession = cache(
   async (): Promise<RiderSession | null> => readRiderCookie()
 )
 
-export const getAdminToken = cache(
-  async (): Promise<string | null> => readAdminCookie()
+export const getAdminSession = cache(
+  async (): Promise<AdminSession | null> => readAdminCookie()
 )
+
+export const getAdminToken = cache(async (): Promise<string | null> => {
+  const session = await readAdminCookie()
+  return session?.token ?? null
+})
 
 export const getCompanyToken = cache(
   async (): Promise<string | null> => readCompanyCookie()
@@ -43,10 +49,27 @@ export async function requireRider(): Promise<RiderSession> {
   return session
 }
 
+export async function requireAdminSession(): Promise<AdminSession> {
+  const session = await getAdminSession()
+  if (!session) redirect(ROUTES.adminLogin)
+  return session
+}
+
 export async function requireAdminToken(): Promise<string> {
-  const token = await getAdminToken()
-  if (!token) redirect(ROUTES.adminLogin)
-  return token
+  const session = await requireAdminSession()
+  return session.token
+}
+
+/**
+ * UI-level check only.
+ *
+ * v1.1 restricts suspend / reactivate / delete / country pricing to SUPERADMIN.
+ * Hiding those controls is a courtesy; the backend answers 401 regardless, so
+ * this is never the thing standing between a plain ADMIN and the action.
+ */
+export async function isSuperAdmin(): Promise<boolean> {
+  const session = await getAdminSession()
+  return session?.role === "SUPERADMIN"
 }
 
 export async function requireCompanyToken(): Promise<string> {

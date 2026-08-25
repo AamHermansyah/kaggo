@@ -40,7 +40,13 @@ export async function adminLoginAction(
         return failure("The server did not return a session. Please try again.")
       }
 
-      await setAdminCookie(result.token)
+      await setAdminCookie({
+        token: result.token,
+        // v1.1 gates some actions behind SUPERADMIN; the role is kept so the
+        // dashboard can hide controls the backend would reject anyway.
+        role: result.admin?.role ?? "ADMIN",
+        email: result.admin?.email ?? parsed.data.email,
+      })
       return success()
     } catch (error) {
       if (isApiError(error) && error.status === 401) {

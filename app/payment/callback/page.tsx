@@ -55,11 +55,10 @@ export default async function PaymentCallbackPage({
   let failureMessage: string | null = null
 
   try {
-    const result = await verifyPayment(
-      rider.userId,
-      parsed.data.shipmentId,
-      parsed.data.reference
-    )
+    // v1.1 verifies the shipment's own stored attempt; the reference from the
+    // query string is no longer sent, only used to confirm we were redirected
+    // back from a real checkout.
+    const result = await verifyPayment(rider.userId, parsed.data.shipmentId)
 
     if (result.outcome === "success" || result.outcome === "already_processed") {
       redirect(`${ROUTES.sendItemSuccess}?shipment=${result.shipmentId}`)

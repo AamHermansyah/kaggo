@@ -10,13 +10,18 @@ import {
   type ActionResult,
 } from "@/lib/actions/result"
 import { isApiError } from "@/lib/api/errors"
-import { createShipment, lookupVehicle } from "@/lib/api/mobile"
-import type { VehicleLookup } from "@/lib/api/types"
+import {
+  createShipment,
+  lookupVehicle,
+  submitBatchRequest,
+} from "@/lib/api/mobile"
+import type { BatchRequestResult, VehicleLookup } from "@/lib/api/types"
 import { requireRider } from "@/lib/auth/session"
 import { findCity } from "@/lib/geo/cities"
 import { ROUTES } from "@/lib/routes"
 import { normalizePhone } from "@/lib/validation/phone"
 import {
+  batchRequestSchema,
   sendItemSchema,
   vehicleLookupSchema,
 } from "@/lib/validation/schemas/rider"
@@ -44,14 +49,17 @@ const VEHICLE_NOT_FOUND =
 export async function lookupVehicleAction(
   values: unknown
 ): Promise<ActionResult<VehicleLookup>> {
-  await requireRider()
+  const rider = await requireRider()
 
   const parsed = parseInput(vehicleLookupSchema, values)
   if (!parsed.ok) return parsed.result
 
   return runAction(async () => {
     try {
-      const vehicle = await lookupVehicle(toLookupQuery(parsed.data.vehicleRef))
+      const vehicle = await lookupVehicle(
+        rider.userId,
+        toLookupQuery(parsed.data.vehicleRef)
+      )
       return success(vehicle)
     } catch (error) {
       if (isApiError(error) && error.status === 404) {
@@ -94,7 +102,7 @@ export async function createShipmentAction(
   const outcome = await runAction(async () => {
     let vehicle: VehicleLookup
     try {
-      vehicle = await lookupVehicle(toLookupQuery(vehicleRef))
+      vehicle = await lookupVehicle(rider.userId, toLookupQuery(vehicleRef))
     } catch (error) {
       if (isApiError(error) && error.status === 404) {
         return failure(VEHICLE_NOT_FOUND, {
@@ -127,4 +135,58 @@ export async function createShipmentAction(
   if (!outcome.ok) return outcome
 
   redirect(ROUTES.payment(outcome.data))
+}
+
+const BATCH_NOT_FOUND =
+  "No company matches that code, or that route has no batch accepting drop-offs right now."
+
+/**
+ * Joins a logistics company's batch for a route.
+ *
+ * Unlike `createShipmentAction` there is no payment step here — the backend
+ * matches the request to a batch and payment is collected once a driver is
+ * assigned, which is what the original "you will be notified to complete
+ * payment" copy described.
+ */
+export async function submitBatchRequestAction(
+  values: unknown
+): Promise<ActionResult<BatchRequestResult>> {
+  const rider = await requireRider()
+
+  const parsed = parseInput(batchRequestSchema, values)
+  if (!parsed.ok) return parsed.result
+
+  const from = findCity(parsed.data.fromCity)
+  const to = findCity(parsed.data.toCity)
+  if (!from || !to) {
+    return failure("Pick both a pick-up and a destination city.", {
+      code: "VALIDATION_ERROR",
+    })
+  }
+
+  return runAction(async () => {
+    try {
+      const result = await submitBatchRequest(rider.userId, {
+        companyCode: parsed.data.companyCode,
+        fromLabel: from.label,
+        toLabel: to.label,
+        itemName: parsed.data.itemName,
+      })
+      return success(result)
+    } catch (error) {
+      if (isApiError(error) && error.status === 404) {
+        return failure(BATCH_NOT_FOUND, {
+          code: "NOT_FOUND",
+          fieldErrors: { companyCode: [BATCH_NOT_FOUND] },
+        })
+      }
+      if (isApiError(error) && error.status === 409) {
+        return failure(
+          "You already have a pending request on that batch. Check your parcels.",
+          { code: "CONFLICT" }
+        )
+      }
+      throw error
+    }
+  })
 }

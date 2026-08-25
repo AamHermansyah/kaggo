@@ -1,13 +1,32 @@
-import { redirect } from "next/navigation"
+import type { Metadata } from "next"
 
-import { ROUTES } from "@/lib/routes"
+import { AdminShell } from "@/components/dashboard/admin-shell"
+import { isSuperAdmin, requireAdminToken } from "@/lib/auth/session"
+import { parseAdminParams } from "@/lib/dashboard/params"
+import { CompanyList } from "./company-list"
 
-/**
- * The design had a "Companies" tab with approve / reject / suspend actions, but
- * the admin API exposes no company resource at all — nothing backs those
- * buttons. Revenue took its place in the tile row; this route redirects so the
- * old link is not a dead end.
- */
-export default function CompaniesRedirect() {
-  redirect(ROUTES.adminRevenue)
+export const metadata: Metadata = {
+  title: "Companies",
+  description:
+    "Approve, reject, suspend or reactivate logistics companies on MyKaggo.",
+}
+
+export default async function CompaniesPage({
+  searchParams,
+}: PageProps<"/dashboard/companies">) {
+  const token = await requireAdminToken()
+  const canManage = await isSuperAdmin()
+  const params = parseAdminParams(await searchParams)
+
+  return (
+    <AdminShell
+      token={token}
+      range={params.range}
+      query={params.query}
+      active="companies"
+      listTitle="Could not load companies"
+    >
+      <CompanyList token={token} params={params} canManage={canManage} />
+    </AdminShell>
+  )
 }

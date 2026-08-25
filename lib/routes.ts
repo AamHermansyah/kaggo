@@ -28,6 +28,8 @@ export const ROUTES = {
   adminShipments: "/dashboard/shipments",
   adminUsers: "/dashboard/users",
   adminVehicles: "/dashboard/vehicles",
+  adminCompanies: "/dashboard/companies",
+  adminBatches: "/dashboard/batches",
   adminRevenue: "/dashboard/revenue",
   adminSettings: "/dashboard/settings",
   vehicleOnboarding: "/dashboard/vehicles/new",

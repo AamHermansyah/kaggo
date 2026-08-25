@@ -3,6 +3,9 @@ import "server-only"
 import { ADMIN_API_BASE } from "@/lib/env"
 import { apiFetch, bearer, type PaginationMeta } from "./http"
 import type {
+  AdminBatch,
+  AdminCompany,
+  AdminCompanyDetail,
   AdminLoginResult,
   AdminOverview,
   AdminRevenue,
@@ -110,6 +113,8 @@ export interface OnboardVehicleInput {
   make: string
   model: string
   companyName: string
+  /** Optional since v1.1: ties the vehicle to a real LogisticsCompany. */
+  companyId?: string
   /** Manufacturer hardware identity. */
   imei: string
   /** JT/T808 addressing ID, 1-12 digits. */
@@ -140,6 +145,8 @@ export interface EditVehicleInput {
   companyName?: string
   status?: "ACTIVE" | "INACTIVE"
   gpsDeviceId?: string | null
+  /** `null` explicitly un-associates the vehicle from its company. */
+  companyId?: string | null
 }
 
 export async function editVehicle(
@@ -157,6 +164,104 @@ export async function editVehicle(
   return data
 }
 
+/* ------------------------------------------------- logistics companies (v1.1) */
+
+export const listCompanies = (token: string, query: CursorQuery = {}) =>
+  paginated<AdminCompany>("/logistics-companies", token, query)
+
+export async function getCompany(
+  token: string,
+  companyId: string
+): Promise<AdminCompanyDetail> {
+  const { data } = await apiFetch<AdminCompanyDetail>({
+    baseUrl: base,
+    path: `/logistics-companies/${encodeURIComponent(companyId)}`,
+    headers: bearer(token),
+  })
+  return data
+}
+
+/** Lets a PENDING company log in and operate. Any authenticated admin may. */
+export async function approveCompany(
+  token: string,
+  companyId: string
+): Promise<void> {
+  await apiFetch<unknown>({
+    baseUrl: base,
+    path: `/logistics-companies/${encodeURIComponent(companyId)}/approve`,
+    method: "POST",
+    headers: bearer(token),
+  })
+}
+
+/** Any authenticated admin may reject. */
+export async function rejectCompany(
+  token: string,
+  companyId: string,
+  reason: string
+): Promise<void> {
+  await apiFetch<unknown>({
+    baseUrl: base,
+    path: `/logistics-companies/${encodeURIComponent(companyId)}/reject`,
+    method: "POST",
+    headers: bearer(token),
+    body: { reason },
+  })
+}
+
+/** SUPERADMIN only — halts an entire business. A plain ADMIN gets 401. */
+export async function suspendCompany(
+  token: string,
+  companyId: string,
+  reason: string
+): Promise<void> {
+  await apiFetch<unknown>({
+    baseUrl: base,
+    path: `/logistics-companies/${encodeURIComponent(companyId)}/suspend`,
+    method: "POST",
+    headers: bearer(token),
+    body: { reason },
+  })
+}
+
+/** SUPERADMIN only. Returns a SUSPENDED or REJECTED company to APPROVED. */
+export async function reactivateCompany(
+  token: string,
+  companyId: string
+): Promise<void> {
+  await apiFetch<unknown>({
+    baseUrl: base,
+    path: `/logistics-companies/${encodeURIComponent(companyId)}/reactivate`,
+    method: "POST",
+    headers: bearer(token),
+  })
+}
+
+/**
+ * SUPERADMIN only, and irreversible: there is no un-delete endpoint. The
+ * company disappears from every query including its own login, though its
+ * vehicles, batches and past shipments are preserved.
+ */
+export async function deleteCompany(
+  token: string,
+  companyId: string,
+  reason: string
+): Promise<void> {
+  await apiFetch<unknown>({
+    baseUrl: base,
+    path: `/logistics-companies/${encodeURIComponent(companyId)}`,
+    method: "DELETE",
+    headers: bearer(token),
+    body: { reason },
+  })
+}
+
+/** Cross-company view of every batch on the platform. */
+export const listBatches = (token: string, query: CursorQuery = {}) =>
+  paginated<AdminBatch>("/logistics-batches", token, query)
+
+/* ------------------------------------------------------------------ settings */
+
 export async function listCountries(token: string): Promise<CountrySetting[]> {
   const { data } = await apiFetch<CountrySetting[]>({
     baseUrl: base,
@@ -166,6 +271,7 @@ export async function listCountries(token: string): Promise<CountrySetting[]> {
   return Array.isArray(data) ? data : []
 }
 
+/** SUPERADMIN only since v1.1 — system-wide pricing. A plain ADMIN gets 401. */
 export async function updateCountryPricing(
   token: string,
   code: string,

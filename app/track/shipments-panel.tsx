@@ -42,7 +42,7 @@ export async function ShipmentsPanel({
     )
   }
 
-  const shipments = result.data
+  const shipments = result.data.items
   const sending = shipments.filter((item) => item.indicator === "sender").length
   const receiving = shipments.length - sending
 

@@ -9,7 +9,12 @@ import { formatCompact, formatCurrency } from "@/lib/format"
 import { ROUTES } from "@/lib/routes"
 import { cn } from "@/lib/utils"
 
-export type AdminSection = "shipments" | "users" | "vehicles" | "revenue"
+export type AdminSection =
+  | "shipments"
+  | "users"
+  | "vehicles"
+  | "companies"
+  | "revenue"
 
 /**
  * The four dashboard tiles.
@@ -58,6 +63,12 @@ export async function OverviewBar({
       value: formatCompact(overview.totalVehicles),
     },
     {
+      key: "companies",
+      href: ROUTES.adminCompanies,
+      label: "Companies",
+      value: formatCompact(overview.totalCompanies),
+    },
+    {
       key: "revenue",
       href: ROUTES.adminRevenue,
       label: "Revenue",
@@ -68,7 +79,7 @@ export async function OverviewBar({
   return (
     <nav
       aria-label="Dashboard sections"
-      className="mb-10 flex items-center justify-between gap-2 rounded-xl border border-primary/10 bg-secondary p-5"
+      className="mb-10 grid grid-cols-5 gap-1 rounded-xl border border-primary/10 bg-secondary px-3 py-5"
     >
       {tiles.map((tile) => (
         <Link
@@ -80,10 +91,10 @@ export async function OverviewBar({
             active !== tile.key && "opacity-50 hover:opacity-80"
           )}
         >
-          <span className="truncate text-[17px] font-bold text-foreground">
+          <span className="w-full truncate text-center text-[15px] font-bold text-foreground">
             {tile.value}
           </span>
-          <span className="text-[12px] font-medium text-foreground/80">
+          <span className="w-full truncate text-center text-[11px] font-medium text-foreground/80">
             {tile.label}
           </span>
         </Link>
@@ -94,7 +105,7 @@ export async function OverviewBar({
 
 export function OverviewBarSkeleton() {
   return (
-    <div className="mb-10 flex items-center justify-between gap-2 rounded-xl border border-primary/10 bg-secondary p-5">
+    <div className="mb-10 grid grid-cols-5 gap-1 rounded-xl border border-primary/10 bg-secondary px-3 py-5">
       {Array.from({ length: 4 }).map((_, index) => (
         <div key={index} className="flex flex-col items-center gap-1.5">
           <Skeleton className="h-4 w-12" />

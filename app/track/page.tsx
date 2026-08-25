@@ -4,6 +4,10 @@ import type { Metadata } from "next"
 import { DataBoundary } from "@/components/shared/data-boundary"
 import { SupportLink } from "@/components/shared/support-link"
 import { requireRider } from "@/lib/auth/session"
+import {
+  BatchRequestsPanel,
+  BatchRequestsSkeleton,
+} from "./batch-requests-panel"
 import { ShipmentsPanel, ShipmentsSkeleton } from "./shipments-panel"
 
 export const metadata: Metadata = {
@@ -26,6 +30,17 @@ export default async function TrackPage() {
             riderId={rider.userId}
             phoneNumber={rider.phoneNumber}
           />
+        </Suspense>
+      </DataBoundary>
+
+      {/* Its own boundary: a batch-tracking outage must not hide the parcels
+          already being tracked above. */}
+      <DataBoundary
+        title="Could not load your batch drop-offs"
+        description="Your tracked parcels above are unaffected."
+      >
+        <Suspense fallback={<BatchRequestsSkeleton />}>
+          <BatchRequestsPanel riderId={rider.userId} />
         </Suspense>
       </DataBoundary>
 

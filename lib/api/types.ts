@@ -75,10 +75,26 @@ export interface RiderShipment {
   createdAt: string
 }
 
-export interface PaymentInit {
-  reference: string
-  authorizationUrl: string
-}
+/**
+ * `POST /shipments/{id}/pay` answers with a different shape per gateway, chosen
+ * from the sender's resolved country (Nigeria -> Paystack, India -> Razorpay).
+ * Discriminate on `provider` — Razorpay has no hosted checkout URL at all.
+ */
+export type PaymentInit =
+  | {
+      provider: "PAYSTACK"
+      reference: string
+      authorizationUrl: string
+    }
+  | {
+      provider: "RAZORPAY"
+      reference: string
+      razorpayOrderId: string
+      /** Public key for Razorpay's client-side Checkout SDK. */
+      razorpayKeyId: string
+    }
+
+export type PaymentProvider = PaymentInit["provider"]
 
 export interface PaymentVerification {
   shipmentId: string
@@ -97,14 +113,49 @@ export interface PaymentReceipt {
   currency: string
   paymentReference: string
   paidAt: string | null
+  /** Which gateway processed the payment, for labelling the receipt. */
+  provider?: PaymentProvider
+}
+
+/* ----------------------------------------------------- batch tracking (v1.1) */
+
+export type BatchRequestStatus =
+  | "WAITING_FOR_MATCH"
+  | "MATCHED"
+  | "ASSIGNED"
+  | "TRACKING"
+  | "ARRIVED"
+  | "RECEIVED"
+  | "CANCELLED"
+
+export interface BatchRequestResult {
+  requestId: string
+  batchId: string
+  itemName: string
+  status: "WAITING_FOR_MATCH"
+  /** Which batch the server actually matched — the caller never picks one. */
+  matchedBatchNumber: string
+  /** Departure time, which is later than the drop-off window. */
+  scheduledDeparture: string | null
+  createdAt: string
+}
+
+export interface BatchRequest {
+  requestId: string
+  batchId: string
+  itemName: string
+  status: BatchRequestStatus
+  createdAt: string
 }
 
 /* ------------------------------------------------------------------- admin */
 
+export type AdminRole = "ADMIN" | "SUPERADMIN"
+
 export interface AdminAccount {
   id: string
   email: string
-  role: "ADMIN" | "SUPERADMIN"
+  role: AdminRole
 }
 
 export interface AdminLoginResult {
@@ -118,6 +169,8 @@ export interface AdminOverview {
   totalVehicles: number
   totalShipments: number
   totalRevenue: number
+  /** Added in v1.1. Excludes soft-deleted companies. */
+  totalCompanies: number
 }
 
 export interface AdminUser {
@@ -137,6 +190,12 @@ export interface AdminVehicle {
   make: string
   model: string
   companyName: string
+  /**
+   * Added in v1.1. The real link to a LogisticsCompany; `null` means the
+   * vehicle is not tied to one. Informational only — the backend currently
+   * lets any approved company assign any vehicle regardless of this field.
+   */
+  companyId: string | null
   status: "ACTIVE" | "INACTIVE"
   /** JT/T808 terminal number, not the manufacturer IMEI. */
   gpsDeviceId: string | null
@@ -200,6 +259,63 @@ export interface CsvUploadResult {
   upserted?: number
   skipped?: Array<{ line?: number; reason?: string }>
   [key: string]: unknown
+}
+
+export type CompanyStatus = "PENDING" | "APPROVED" | "REJECTED" | "SUSPENDED"
+
+/** `GET /admin/logistics-companies` row. */
+export interface AdminCompany {
+  companyId: string
+  name: string
+  /** 6-digit code end users type to join this company's batches. */
+  companyCode: string
+  phone: string
+  email: string
+  address: string
+  status: CompanyStatus
+  approvedAt: string | null
+  rejectionReason: string | null
+  suspensionReason: string | null
+  createdAt: string
+  vehicleCount: number
+  /** RECEIVED-status batch-matched requests. */
+  completedShipments: number
+}
+
+/**
+ * `GET /admin/logistics-companies/{id}`.
+ *
+ * Carries a different pair of stats from the list row rather than replacing
+ * them: `totalShipments` counts every request past WAITING_FOR_MATCH, which is
+ * broader than the list's RECEIVED-only `completedShipments`.
+ */
+export interface AdminCompanyDetail extends AdminCompany {
+  totalBatches: number
+  totalShipments: number
+}
+
+export type BatchStatus =
+  | "DRAFT"
+  | "OPEN"
+  | "READY"
+  | "BROADCASTED"
+  | "ACTIVE"
+  | "COMPLETED"
+  | "CANCELLED"
+
+/** `GET /admin/logistics-batches` — cross-company view. */
+export interface AdminBatch {
+  batchId: string
+  companyName: string
+  route: { from: string; to: string }
+  batchNumber: string
+  status: BatchStatus
+  driverFullName: string | null
+  plateNumber: string | null
+  matchedShipmentCount: number
+  journeyStatus: "PENDING" | "IN_PROGRESS" | "COMPLETED" | "CANCELLED" | null
+  currentLocation: { lat: number; lng: number } | null
+  createdAt: string
 }
 
 /* ----------------------------------------------------------------- company */
