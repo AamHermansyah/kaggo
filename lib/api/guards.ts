@@ -2,6 +2,7 @@ import "server-only"
 
 import { redirect } from "next/navigation"
 
+import { ROUTES } from "@/lib/routes"
 import { safeLoad, type LoadResult } from "./safe-load"
 
 /**
@@ -26,10 +27,10 @@ async function loadWithSessionGuard<T>(
 }
 
 export const loadAdmin = <T>(loader: () => Promise<T>) =>
-  loadWithSessionGuard(loader, "/dashboard/logout")
+  loadWithSessionGuard(loader, ROUTES.adminLogout)
 
 export const loadCompany = <T>(loader: () => Promise<T>) =>
-  loadWithSessionGuard(loader, "/company/logout")
+  loadWithSessionGuard(loader, ROUTES.companyLogout)
 
 /**
  * Riders have no token to expire, but the backend rejects an `x-user-id` it
@@ -37,4 +38,4 @@ export const loadCompany = <T>(loader: () => Promise<T>) =>
  * send them back through identify.
  */
 export const loadRider = <T>(loader: () => Promise<T>) =>
-  loadWithSessionGuard(loader, "/logout")
+  loadWithSessionGuard(loader, ROUTES.riderLogout)

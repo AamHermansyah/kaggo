@@ -40,6 +40,7 @@ const ROUTE_GROUPS: Array<{ label: string; routes: Array<{ name: string; path: s
       { name: "Shipments", path: "/dashboard/shipments" },
       { name: "Users", path: "/dashboard/users" },
       { name: "Vehicles", path: "/dashboard/vehicles" },
+      { name: "Companies", path: "/dashboard/companies" },
       { name: "Revenue", path: "/dashboard/revenue" },
       { name: "Settings", path: "/dashboard/settings" },
       { name: "Admin: Vehicle Onboarding", path: "/dashboard/vehicles/new" },

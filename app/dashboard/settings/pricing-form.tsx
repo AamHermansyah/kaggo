@@ -19,7 +19,14 @@ import { updateCountryPricingAction } from "./actions"
  * `code` is a hidden, schema-validated value rather than an editable input —
  * the operator edits the price, not which country row they are on.
  */
-export function PricingForm({ country }: { country: CountrySetting }) {
+export function PricingForm({
+  country,
+  canEdit,
+}: {
+  country: CountrySetting
+  /** SUPERADMIN. Pricing is system-wide, so v1.1 restricts who may change it. */
+  canEdit: boolean
+}) {
   const [saved, setSaved] = useState<number | null>(null)
 
   const { form, onSubmit, pending, formError } = useActionForm({
@@ -61,9 +68,16 @@ export function PricingForm({ country }: { country: CountrySetting }) {
         </Badge>
       </div>
 
+      {!canEdit ? (
+        <p className="text-[12px] leading-relaxed text-muted-foreground">
+          Only a SUPERADMIN can change country pricing.
+        </p>
+      ) : null}
+
       <input type="hidden" {...form.register("code")} />
 
       <TextField
+        disabled={!canEdit}
         control={form.control}
         name="flatPrice"
         label={`Flat price (${country.currency})`}
@@ -77,6 +91,7 @@ export function PricingForm({ country }: { country: CountrySetting }) {
       <FormAlert message={formError} />
 
       <SubmitButton
+        disabled={!canEdit}
         pending={pending}
         pendingLabel="Saving"
         size="sm"

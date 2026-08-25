@@ -5,7 +5,7 @@ import { ArrowLeft } from "lucide-react"
 
 import { DataBoundary } from "@/components/shared/data-boundary"
 import { Button } from "@/components/ui/button"
-import { requireAdminToken } from "@/lib/auth/session"
+import { isSuperAdmin, requireAdminToken } from "@/lib/auth/session"
 import { ROUTES } from "@/lib/routes"
 import {
   LocationsPanel,
@@ -24,6 +24,7 @@ export default async function SettingsPage({
   searchParams,
 }: PageProps<"/dashboard/settings">) {
   const token = await requireAdminToken()
+  const canEdit = await isSuperAdmin()
   const params = await searchParams
 
   const raw = Array.isArray(params.country) ? params.country[0] : params.country
@@ -60,7 +61,7 @@ export default async function SettingsPage({
 
         <DataBoundary title="Could not load pricing">
           <Suspense fallback={<SettingsSkeleton />}>
-            <PricingPanel token={token} />
+            <PricingPanel token={token} canEdit={canEdit} />
           </Suspense>
         </DataBoundary>
       </section>

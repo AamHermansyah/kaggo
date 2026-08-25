@@ -95,6 +95,20 @@ async function readStaffCookie(name: string): Promise<string | null> {
   return token
 }
 
+/**
+ * Whether the browser sent this cookie at all, regardless of whether its
+ * contents still parse.
+ *
+ * The guards need this to break a redirect loop: `proxy.ts` only checks that a
+ * session cookie exists, so a cookie that is present but unusable — a rotated
+ * `SESSION_SECRET`, or a payload written by an older build — makes the proxy
+ * and the guard disagree forever, each bouncing the visitor back to the other.
+ */
+export async function hasSessionCookie(name: string): Promise<boolean> {
+  const store = await cookies()
+  return store.has(name)
+}
+
 async function clearCookie(name: string): Promise<void> {
   const store = await cookies()
   store.delete({ name, path: "/" })

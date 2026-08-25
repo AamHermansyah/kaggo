@@ -104,4 +104,27 @@ export async function runAction<T>(
   }
 }
 
+const SUPERADMIN_REQUIRED =
+  "This action needs a SUPERADMIN account. Ask a superadmin to do it."
+
+/**
+ * For actions the backend restricts to SUPERADMIN.
+ *
+ * v1.1 answers **401** for "authenticated but not SUPERADMIN" — the same status
+ * as an expired token. Left alone, a perfectly valid ADMIN who taps Suspend
+ * would be told their session expired and sent to the login screen over what is
+ * really a permissions problem. The two cases cannot be told apart by status,
+ * but at this call site we know the session is live, so 401 is re-labelled.
+ */
+export async function runPrivilegedAction<T>(
+  work: () => Promise<ActionResult<T>>
+): Promise<ActionResult<T>> {
+  const result = await runAction(work)
+
+  if (!result.ok && result.code === "UNAUTHORIZED") {
+    return failure(SUPERADMIN_REQUIRED, { code: "FORBIDDEN" })
+  }
+  return result
+}
+
 export { ApiError, isApiError }

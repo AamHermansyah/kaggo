@@ -5,6 +5,7 @@ import { refresh } from "next/cache"
 import {
   parseInput,
   runAction,
+  runPrivilegedAction,
   success,
   type ActionResult,
 } from "@/lib/actions/result"
@@ -30,7 +31,9 @@ export async function updateCountryPricingAction(
   const parsed = parseInput(countryPricingSchema, values)
   if (!parsed.ok) return parsed.result
 
-  const result = await runAction(async () => {
+  // SUPERADMIN-only since v1.1, and the backend signals that with a 401 —
+  // the same status as an expired token. See runPrivilegedAction.
+  const result = await runPrivilegedAction(async () => {
     await updateCountryPricing(token, parsed.data.code, parsed.data.flatPrice)
     return success()
   })

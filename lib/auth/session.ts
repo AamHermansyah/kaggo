@@ -8,7 +8,9 @@ import {
   clearCompanyCookie,
   readAdminCookie,
   readCompanyCookie,
+  hasSessionCookie,
   readRiderCookie,
+  COOKIE,
   type AdminSession,
   type RiderSession,
 } from "./cookies"
@@ -43,16 +45,40 @@ export const getCompanyToken = cache(
 )
 
 /** Redirects to the identify flow when the visitor has no rider identity. */
+/**
+ * Where an unusable session cookie has to go.
+ *
+ * Redirecting straight to the login screen is not enough: `proxy.ts` sees the
+ * cookie is still *present* and bounces the login screen back here, which
+ * loops until the browser gives up. The logout Route Handler can actually
+ * delete the cookie — a render cannot — so the visitor is sent through it.
+ */
+async function endStaleSession(
+  cookieName: string,
+  logoutPath: string,
+  loginPath: string
+): Promise<never> {
+  if (await hasSessionCookie(cookieName)) {
+    redirect(`${logoutPath}?reason=expired`)
+  }
+  redirect(loginPath)
+}
+
+/** Redirects to the identify flow when the visitor has no rider identity. */
 export async function requireRider(): Promise<RiderSession> {
   const session = await getRiderSession()
-  if (!session) redirect(ROUTES.riderIdentify)
-  return session
+  if (session) return session
+  return endStaleSession(
+    COOKIE.rider,
+    ROUTES.riderLogout,
+    ROUTES.riderIdentify
+  )
 }
 
 export async function requireAdminSession(): Promise<AdminSession> {
   const session = await getAdminSession()
-  if (!session) redirect(ROUTES.adminLogin)
-  return session
+  if (session) return session
+  return endStaleSession(COOKIE.admin, ROUTES.adminLogout, ROUTES.adminLogin)
 }
 
 export async function requireAdminToken(): Promise<string> {
@@ -74,8 +100,12 @@ export async function isSuperAdmin(): Promise<boolean> {
 
 export async function requireCompanyToken(): Promise<string> {
   const token = await getCompanyToken()
-  if (!token) redirect(ROUTES.companyLogin)
-  return token
+  if (token) return token
+  return endStaleSession(
+    COOKIE.company,
+    ROUTES.companyLogout,
+    ROUTES.companyLogin
+  )
 }
 
 /**

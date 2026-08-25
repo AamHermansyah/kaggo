@@ -15,6 +15,7 @@ export const ROUTES = {
 
   /* rider ---------------------------------------------------------------- */
   riderIdentify: "/list-item",
+  riderLogout: "/logout",
   sendItem: "/send-item",
   sendItemSuccess: "/send-item/success",
   track: "/track",
@@ -23,13 +24,13 @@ export const ROUTES = {
 
   /* admin portal --------------------------------------------------------- */
   adminLogin: "/dashboard/login",
+  adminLogout: "/dashboard/logout",
   adminManifest: "/dashboard/manifest.webmanifest",
   adminHome: "/dashboard/shipments",
   adminShipments: "/dashboard/shipments",
   adminUsers: "/dashboard/users",
   adminVehicles: "/dashboard/vehicles",
   adminCompanies: "/dashboard/companies",
-  adminBatches: "/dashboard/batches",
   adminRevenue: "/dashboard/revenue",
   adminSettings: "/dashboard/settings",
   vehicleOnboarding: "/dashboard/vehicles/new",
@@ -39,6 +40,7 @@ export const ROUTES = {
   companyHome: "/company",
   companyManifest: "/company/manifest.webmanifest",
   companyLogin: "/company/login",
+  companyLogout: "/company/logout",
   companyRegister: "/company/register",
   companySubmitted: "/company/submitted",
   companyDashboard: "/company/dashboard",

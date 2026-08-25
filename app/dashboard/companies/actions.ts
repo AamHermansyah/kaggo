@@ -6,6 +6,7 @@ import { z } from "zod"
 import {
   parseInput,
   runAction,
+  runPrivilegedAction,
   success,
   type ActionResult,
 } from "@/lib/actions/result"
@@ -38,12 +39,23 @@ const reasonSchema = z.object({
     .max(500, "Keep the reason under 500 characters"),
 })
 
-async function mutate(work: (token: string) => Promise<void>) {
+/**
+ * `privileged` marks the calls the backend restricts to SUPERADMIN, so a plain
+ * ADMIN gets a permissions message instead of being logged out — see
+ * `runPrivilegedAction`.
+ */
+async function mutate(
+  work: (token: string) => Promise<void>,
+  privileged = false
+) {
   const session = await requireAdminSession()
-  const result = await runAction(async () => {
+  const run = privileged ? runPrivilegedAction : runAction
+
+  const result = await run(async () => {
     await work(session.token)
     return success()
   })
+
   if (result.ok) refresh()
   return result
 }
@@ -61,7 +73,7 @@ export async function reactivateCompanyAction(
 ): Promise<ActionResult<undefined>> {
   const parsed = parseInput(companyIdSchema, companyId)
   if (!parsed.ok) return parsed.result
-  return mutate((token) => reactivateCompany(token, parsed.data))
+  return mutate((token) => reactivateCompany(token, parsed.data), true)
 }
 
 export async function rejectCompanyAction(
@@ -79,8 +91,9 @@ export async function suspendCompanyAction(
 ): Promise<ActionResult<undefined>> {
   const parsed = parseInput(reasonSchema, values)
   if (!parsed.ok) return parsed.result
-  return mutate((token) =>
-    suspendCompany(token, parsed.data.companyId, parsed.data.reason)
+  return mutate(
+    (token) => suspendCompany(token, parsed.data.companyId, parsed.data.reason),
+    true
   )
 }
 
@@ -90,7 +103,8 @@ export async function deleteCompanyAction(
 ): Promise<ActionResult<undefined>> {
   const parsed = parseInput(reasonSchema, values)
   if (!parsed.ok) return parsed.result
-  return mutate((token) =>
-    deleteCompany(token, parsed.data.companyId, parsed.data.reason)
+  return mutate(
+    (token) => deleteCompany(token, parsed.data.companyId, parsed.data.reason),
+    true
   )
 }

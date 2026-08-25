@@ -6,8 +6,19 @@ import { ListEmpty } from "@/components/dashboard/list-chrome"
 import { CompanyLocationsForm } from "./locations-form"
 import { PricingForm } from "./pricing-form"
 
-/** Per-country flat pricing. Each row is its own small form. */
-export async function PricingPanel({ token }: { token: string }) {
+/**
+ * Per-country flat pricing. Each row is its own small form.
+ *
+ * Editing is SUPERADMIN-only since v1.1, so a plain ADMIN sees the rates
+ * read-only rather than a form the backend would reject.
+ */
+export async function PricingPanel({
+  token,
+  canEdit,
+}: {
+  token: string
+  canEdit: boolean
+}) {
   const result = await loadAdmin(() => listCountries(token))
 
   if (!result.ok) {
@@ -26,7 +37,11 @@ export async function PricingPanel({ token }: { token: string }) {
   return (
     <div className="flex flex-col gap-4">
       {result.data.map((country) => (
-        <PricingForm key={country.code} country={country} />
+        <PricingForm
+          key={country.code}
+          country={country}
+          canEdit={canEdit}
+        />
       ))}
     </div>
   )
