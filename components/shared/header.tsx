@@ -8,6 +8,7 @@ import { ChevronLeft, LogOut, Settings } from "lucide-react"
 import { adminLogoutAction } from "@/app/dashboard/actions"
 import { Button } from "@/components/ui/button"
 import { refineTitle, resolveHeader } from "@/lib/header-config"
+import { SiteMenu } from "@/components/shared/site-menu"
 import { ROUTES } from "@/lib/routes"
 
 function BrandMark({ withText = true }: { withText?: boolean }) {
@@ -38,13 +39,16 @@ export default function Header() {
     return (
       <header className="z-10 flex shrink-0 items-center justify-between px-6 py-4">
         <BrandMark />
-        <Button
-          render={<Link href={ROUTES.riderIdentify} />}
-          nativeButton={false}
-          className="rounded-md px-5 text-sm font-medium shadow-none"
-        >
-          List item
-        </Button>
+        <div className="flex shrink-0 items-center gap-2">
+          <Button
+            render={<Link href={ROUTES.riderIdentify} />}
+            nativeButton={false}
+            className="rounded-md px-5 text-sm font-medium shadow-none"
+          >
+            List item
+          </Button>
+          <SiteMenu />
+        </div>
       </header>
     )
   }
@@ -53,13 +57,16 @@ export default function Header() {
     return (
       <header className="z-10 flex shrink-0 items-center justify-between bg-background px-6 py-4">
         <BrandMark />
-        <Button
-          render={<Link href={ROUTES.companyLogin} />}
-          nativeButton={false}
-          className="rounded-md px-6 text-sm font-medium shadow-none"
-        >
-          Login
-        </Button>
+        <div className="flex shrink-0 items-center gap-2">
+          <Button
+            render={<Link href={ROUTES.companyLogin} />}
+            nativeButton={false}
+            className="rounded-md px-6 text-sm font-medium shadow-none"
+          >
+            Login
+          </Button>
+          <SiteMenu />
+        </div>
       </header>
     )
   }

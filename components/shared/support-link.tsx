@@ -1,13 +1,16 @@
+import { MessageCircle } from "lucide-react"
+
+import { supportHref, SUPPORT } from "@/lib/site-config"
 import { cn } from "@/lib/utils"
 
 /**
- * "Contact Support" appears on four screens. In the mock-ups it was an inert
- * `<button>`; here it opens the support mailbox, which is configurable so the
- * address does not have to be hard-coded per environment.
+ * "Contact Support" appears on several screens. In the mock-ups it was an inert
+ * `<button>`.
+ *
+ * The client asked for it to open WhatsApp. It does as soon as
+ * `NEXT_PUBLIC_SUPPORT_WHATSAPP` is set; until then it falls back to the
+ * support mailbox rather than being a dead control.
  */
-const SUPPORT_EMAIL =
-  process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "support@kaggo.app"
-
 export function SupportLink({
   className,
   label = "Contact Support",
@@ -17,14 +20,20 @@ export function SupportLink({
   label?: string
   subject?: string
 }) {
+  const isWhatsApp = Boolean(SUPPORT.whatsapp)
+
   return (
     <a
-      href={`mailto:${SUPPORT_EMAIL}?subject=${encodeURIComponent(subject)}`}
+      href={supportHref(subject)}
+      {...(isWhatsApp
+        ? { target: "_blank", rel: "noopener noreferrer" }
+        : null)}
       className={cn(
-        "text-[14px] font-medium text-primary transition-opacity hover:underline active:opacity-70",
+        "inline-flex items-center gap-1.5 text-[14px] font-medium text-primary transition-opacity hover:underline active:opacity-70",
         className
       )}
     >
+      {isWhatsApp ? <MessageCircle className="size-4 shrink-0" /> : null}
       {label}
     </a>
   )

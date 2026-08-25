@@ -8,6 +8,11 @@
 export const ROUTES = {
   home: "/",
 
+  /* public content ------------------------------------------------------ */
+  about: "/about",
+  privacy: "/privacy",
+  terms: "/terms",
+
   /* rider ---------------------------------------------------------------- */
   riderIdentify: "/list-item",
   sendItem: "/send-item",
@@ -80,4 +85,11 @@ export const RIDER_PROTECTED_PREFIXES = [
 ] as const
 
 /** Publicly indexable marketing pages. */
-export const PUBLIC_PAGES = [ROUTES.home, ROUTES.companyHome] as const
+export const PUBLIC_PAGES = [
+  ROUTES.home,
+  ROUTES.companyHome,
+  ROUTES.companyRegister,
+  ROUTES.about,
+  ROUTES.privacy,
+  ROUTES.terms,
+] as const

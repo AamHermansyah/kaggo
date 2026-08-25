@@ -4,7 +4,7 @@ import { useState, useTransition } from "react"
 import { Search } from "lucide-react"
 
 import { FormAlert } from "@/components/shared/form/form-alert"
-import { SelectField } from "@/components/shared/form/select-field"
+import { ComboboxField } from "@/components/shared/form/combobox-field"
 import { SubmitButton } from "@/components/shared/form/submit-button"
 import { TextField } from "@/components/shared/form/text-field"
 import { VehicleCard } from "@/components/shared/vehicle-card"
@@ -29,9 +29,11 @@ const CITY_OPTIONS = CITIES.map((city) => ({
  *
  * Two deliberate departures from the mock-up:
  *
- * 1. "From"/"To" are city selects rather than free text. `POST /shipments`
- *    requires coordinates and the backend ships no geocoder, so the cities
- *    MyKaggo actually covers carry their own lat/lng (see `lib/geo/cities.ts`).
+ * 1. "From"/"To" are type-ahead pickers rather than free text. `POST
+ *    /shipments` requires coordinates and the backend ships no geocoder, so
+ *    the locations MyKaggo covers carry their own lat/lng (see
+ *    `lib/geo/cities.ts`). The list narrows as the user types — a plain
+ *    dropdown does not scale to the full location list.
  * 2. The "track through a logistics company" mode is gone. It needed a company
  *    code and a batch picker, and the rider API exposes neither — a shipment
  *    cannot be created without a driver and a plate. The company-side batch
@@ -145,21 +147,21 @@ export function SendItemForm({ riderPhone }: { riderPhone: string }) {
           maxLength={200}
         />
 
-        <SelectField
+        <ComboboxField
           control={form.control}
           name="fromCity"
           label="From"
           hideLabel
-          placeholder="From"
+          placeholder="Search pick-up city"
           options={CITY_OPTIONS}
         />
 
-        <SelectField
+        <ComboboxField
           control={form.control}
           name="toCity"
           label="To"
           hideLabel
-          placeholder="To"
+          placeholder="Search destination city"
           options={CITY_OPTIONS}
         />
 

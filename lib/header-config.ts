@@ -30,6 +30,9 @@ const RULES: readonly HeaderRule[] = [
 
   /* landing pages ------------------------------------------------------- */
   { match: "/", variant: "home" },
+  { match: "/about", variant: "inner", title: "About Us" },
+  { match: "/privacy", variant: "inner", title: "Privacy Policy" },
+  { match: "/terms", variant: "inner", title: "Terms of Use" },
   { match: "/company", variant: "company-home" },
 
   /* admin portal -------------------------------------------------------- */

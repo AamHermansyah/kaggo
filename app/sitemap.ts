@@ -24,5 +24,20 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "monthly",
       priority: 0.6,
     },
+    {
+      url: absolute(ROUTES.about),
+      changeFrequency: "monthly",
+      priority: 0.6,
+    },
+    {
+      url: absolute(ROUTES.privacy),
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
+    {
+      url: absolute(ROUTES.terms),
+      changeFrequency: "yearly",
+      priority: 0.3,
+    },
   ]
 }

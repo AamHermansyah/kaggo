@@ -1,19 +1,23 @@
 import type { MetadataRoute } from "next"
 
 import { env } from "@/lib/env"
+import { PUBLIC_PAGES } from "@/lib/routes"
 
 /**
- * Only the two marketing pages are crawlable. Everything behind an identity —
- * rider parcels, both portals, the payment hand-off — is disallowed, and the
- * pages themselves also carry `robots: { index: false }` so a crawler that
+ * Only the public marketing and legal pages are crawlable. Everything behind an
+ * identity — rider parcels, both portals, the payment hand-off — is disallowed,
+ * and those pages also carry `robots: { index: false }` so a crawler that
  * ignores this file still gets told.
+ *
+ * The allow list is derived from `PUBLIC_PAGES` so it cannot drift from the
+ * sitemap when a page is added.
  */
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: [
       {
         userAgent: "*",
-        allow: ["/", "/company", "/company/register"],
+        allow: [...PUBLIC_PAGES],
         disallow: [
           "/dashboard",
           "/onboarding",
