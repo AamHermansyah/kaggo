@@ -1,6 +1,5 @@
 import { z } from "zod"
 
-import { CITY_IDS } from "@/lib/geo/cities"
 import { isValidPhone, normalizePhone, PHONE_ERROR } from "../phone"
 
 /**
@@ -33,10 +32,6 @@ export const identifySchema = z.object({
 
 export type IdentifyValues = z.input<typeof identifySchema>
 
-const cityId = z.enum(CITY_IDS as [string, ...string[]], {
-  error: "Choose a city from the list",
-})
-
 export const sendItemSchema = z
   .object({
     /** Whether the signed-in rider is sending or receiving this parcel. */
@@ -48,8 +43,16 @@ export const sendItemSchema = z
       .trim()
       .min(2, "Describe what you are sending")
       .max(200, "Keep it under 200 characters"),
-    fromCity: cityId,
-    toCity: cityId,
+    from: z
+      .string()
+      .trim()
+      .min(2, "Enter departure location")
+      .max(300, "Keep it under 300 characters"),
+    to: z
+      .string()
+      .trim()
+      .min(2, "Enter arrival location")
+      .max(300, "Keep it under 300 characters"),
     /**
      * One field in the design — a driver's phone number or a plate number. The
      * Server Action decides which query parameter to use.
@@ -60,9 +63,9 @@ export const sendItemSchema = z
       .min(3, "Enter the driver's phone number or the vehicle plate number")
       .max(60),
   })
-  .refine((values) => values.fromCity !== values.toCity, {
-    error: "Pick-up and destination must be different",
-    path: ["toCity"],
+  .refine((values) => values.from.toLowerCase() !== values.to.toLowerCase(), {
+    error: "Departure and destination must be different",
+    path: ["to"],
   })
 
 export type SendItemValues = z.input<typeof sendItemSchema>
@@ -100,17 +103,25 @@ export const batchRequestSchema = z
       .string()
       .trim()
       .regex(/^\d{6}$/, "The company code is 6 digits"),
-    fromCity: cityId,
-    toCity: cityId,
+    from: z
+      .string()
+      .trim()
+      .min(2, "Enter departure location")
+      .max(300, "Keep it under 300 characters"),
+    to: z
+      .string()
+      .trim()
+      .min(2, "Enter arrival location")
+      .max(300, "Keep it under 300 characters"),
     itemName: z
       .string()
       .trim()
       .min(2, "Describe what you are sending")
       .max(200, "Keep it under 200 characters"),
   })
-  .refine((values) => values.fromCity !== values.toCity, {
-    error: "Pick-up and destination must be different",
-    path: ["toCity"],
+  .refine((values) => values.from.toLowerCase() !== values.to.toLowerCase(), {
+    error: "Departure and destination must be different",
+    path: ["to"],
   })
 
 export type BatchRequestValues = z.input<typeof batchRequestSchema>

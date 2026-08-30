@@ -4,7 +4,6 @@ import { useState, useTransition } from "react"
 import { Search } from "lucide-react"
 
 import { FormAlert } from "@/components/shared/form/form-alert"
-import { ComboboxField } from "@/components/shared/form/combobox-field"
 import { SubmitButton } from "@/components/shared/form/submit-button"
 import { TextField } from "@/components/shared/form/text-field"
 import { VehicleCard } from "@/components/shared/vehicle-card"
@@ -14,26 +13,13 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Spinner } from "@/components/ui/spinner"
 import { useActionForm } from "@/hooks/use-action-form"
 import type { VehicleLookup } from "@/lib/api/types"
-import { CITIES } from "@/lib/geo/cities"
 import { sendItemSchema } from "@/lib/validation/schemas/rider"
 import { createShipmentAction, lookupVehicleAction } from "./actions"
 
-const CITY_OPTIONS = CITIES.map((city) => ({
-  value: city.id,
-  label: city.label,
-  hint: city.state,
-}))
-
 /**
  * Direct-driver listing: the rider names the driver or plate themselves.
- *
- * One deliberate departure from the mock-up:
- *
- * 1. "From"/"To" are type-ahead pickers rather than free text. `POST
- *    /shipments` requires coordinates and the backend ships no geocoder, so
- *    the locations MyKaggo covers carry their own lat/lng (see
- *    `lib/geo/cities.ts`). The list narrows as the user types — a plain
- *    dropdown does not scale to the full location list.
+ * Departure ("From") and arrival ("To") are free-text fields as expected
+ * by users and the backend API.
  *
  * The logistics-company alternative lives in `batch-form.tsx`.
  */
@@ -55,8 +41,8 @@ export function DriverForm({
       role: "sender" as const,
       counterpartyPhone: "",
       itemName: "",
-      fromCity: "",
-      toCity: "",
+      from: "",
+      to: "",
       vehicleRef: "",
     },
     action: createShipmentAction,
@@ -152,22 +138,20 @@ export function DriverForm({
           maxLength={200}
         />
 
-        <ComboboxField
+        <TextField
           control={form.control}
-          name="fromCity"
+          name="from"
           label="From"
           hideLabel
-          placeholder="Search pick-up city"
-          options={CITY_OPTIONS}
+          placeholder="From"
         />
 
-        <ComboboxField
+        <TextField
           control={form.control}
-          name="toCity"
+          name="to"
           label="To"
           hideLabel
-          placeholder="Search destination city"
-          options={CITY_OPTIONS}
+          placeholder="To"
         />
 
         {/* Vehicle lookup ------------------------------------------------ */}

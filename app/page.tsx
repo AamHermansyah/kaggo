@@ -1,12 +1,11 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
-import { Building2 } from "lucide-react"
 
-import { SupportLink } from "@/components/shared/support-link"
 import { env } from "@/lib/env"
 import { CITIES } from "@/lib/geo/cities"
 import { ROUTES } from "@/lib/routes"
+import { SUPPORT, socialLinks } from "@/lib/site-config"
 
 export const metadata: Metadata = {
   title: "Track it with MyKaggo",
@@ -15,12 +14,14 @@ export const metadata: Metadata = {
   alternates: { canonical: "/" },
 }
 
+
 /**
  * Structured data so search engines can render a rich result for the brand and
  * expose the tracking entry point as a site search action.
  */
 function StructuredData() {
   const site = env.NEXT_PUBLIC_SITE_URL
+  const socials = socialLinks().map((s) => s.href)
 
   const jsonLd = {
     "@context": "https://schema.org",
@@ -31,6 +32,14 @@ function StructuredData() {
         name: "MyKaggo",
         url: site,
         logo: `${site}/images/logo.png`,
+        email: SUPPORT.email,
+        sameAs: socials,
+        contactPoint: {
+          "@type": "ContactPoint",
+          contactType: "customer support",
+          email: SUPPORT.email,
+          url: SUPPORT.whatsapp || undefined,
+        },
         areaServed: CITIES.map((city) => city.label),
       },
       {
@@ -59,6 +68,7 @@ function StructuredData() {
     />
   )
 }
+
 
 export default function HomePage() {
   return (
@@ -112,22 +122,7 @@ export default function HomePage() {
           </p>
         </div>
       </main>
-
-      {/*
-        The only route from the rider side into the company portal. An installed
-        PWA has no address bar, so without a visible link a logistics operator
-        who opened the app could never reach their own sign-in.
-      */}
-      <footer className="flex shrink-0 flex-col items-center gap-3 pt-5 pb-2">
-        <Link
-          href={ROUTES.companyHome}
-          className="flex items-center gap-1.5 text-[14px] font-medium text-primary transition-opacity hover:underline active:opacity-70"
-        >
-          <Building2 className="size-4 stroke-[1.5]" />
-          For logistics companies
-        </Link>
-        <SupportLink className="text-[15px]" />
-      </footer>
     </div>
   )
 }
+

@@ -2,10 +2,10 @@ import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
 
-import { SupportLink } from "@/components/shared/support-link"
 import { Button } from "@/components/ui/button"
 import { CITIES } from "@/lib/geo/cities"
 import { ROUTES } from "@/lib/routes"
+
 
 export const metadata: Metadata = {
   title: "Power your trips with MyKaggo",
@@ -68,16 +68,11 @@ export default function CompanyLandingPage() {
             We are everywhere
           </h2>
           <p className="max-w-75 text-[15px] leading-snug text-white/95">
-            {CITIES
-              .map((city) => city.label)
-              .join(", ")}
+            {CITIES.map((city) => city.label).join(", ")}
           </p>
         </div>
       </main>
-
-      <div className="flex shrink-0 justify-center pt-5 pb-2">
-        <SupportLink subject="MyKaggo company enquiry" />
-      </div>
     </div>
   )
 }
+

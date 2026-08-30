@@ -20,12 +20,9 @@ export const COMPANY = {
 export const SUPPORT = {
   email: process.env.NEXT_PUBLIC_SUPPORT_EMAIL ?? "support@mykaggo.com",
   phone: process.env.NEXT_PUBLIC_SUPPORT_PHONE ?? "+234 816 814 4560",
-  /**
-   * Full `https://wa.me/...` link. Left blank until confirmed: guessing it
-   * from the support phone number would send customers to whoever happens to
-   * own that WhatsApp account.
-   */
-  whatsapp: process.env.NEXT_PUBLIC_SUPPORT_WHATSAPP ?? "",
+  whatsapp:
+    process.env.NEXT_PUBLIC_SUPPORT_WHATSAPP ??
+    "https://wa.me/message/YZMUE44CZHKTN1",
 } as const
 
 export interface SocialLink {
@@ -35,11 +32,18 @@ export interface SocialLink {
 }
 
 const SOCIAL_HREFS: Record<SocialNetwork, string> = {
-  facebook: process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK ?? "",
-  x: process.env.NEXT_PUBLIC_SOCIAL_X ?? "",
-  linkedin: process.env.NEXT_PUBLIC_SOCIAL_LINKEDIN ?? "",
-  instagram: process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM ?? "",
-  tiktok: process.env.NEXT_PUBLIC_SOCIAL_TIKTOK ?? "",
+  facebook:
+    process.env.NEXT_PUBLIC_SOCIAL_FACEBOOK ??
+    "https://www.facebook.com/profile.php?id=61593366677914",
+  x: process.env.NEXT_PUBLIC_SOCIAL_X ?? "https://x.com/mykaggo",
+  linkedin:
+    process.env.NEXT_PUBLIC_SOCIAL_LINKEDIN ??
+    "https://www.linkedin.com/company/mykaggo",
+  instagram:
+    process.env.NEXT_PUBLIC_SOCIAL_INSTAGRAM ??
+    "https://www.instagram.com/mykaggo?igsi=MjA0YTl4bjRrN2p1",
+  tiktok:
+    process.env.NEXT_PUBLIC_SOCIAL_TIKTOK ?? "https://www.tiktok.com/@mykaggo",
 }
 
 const ORDER: SocialNetwork[] = [
@@ -52,7 +56,7 @@ const ORDER: SocialNetwork[] = [
 
 const LABELS: Record<SocialNetwork, string> = {
   facebook: "Facebook",
-  x: "X",
+  x: "X (Twitter)",
   linkedin: "LinkedIn",
   instagram: "Instagram",
   tiktok: "TikTok",
@@ -72,13 +76,17 @@ export function socialLinks(): SocialLink[] {
 /**
  * Where "Contact Support" points.
  *
- * WhatsApp when configured — the client asked for it — otherwise the support
- * mailbox, so the button is never inert.
+ * WhatsApp link redirect provided by client, falling back to the support mailbox.
  */
-export function supportHref(subject: string): string {
+export function supportHref(subject?: string): string {
   if (SUPPORT.whatsapp) {
-    const separator = SUPPORT.whatsapp.includes("?") ? "&" : "?"
-    return `${SUPPORT.whatsapp}${separator}text=${encodeURIComponent(subject)}`
+    if (subject) {
+      const separator = SUPPORT.whatsapp.includes("?") ? "&" : "?"
+      return `${SUPPORT.whatsapp}${separator}text=${encodeURIComponent(subject)}`
+    }
+    return SUPPORT.whatsapp
   }
-  return `mailto:${SUPPORT.email}?subject=${encodeURIComponent(subject)}`
+  const query = subject ? `?subject=${encodeURIComponent(subject)}` : ""
+  return `mailto:${SUPPORT.email}${query}`
 }
+

@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ChevronRight, Menu } from "lucide-react"
+import { Building2, ChevronRight, ExternalLink, Home, Menu, MessageCircle } from "lucide-react"
 
 import { SocialIcon } from "@/components/shared/social-icons"
 import { Button } from "@/components/ui/button"
@@ -16,9 +16,18 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet"
 import { ROUTES } from "@/lib/routes"
-import { socialLinks, SUPPORT } from "@/lib/site-config"
+import { socialLinks, SUPPORT, supportHref } from "@/lib/site-config"
 
-const PAGES = [
+const MAIN_NAV = [
+  { href: ROUTES.home, label: "Home", icon: Home },
+  {
+    href: ROUTES.companyHome,
+    label: "For Logistics Companies",
+    icon: Building2,
+  },
+] as const
+
+const LEGAL_PAGES = [
   { href: ROUTES.about, label: "About Us" },
   { href: ROUTES.privacy, label: "Privacy Policy" },
   { href: ROUTES.terms, label: "Terms of Use" },
@@ -27,9 +36,8 @@ const PAGES = [
 /**
  * Slide-out menu sitting beside the header's primary action.
  *
- * Social links come from `lib/site-config.ts` and render only when configured,
- * so the row stays empty rather than shipping five dead links while the client
- * is still collecting the URLs.
+ * Includes Home, For Logistics Companies, Contact Support (WhatsApp),
+ * legal information pages, and social media channels.
  */
 export function SiteMenu() {
   const socials = socialLinks()
@@ -53,18 +61,58 @@ export function SiteMenu() {
         <SheetHeader className="px-5 pt-5 pb-3">
           <SheetTitle className="text-[17px]">Menu</SheetTitle>
           <SheetDescription className="sr-only">
-            Company information and social links
+            Navigation, support, and company information
           </SheetDescription>
         </SheetHeader>
 
-        <nav className="flex flex-col px-2">
-          {PAGES.map((page) => (
+        <nav className="flex flex-col px-2 py-1">
+          {MAIN_NAV.map((item) => {
+            const Icon = item.icon
+            return (
+              <SheetClose
+                key={item.href}
+                render={
+                  <Link
+                    href={item.href}
+                    className="flex items-center justify-between rounded-lg px-3 py-3 text-[15px] font-medium text-foreground transition-colors hover:bg-accent"
+                  >
+                    <span className="flex items-center gap-2.5">
+                      <Icon className="size-4.5 shrink-0 text-muted-foreground" />
+                      {item.label}
+                    </span>
+                    <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
+                  </Link>
+                }
+              />
+            )
+          })}
+
+          <SheetClose
+            render={
+              <a
+                href={supportHref("MyKaggo support request")}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-between rounded-lg px-3 py-3 text-[15px] font-medium text-foreground transition-colors hover:bg-accent"
+              >
+                <span className="flex items-center gap-2.5">
+                  <MessageCircle className="size-4.5 shrink-0 text-primary" />
+                  Contact Support
+                </span>
+                <ExternalLink className="size-4 shrink-0 text-muted-foreground" />
+              </a>
+            }
+          />
+
+          <Separator className="my-2" />
+
+          {LEGAL_PAGES.map((page) => (
             <SheetClose
               key={page.href}
               render={
                 <Link
                   href={page.href}
-                  className="flex items-center justify-between rounded-lg px-3 py-3.5 text-[15px] font-medium text-foreground transition-colors hover:bg-accent"
+                  className="flex items-center justify-between rounded-lg px-3 py-2.5 text-[14px] text-foreground/80 transition-colors hover:bg-accent hover:text-foreground"
                 >
                   {page.label}
                   <ChevronRight className="size-4 shrink-0 text-muted-foreground" />
@@ -74,7 +122,7 @@ export function SiteMenu() {
           ))}
         </nav>
 
-        <div className="mt-auto flex flex-col gap-4 px-5 pt-6 pb-6">
+        <div className="mt-auto flex flex-col gap-4 px-5 pt-4 pb-6">
           <Separator />
 
           <div className="flex flex-col gap-3">
@@ -118,3 +166,4 @@ export function SiteMenu() {
     </Sheet>
   )
 }
+

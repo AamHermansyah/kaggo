@@ -47,3 +47,26 @@ export function findCity(id: string | undefined | null): City | undefined {
 export function cityLabel(id: string): string {
   return findCity(id)?.label ?? id
 }
+
+/**
+ * Resolves coordinates for free-text location entries.
+ * Matches against known cities if possible; falls back to default coordinates
+ * to ensure backend `POST /shipments` payload requirements are met.
+ */
+export function resolveCoordinates(location: string): { lat: number; lng: number } {
+  if (!location) return { lat: 6.5244, lng: 3.3792 }
+  const normalized = location.trim().toLowerCase()
+  const match = CITIES.find(
+    (c) =>
+      normalized === c.id.toLowerCase() ||
+      normalized === c.label.toLowerCase() ||
+      normalized.includes(c.label.toLowerCase()) ||
+      c.label.toLowerCase().includes(normalized) ||
+      normalized.includes(c.state.toLowerCase())
+  )
+  if (match) {
+    return { lat: match.lat, lng: match.lng }
+  }
+  return { lat: 6.5244, lng: 3.3792 }
+}
+

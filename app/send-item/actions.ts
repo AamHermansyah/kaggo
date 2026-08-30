@@ -17,7 +17,7 @@ import {
 } from "@/lib/api/mobile"
 import type { BatchRequestResult, VehicleLookup } from "@/lib/api/types"
 import { requireRider } from "@/lib/auth/session"
-import { findCity } from "@/lib/geo/cities"
+import { resolveCoordinates } from "@/lib/geo/cities"
 import { ROUTES } from "@/lib/routes"
 import { normalizePhone } from "@/lib/validation/phone"
 import {
@@ -88,16 +88,11 @@ export async function createShipmentAction(
   const parsed = parseInput(sendItemSchema, values)
   if (!parsed.ok) return parsed.result
 
-  const { role, counterpartyPhone, itemName, fromCity, toCity, vehicleRef } =
+  const { role, counterpartyPhone, itemName, from, to, vehicleRef } =
     parsed.data
 
-  const from = findCity(fromCity)
-  const to = findCity(toCity)
-  if (!from || !to) {
-    return failure("Pick both a pick-up and a destination city.", {
-      code: "VALIDATION_ERROR",
-    })
-  }
+  const fromCoords = resolveCoordinates(from)
+  const toCoords = resolveCoordinates(to)
 
   const outcome = await runAction(async () => {
     let vehicle: VehicleLookup
@@ -121,12 +116,12 @@ export async function createShipmentAction(
       itemName,
       driverPhone: vehicle.driverPhone,
       vehiclePlateNumber: vehicle.plateNumber,
-      fromAddress: from.label,
-      toAddress: to.label,
-      fromLat: from.lat,
-      fromLng: from.lng,
-      toLat: to.lat,
-      toLng: to.lng,
+      fromAddress: from,
+      toAddress: to,
+      fromLat: fromCoords.lat,
+      fromLng: fromCoords.lng,
+      toLat: toCoords.lat,
+      toLng: toCoords.lng,
     })
 
     return success(shipment.shipmentId)
@@ -156,20 +151,12 @@ export async function submitBatchRequestAction(
   const parsed = parseInput(batchRequestSchema, values)
   if (!parsed.ok) return parsed.result
 
-  const from = findCity(parsed.data.fromCity)
-  const to = findCity(parsed.data.toCity)
-  if (!from || !to) {
-    return failure("Pick both a pick-up and a destination city.", {
-      code: "VALIDATION_ERROR",
-    })
-  }
-
   return runAction(async () => {
     try {
       const result = await submitBatchRequest(rider.userId, {
         companyCode: parsed.data.companyCode,
-        fromLabel: from.label,
-        toLabel: to.label,
+        fromLabel: parsed.data.from,
+        toLabel: parsed.data.to,
         itemName: parsed.data.itemName,
       })
       return success(result)

@@ -4,7 +4,6 @@ import { useState } from "react"
 import Link from "next/link"
 import { CalendarClock, Check } from "lucide-react"
 
-import { ComboboxField } from "@/components/shared/form/combobox-field"
 import { FormAlert } from "@/components/shared/form/form-alert"
 import { SubmitButton } from "@/components/shared/form/submit-button"
 import { TextField } from "@/components/shared/form/text-field"
@@ -12,17 +11,10 @@ import { Button } from "@/components/ui/button"
 import { FieldGroup } from "@/components/ui/field"
 import { useActionForm } from "@/hooks/use-action-form"
 import type { BatchRequestResult } from "@/lib/api/types"
-import { CITIES } from "@/lib/geo/cities"
 import { formatDateTime } from "@/lib/format"
 import { ROUTES } from "@/lib/routes"
 import { batchRequestSchema } from "@/lib/validation/schemas/rider"
 import { submitBatchRequestAction } from "./actions"
-
-const CITY_OPTIONS = CITIES.map((city) => ({
-  value: city.id,
-  label: city.label,
-  hint: city.state,
-}))
 
 /**
  * Drop a package off with a logistics company.
@@ -31,6 +23,9 @@ const CITY_OPTIONS = CITIES.map((city) => ({
  * matches on server time instead — whichever batch on the route has an open
  * drop-off window right now — so no batch picker is shown. The matched batch
  * number comes back in the response and is displayed on success.
+ *
+ * Departure ("From") and arrival ("To") are free-text fields as expected
+ * by users and the backend API.
  *
  * There is no receiver field: the backend records the requester as both sender
  * and receiver, making this a drop-off-and-track flow rather than a
@@ -43,8 +38,8 @@ export function BatchForm({ modeSwitch }: { modeSwitch: React.ReactNode }) {
     schema: batchRequestSchema,
     defaultValues: {
       companyCode: "",
-      fromCity: "",
-      toCity: "",
+      from: "",
+      to: "",
       itemName: "",
     },
     action: submitBatchRequestAction,
@@ -77,22 +72,20 @@ export function BatchForm({ modeSwitch }: { modeSwitch: React.ReactNode }) {
           maxLength={200}
         />
 
-        <ComboboxField
+        <TextField
           control={form.control}
-          name="fromCity"
+          name="from"
           label="From"
           hideLabel
-          placeholder="Search pick-up city"
-          options={CITY_OPTIONS}
+          placeholder="From"
         />
 
-        <ComboboxField
+        <TextField
           control={form.control}
-          name="toCity"
+          name="to"
           label="To"
           hideLabel
-          placeholder="Search destination city"
-          options={CITY_OPTIONS}
+          placeholder="To"
         />
       </FieldGroup>
 
