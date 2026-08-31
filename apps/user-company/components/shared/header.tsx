@@ -36,13 +36,13 @@ export default function Header() {
 
   if (variant === "home") {
     return (
-      <header className="z-10 flex shrink-0 items-center justify-between px-6 py-4">
+      <header className="z-10 flex shrink-0 items-center justify-between border-b border-border/40 bg-background px-6 py-3.5">
         <BrandMark />
         <div className="flex shrink-0 items-center gap-2">
           <Button
             render={<Link href={ROUTES.riderIdentify} />}
             nativeButton={false}
-            className="rounded-md px-5 text-sm font-medium shadow-none"
+            className="h-9 rounded-[8px] px-5 text-sm font-semibold shadow-none"
           >
             List item
           </Button>
@@ -54,13 +54,13 @@ export default function Header() {
 
   if (variant === "company-home") {
     return (
-      <header className="z-10 flex shrink-0 items-center justify-between bg-background px-6 py-4">
+      <header className="z-10 flex shrink-0 items-center justify-between border-b border-border/40 bg-background px-6 py-3.5">
         <BrandMark />
         <div className="flex shrink-0 items-center gap-2">
           <Button
             render={<Link href={ROUTES.companyLogin} />}
             nativeButton={false}
-            className="rounded-md px-6 text-sm font-medium shadow-none"
+            className="h-9 rounded-[8px] px-6 text-sm font-semibold shadow-none"
           >
             Login
           </Button>

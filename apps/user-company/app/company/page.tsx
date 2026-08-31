@@ -1,11 +1,9 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
+import { ArrowRight } from "lucide-react"
 
-import { Button } from "@/components/ui/button"
-import { CITIES } from "@/lib/geo/cities"
 import { ROUTES } from "@/lib/routes"
-
 
 export const metadata: Metadata = {
   title: "Power your trips with MyKaggo",
@@ -22,53 +20,54 @@ export const metadata: Metadata = {
 
 export default function CompanyLandingPage() {
   return (
-    <div className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto px-5 pt-3 pb-6">
-      <main className="relative flex min-h-115 flex-1 flex-col items-center justify-between overflow-hidden rounded-[24px] p-6 text-center shadow-md">
+    <div className="relative flex flex-1 flex-col overflow-hidden">
+      <main className="relative flex h-full flex-1 flex-col items-center justify-between px-6 py-8 text-center sm:py-10">
         <Image
           src="/images/hero.jpg"
           alt=""
           fill
           sizes="(max-width: 430px) 100vw, 430px"
-          className="object-cover object-center brightness-55"
+          className="object-cover object-[center_30%]"
           priority
         />
+        {/* Darkening linear gradient overlay for crisp contrast */}
+        <div
+          className="pointer-events-none absolute inset-0 z-[1]"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.25) 45%, rgba(0, 0, 0, 0.8) 100%)",
+          }}
+        />
 
-        {/* Type scale matched to the landing page hero. */}
-        <div className="relative z-10 flex flex-col items-center pt-8">
-          <h1 className="mb-3 text-[32px] leading-tight font-medium text-white">
+        {/* Top Header Texts */}
+        <div className="relative z-10 flex flex-col items-center pt-2 sm:pt-4">
+          <h1 className="max-w-[310px] text-[28px] sm:text-[32px] font-bold leading-tight tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
             Power your trips with MyKaggo
           </h1>
-          <p className="max-w-75 text-[17px] leading-snug text-white">
+          <p className="mt-2.5 max-w-[280px] text-[14.5px] sm:text-[15.5px] leading-snug font-medium text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
             Your customers never have to worry about where their packages are
           </p>
         </div>
 
-        <div className="relative z-10 my-auto py-6">
-          <Button
-            render={<Link href={ROUTES.companyRegister} />}
-            nativeButton={false}
-            size="lg"
-            variant="secondary"
-            className="flex h-13 items-center gap-2 rounded-full bg-white px-8 text-[15px] font-semibold text-primary shadow-lg transition-transform hover:bg-white/90 active:scale-98"
+        {/* Middle CTA Button */}
+        <div className="relative z-10 my-auto py-6 w-full flex justify-center">
+          <Link
+            href={ROUTES.companyRegister}
+            className="flex h-13.5 sm:h-14 w-full max-w-[310px] items-center justify-center gap-3 rounded-full bg-white px-6 text-[15.5px] sm:text-[16.5px] font-semibold text-neutral-900 shadow-2xl transition-transform active:scale-98 hover:bg-neutral-50"
           >
-            <Image
-              src="/images/logo.png"
-              alt=""
-              width={40}
-              height={48}
-              data-icon="inline-start"
-              className="size-5 shrink-0 object-contain"
-            />
-            Get Started
-          </Button>
+            <span>Get Started</span>
+            <ArrowRight className="size-5 stroke-[2.5] text-primary" />
+          </Link>
         </div>
 
-        <div className="relative z-10 flex flex-col items-center pb-2">
-          <h2 className="mb-2 text-[22px] font-medium text-white">
-            We are everywhere
+        {/* Bottom Coverage Section */}
+        <div className="relative z-10 flex flex-col items-center pb-2 sm:pb-4">
+          <h2 className="text-[21px] sm:text-[23px] font-bold tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
+            Where are everywhere
           </h2>
-          <p className="max-w-75 text-[15px] leading-snug text-white/95">
-            {CITIES.map((city) => city.label).join(", ")}
+          <p className="mt-2 max-w-[325px] text-[13px] sm:text-[13.5px] leading-relaxed font-normal text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.7)]">
+            Wherever your vehicles are headed in Nigeria, MyKaggo keeps you in the
+            know, from the moment they leave to the moment they arrive.
           </p>
         </div>
       </main>

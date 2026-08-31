@@ -1,6 +1,7 @@
 import type { Metadata } from "next"
 import Image from "next/image"
 import Link from "next/link"
+import { ArrowRight } from "lucide-react"
 
 import { env } from "@/lib/env"
 import { CITIES } from "@/lib/geo/cities"
@@ -10,10 +11,9 @@ import { SUPPORT, socialLinks } from "@/lib/site-config"
 export const metadata: Metadata = {
   title: "Track it with MyKaggo",
   description:
-    "Keep an eye on your package from departure to your destination. MyKaggo tracks intercity road deliveries across Nigeria with live GPS.",
+    "Keep an eye on your package from departure to arrival. MyKaggo tracks intercity road deliveries across Nigeria with live GPS.",
   alternates: { canonical: "/" },
 }
-
 
 /**
  * Structured data so search engines can render a rich result for the brand and
@@ -69,56 +69,58 @@ function StructuredData() {
   )
 }
 
-
 export default function HomePage() {
   return (
-    <div className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto px-5 pt-3 pb-6">
+    <div className="relative flex flex-1 flex-col overflow-hidden">
       <StructuredData />
 
-      {/* Same hero treatment as /company: a rounded card with the photo as a
-          real <Image fill> rather than a CSS background, so Next.js can size
-          and preload it. `brightness-55` replaces the old gradient overlay. */}
-      <main className="relative flex min-h-115 flex-1 flex-col items-center justify-between overflow-hidden rounded-[24px] p-6 text-center shadow-md">
+      <main className="relative flex h-full flex-1 flex-col items-center justify-between px-6 py-8 text-center sm:py-10">
         <Image
           src="/images/hero.jpg"
           alt=""
           fill
           sizes="(max-width: 430px) 100vw, 430px"
-          className="object-cover object-center brightness-55"
+          className="object-cover object-[center_30%]"
           priority
         />
+        {/* Darkening linear gradient overlay for crisp contrast */}
+        <div
+          className="pointer-events-none absolute inset-0 z-[1]"
+          style={{
+            background:
+              "linear-gradient(180deg, rgba(0, 0, 0, 0.7) 0%, rgba(0, 0, 0, 0.25) 45%, rgba(0, 0, 0, 0.8) 100%)",
+          }}
+        />
 
-        <div className="relative z-10 flex flex-col items-center pt-8">
-          <h1 className="mb-3 text-[32px] leading-tight font-medium text-white">
+        {/* Top Header Texts */}
+        <div className="relative z-10 flex flex-col items-center pt-2 sm:pt-4">
+          <h1 className="text-[28px] sm:text-[32px] font-bold leading-tight tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)]">
             Track it with MyKaggo
           </h1>
-          <p className="mb-10 max-w-75 text-[17px] leading-snug text-white">
-            Keep an eye on your package from departure to your destination
+          <p className="mt-2.5 max-w-[280px] text-[14.5px] sm:text-[15.5px] leading-snug font-medium text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.8)]">
+            Keep an eye on your package from departure to arrival
           </p>
+        </div>
 
+        {/* Middle CTA Button */}
+        <div className="relative z-10 my-auto py-6 w-full flex justify-center">
           <Link
             href={ROUTES.track}
-            className="flex w-full max-w-85 items-center gap-3 rounded-[30px] bg-background px-6 py-4.5 text-foreground shadow-sm transition-transform active:scale-98"
+            className="flex h-13.5 sm:h-14 w-full max-w-[310px] items-center justify-center gap-3 rounded-full bg-white px-6 text-[15.5px] sm:text-[16.5px] font-semibold text-neutral-900 shadow-2xl transition-transform active:scale-98 hover:bg-neutral-50"
           >
-            <Image
-              src="/images/logo.png"
-              alt=""
-              width={40}
-              height={48}
-              className="size-5 shrink-0 object-contain"
-            />
-            <span className="text-[15px] font-medium">
-              Track it with your phone number
-            </span>
+            <span>Track your package</span>
+            <ArrowRight className="size-5 stroke-[2.5] text-primary" />
           </Link>
         </div>
 
-        <div className="relative z-10 flex flex-col items-center pb-2">
-          <h2 className="mb-2 text-[22px] font-medium text-white">
+        {/* Bottom Destination Section */}
+        <div className="relative z-10 flex flex-col items-center pb-2 sm:pb-4">
+          <h2 className="text-[21px] sm:text-[23px] font-bold tracking-tight text-white drop-shadow-[0_2px_4px_rgba(0,0,0,0.6)]">
             Where are you sending to?
           </h2>
-          <p className="max-w-75 text-[15px] leading-snug text-white/95">
-            {CITIES.map((city) => city.label).join(", ")}
+          <p className="mt-2 max-w-[325px] text-[13px] sm:text-[13.5px] leading-relaxed font-normal text-white drop-shadow-[0_1px_3px_rgba(0,0,0,0.7)]">
+            Wherever your item is going in Nigeria, MyKaggo keeps you in the
+            know, from the moment it leaves to the moment it arrives.
           </p>
         </div>
       </main>
