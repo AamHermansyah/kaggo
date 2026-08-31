@@ -22,14 +22,12 @@ export const vehicleOnboardingSchema = z.object({
   model: z.string().trim().min(1, "Vehicle model is required").max(60),
   colour: z.string().trim().min(2, "Vehicle colour is required").max(40),
   companyName: z.string().trim().min(2, "Company is required").max(200),
-  imei: z
-    .string()
-    .trim()
-    .regex(/^\d{10,20}$/, "IMEI must be 10-20 digits"),
+  imei: z.string().trim().optional(),
   terminalNo: z
     .string()
     .trim()
-    .regex(/^\d{1,12}$/, "Terminal number must be 1-12 digits"),
+    .min(1, "Terminal ID is required")
+    .max(30, "Terminal ID must be 30 characters or less"),
 })
 
 export type VehicleOnboardingValues = z.input<typeof vehicleOnboardingSchema>

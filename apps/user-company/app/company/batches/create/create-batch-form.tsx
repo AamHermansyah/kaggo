@@ -1,10 +1,12 @@
 "use client"
 
 import { FormAlert } from "@/components/shared/form/form-alert"
+import { SelectField } from "@/components/shared/form/select-field"
 import { SubmitButton } from "@/components/shared/form/submit-button"
 import { TextField } from "@/components/shared/form/text-field"
 import { FieldGroup } from "@/components/ui/field"
 import { useActionForm } from "@/hooks/use-action-form"
+import { CITY_OPTIONS } from "@/lib/geo/cities"
 import { createBatchSchema } from "@/lib/validation/schemas/fleet"
 import { createBatchAction } from "../actions"
 
@@ -24,19 +26,21 @@ export function CreateBatchForm() {
   return (
     <form onSubmit={onSubmit} noValidate className="flex flex-1 flex-col">
       <FieldGroup className="mb-6 shrink-0 gap-3.5">
-        <TextField
+        <SelectField
           control={form.control}
           name="departure"
           label="Departure"
           hideLabel
-          placeholder="Departure"
+          placeholder="Select departure city"
+          options={CITY_OPTIONS}
         />
-        <TextField
+        <SelectField
           control={form.control}
           name="destination"
           label="Destination"
           hideLabel
-          placeholder="Destination"
+          placeholder="Select destination city"
+          options={CITY_OPTIONS}
         />
         <TextField
           control={form.control}

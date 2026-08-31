@@ -133,7 +133,10 @@ export default function RootLayout({
     >
       <body className="bg-muted">
         <ThemeProvider>
-          <div className="relative mx-auto flex h-dvh max-w-107.5 flex-col overflow-y-auto bg-background">
+          <div
+            id="app-container"
+            className="relative mx-auto flex h-dvh max-w-107.5 flex-col overflow-hidden bg-background shadow-2xl"
+          >
             <Header />
             {children}
             <FloatingNav />

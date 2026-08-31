@@ -8,14 +8,6 @@ import { useActionForm } from "@/hooks/use-action-form"
 import { vehicleOnboardingSchema } from "@/lib/validation/schemas/fleet"
 import { onboardVehicleAction } from "./actions"
 
-/**
- * Vehicle onboarding.
- *
- * Two fields from the mock-up were split because the API needs the parts
- * separately: "Vehicle make & Model" became make + model, and "Device ID"
- * became the manufacturer IMEI plus the JT/T808 terminal number the tracker is
- * actually addressed by.
- */
 export function VehicleOnboardingForm() {
   const { form, onSubmit, pending, formError } = useActionForm({
     schema: vehicleOnboardingSchema,

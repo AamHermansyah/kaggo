@@ -10,20 +10,13 @@ import {
 } from "@/lib/actions/result"
 import { assignDriverToBatch, createBatch } from "@/lib/api/company"
 import { requireCompanyToken } from "@/lib/auth/session"
+import { resolveCoordinates } from "@/lib/geo/cities"
 import { ROUTES } from "@/lib/routes"
 import {
   assignDriverSchema,
   createBatchSchema,
 } from "@/lib/validation/schemas/fleet"
 
-/**
- * Batch creation and driver assignment.
- *
- * Neither endpoint is deployed yet. `runAction` recognises the backend's
- * "Route not found" 404 and returns a plain "not available on the server yet"
- * message, so the form says something true instead of a generic failure. The
- * request shape is already correct, so these light up the day the routes ship.
- */
 export async function createBatchAction(
   values: unknown
 ): Promise<ActionResult<undefined>> {
@@ -32,8 +25,21 @@ export async function createBatchAction(
   const parsed = parseInput(createBatchSchema, values)
   if (!parsed.ok) return parsed.result
 
+  const fromCoords = resolveCoordinates(parsed.data.departure)
+  const toCoords = resolveCoordinates(parsed.data.destination)
+
   const outcome = await runAction(async () => {
-    await createBatch(token, parsed.data)
+    await createBatch(token, {
+      fromLabel: parsed.data.departure,
+      fromLat: fromCoords.lat,
+      fromLng: fromCoords.lng,
+      toLabel: parsed.data.destination,
+      toLat: toCoords.lat,
+      toLng: toCoords.lng,
+      dropOffStartTime: parsed.data.dropOffStartTime,
+      dropOffCloseTime: parsed.data.dropOffCloseTime,
+      batchNumber: parsed.data.batchNumber,
+    })
     return success()
   })
 

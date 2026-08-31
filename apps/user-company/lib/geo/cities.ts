@@ -37,6 +37,11 @@ export const CITIES: readonly City[] = [
 
 export const CITY_IDS = CITIES.map((city) => city.id)
 
+export const CITY_OPTIONS = CITIES.map((city) => ({
+  value: city.label,
+  label: `${city.label}, ${city.state}`,
+}))
+
 const BY_ID = new Map(CITIES.map((city) => [city.id, city]))
 
 export function findCity(id: string | undefined | null): City | undefined {

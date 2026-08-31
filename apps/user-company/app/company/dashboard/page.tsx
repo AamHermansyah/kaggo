@@ -28,8 +28,8 @@ const QUICK_ACTIONS = [
   },
   {
     href: ROUTES.companyVehicles,
-    title: "Manage Vehicles",
-    description: "Your registered fleet and MyKaggo devices",
+    title: "Onboard Vehicles",
+    description: "Register and assign devices to drivers",
   },
 ]
 

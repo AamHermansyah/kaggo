@@ -116,7 +116,7 @@ export interface OnboardVehicleInput {
   /** Optional since v1.1: ties the vehicle to a real LogisticsCompany. */
   companyId?: string
   /** Manufacturer hardware identity. */
-  imei: string
+  imei?: string
   /** JT/T808 addressing ID, 1-12 digits. */
   terminalNo: string
 }

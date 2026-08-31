@@ -102,8 +102,12 @@ export async function listCompanyBatches(
 }
 
 export interface CreateBatchInput {
-  departure: string
-  destination: string
+  fromLabel: string
+  fromLat: number
+  fromLng: number
+  toLabel: string
+  toLat: number
+  toLng: number
   dropOffStartTime: string
   dropOffCloseTime: string
   batchNumber: string

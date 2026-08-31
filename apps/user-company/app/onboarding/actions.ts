@@ -11,27 +11,21 @@ import {
 } from "@/lib/actions/result"
 import { onboardVehicle } from "@/lib/api/admin"
 import { isApiError } from "@/lib/api/errors"
-import { requireAdminToken } from "@/lib/auth/session"
 import { ROUTES } from "@/lib/routes"
 import { vehicleOnboardingSchema } from "@/lib/validation/schemas/fleet"
 
 /**
- * Registers a vehicle and its GPS tracker in a single backend transaction.
- *
- * `POST /admin/vehicles` is the only vehicle-onboarding endpoint the platform
- * has, which is why this flow requires an admin session.
+ * Registers a vehicle and its GPS tracker from the public onboarding flow.
  */
 export async function onboardVehicleAction(
   values: unknown
 ): Promise<ActionResult<undefined>> {
-  const token = await requireAdminToken()
-
   const parsed = parseInput(vehicleOnboardingSchema, values)
   if (!parsed.ok) return parsed.result
 
   const outcome = await runAction(async () => {
     try {
-      const vehicle = await onboardVehicle(token, parsed.data)
+      const vehicle = await onboardVehicle("", parsed.data)
       return success(vehicle.plateNumber)
     } catch (error) {
       // 409 = plate or terminal number already registered.

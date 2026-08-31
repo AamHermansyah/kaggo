@@ -11,8 +11,7 @@ Built using **PNPM Workspaces** and **Turborepo** with Next.js 16 (Turbopack), R
 ```
 kaggo/
 ├── apps/
-│   ├── user-company/      # Port 3000 — Rider (Send & Track) & Logistics Company Portal
-│   ├── driver/            # Port 3001 — Driver Vehicle Lookup & Live GPS Device Status
+│   ├── user-company/      # Port 3000 — Rider (Send & Track), Company & Vehicle Onboarding
 │   └── admin/             # Port 3002 — Admin Operations, Rates & Fleet Console
 ├── packages/
 │   ├── config/            # Shared TypeScript tsconfig presets (@kaggo/config)
@@ -32,8 +31,7 @@ kaggo/
 
 | Application | Path | Default Port | Description |
 | :--- | :--- | :--- | :--- |
-| **User & Company** | `apps/user-company` | `3000` | Parcel listing, free-text route selection, Paystack (₦) checkout, live tracking, and Logistics Company batch management. |
-| **Driver Portal** | `apps/driver` | `3001` | Dedicated driver lookup for vehicle assignment, plate confirmation, and GPS device monitoring. |
+| **User & Company** | `apps/user-company` | `3000` | Parcel listing, free-text route selection, Paystack (₦) checkout, live tracking, Logistics Company batch management, and free Vehicle Onboarding. |
 | **Admin Operations** | `apps/admin` | `3002` | Admin console for rate settings, approving logistics companies, monitoring shipments, and revenue tracking. |
 
 Each application is a fully configured **Progressive Web App (PWA)** with its own manifest, service worker offline fallback, Apple splash screens, and SEO metadata.
@@ -61,7 +59,6 @@ Copy the `.env.example` template into each application or at the root:
 ```bash
 cp .env.example .env.local
 cp .env.example apps/user-company/.env.local
-cp .env.example apps/driver/.env.local
 cp .env.example apps/admin/.env.local
 ```
 
@@ -82,12 +79,11 @@ NEXT_PUBLIC_SUPPORT_WHATSAPP=https://wa.me/message/YZMUE44CZHKTN1
 ## 💻 Development Commands
 
 ```bash
-# Start all 3 applications simultaneously in development mode
+# Start both applications simultaneously in development mode
 pnpm dev
 
 # Start specific applications individually:
 pnpm dev:user-company   # Runs on http://localhost:3000
-pnpm dev:driver         # Runs on http://localhost:3001
 pnpm dev:admin          # Runs on http://localhost:3002
 ```
 
@@ -96,17 +92,15 @@ pnpm dev:admin          # Runs on http://localhost:3002
 ## 🏗️ Production Build
 
 ```bash
-# Build all 3 applications in parallel with Turborepo caching
+# Build both applications in parallel with Turborepo caching
 pnpm build
 
 # Build individual applications:
 pnpm build:user-company
-pnpm build:driver
 pnpm build:admin
 
 # Start production server for a specific application:
 pnpm start:user-company
-pnpm start:driver
 pnpm start:admin
 ```
 
@@ -115,7 +109,7 @@ pnpm start:admin
 ## 🧪 Testing & Verification
 
 ```bash
-# Type check all 8 packages and apps
+# Type check all packages and apps
 pnpm typecheck
 
 # Run offline Service Worker decision tree checks (13 assertions)
@@ -135,19 +129,14 @@ pnpm lint
 
 ## ☁️ Deployment on Vercel
 
-To deploy on Vercel, create **3 separate projects** linked to the same repository:
+To deploy on Vercel, create **2 separate projects** linked to the same repository:
 
 1. **User & Company (`kaggo-user-company`)**:
    - **Root Directory**: `apps/user-company`
    - **Include files outside Root Directory**: `Checked (ON)`
    - **Domain**: `mykaggo.com` (or `mykaggo.vercel.app`)
 
-2. **Driver Portal (`kaggo-driver`)**:
-   - **Root Directory**: `apps/driver`
-   - **Include files outside Root Directory**: `Checked (ON)`
-   - **Domain**: `driver.mykaggo.com` (or `mykaggo-driver.vercel.app`)
-
-3. **Admin Console (`kaggo-admin`)**:
+2. **Admin Console (`kaggo-admin`)**:
    - **Root Directory**: `apps/admin`
    - **Include files outside Root Directory**: `Checked (ON)`
    - **Domain**: `admin.mykaggo.com` (or `mykaggo-admin.vercel.app`)

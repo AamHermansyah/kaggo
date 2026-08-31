@@ -10,5 +10,5 @@ import { ROUTES } from "@/lib/routes"
  * situation.
  */
 export default function CompanyVehicleOnboardingRedirect() {
-  redirect(ROUTES.companyVehicles)
+  redirect(ROUTES.vehicleOnboarding)
 }

@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { Building2, ChevronRight, ExternalLink, Home, Menu, MessageCircle } from "lucide-react"
+import { Building2, ChevronRight, ExternalLink, Home, Menu, MessageCircle, Truck } from "lucide-react"
 
 import { SocialIcon } from "@/components/shared/social-icons"
 import { Button } from "@/components/ui/button"
@@ -24,6 +24,11 @@ const MAIN_NAV = [
     href: ROUTES.companyHome,
     label: "For Logistics Companies",
     icon: Building2,
+  },
+  {
+    href: ROUTES.vehicleOnboarding,
+    label: "Vehicle Onboarding",
+    icon: Truck,
   },
 ] as const
 
@@ -71,6 +76,7 @@ export function SiteMenu() {
             return (
               <SheetClose
                 key={item.href}
+                nativeButton={false}
                 render={
                   <Link
                     href={item.href}
@@ -88,6 +94,7 @@ export function SiteMenu() {
           })}
 
           <SheetClose
+            nativeButton={false}
             render={
               <a
                 href={supportHref("MyKaggo support request")}
@@ -109,6 +116,7 @@ export function SiteMenu() {
           {LEGAL_PAGES.map((page) => (
             <SheetClose
               key={page.href}
+              nativeButton={false}
               render={
                 <Link
                   href={page.href}

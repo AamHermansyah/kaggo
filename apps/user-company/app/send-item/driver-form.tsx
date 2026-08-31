@@ -4,6 +4,7 @@ import { useState, useTransition } from "react"
 import { Search } from "lucide-react"
 
 import { FormAlert } from "@/components/shared/form/form-alert"
+import { SelectField } from "@/components/shared/form/select-field"
 import { SubmitButton } from "@/components/shared/form/submit-button"
 import { TextField } from "@/components/shared/form/text-field"
 import { VehicleCard } from "@/components/shared/vehicle-card"
@@ -13,6 +14,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"
 import { Spinner } from "@/components/ui/spinner"
 import { useActionForm } from "@/hooks/use-action-form"
 import type { VehicleLookup } from "@/lib/api/types"
+import { CITY_OPTIONS } from "@/lib/geo/cities"
 import { sendItemSchema } from "@/lib/validation/schemas/rider"
 import { createShipmentAction, lookupVehicleAction } from "./actions"
 
@@ -138,20 +140,22 @@ export function DriverForm({
           maxLength={200}
         />
 
-        <TextField
+        <SelectField
           control={form.control}
           name="from"
           label="From"
           hideLabel
-          placeholder="From"
+          placeholder="Select departure city"
+          options={CITY_OPTIONS}
         />
 
-        <TextField
+        <SelectField
           control={form.control}
           name="to"
           label="To"
           hideLabel
-          placeholder="To"
+          placeholder="Select destination city"
+          options={CITY_OPTIONS}
         />
 
         {/* Vehicle lookup ------------------------------------------------ */}

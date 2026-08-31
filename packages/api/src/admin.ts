@@ -111,7 +111,7 @@ export interface OnboardVehicleInput {
   model: string
   companyName: string
   companyId?: string
-  imei: string
+  imei?: string
   terminalNo: string
 }
 

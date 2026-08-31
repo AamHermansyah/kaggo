@@ -15,6 +15,7 @@ const RULES: readonly HeaderRule[] = [
   { match: "/company/submitted", variant: "none" },
   { match: "/company/batches/assign-driver/success", variant: "none" },
   { match: "/send-item/success", variant: "none" },
+  { match: "/onboarding/success", variant: "none" },
   { match: "/offline", variant: "none" },
 
   /* landing pages ------------------------------------------------------- */
@@ -22,6 +23,7 @@ const RULES: readonly HeaderRule[] = [
   { match: "/about", variant: "inner", title: "About Us" },
   { match: "/privacy", variant: "inner", title: "Privacy Policy" },
   { match: "/terms", variant: "inner", title: "Terms of Use" },
+  { match: "/onboarding*", variant: "inner", title: "Vehicle Onboarding", showBack: true },
   { match: "/company", variant: "company-home" },
 
   /* company portal ------------------------------------------------------ */
@@ -31,7 +33,7 @@ const RULES: readonly HeaderRule[] = [
   { match: "/company/batches/create", variant: "inner", title: "Create New Batch" },
   { match: "/company/batches/assign-driver", variant: "inner", title: "Assign Driver" },
   { match: "/company/batches*", variant: "inner", title: "Batch Manager" },
-  { match: "/company/vehicles*", variant: "inner", title: "Vehicles" },
+  { match: "/company/vehicles*", variant: "inner", title: "Onboard Vehicle" },
 
   /* rider --------------------------------------------------------------- */
   { match: "/track", variant: "inner", title: "Track Item" },

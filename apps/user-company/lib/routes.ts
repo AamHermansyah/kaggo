@@ -31,6 +31,10 @@ export const ROUTES = {
   companyAssignDriver: "/company/batches/assign-driver",
   companyVehicles: "/company/vehicles",
   companyVehicleOnboarding: "/company/vehicles/onboarding",
+
+  /* vehicle onboarding --------------------------------------------------- */
+  vehicleOnboarding: "/onboarding",
+  vehicleOnboardingSuccess: "/onboarding/success",
 } as const
 
 /** Paths that require a company session. */
@@ -52,6 +56,7 @@ export const PUBLIC_PAGES = [
   ROUTES.home,
   ROUTES.companyHome,
   ROUTES.companyRegister,
+  ROUTES.vehicleOnboarding,
   ROUTES.about,
   ROUTES.privacy,
   ROUTES.terms,

@@ -5,6 +5,7 @@ import Link from "next/link"
 import { CalendarClock, Check } from "lucide-react"
 
 import { FormAlert } from "@/components/shared/form/form-alert"
+import { SelectField } from "@/components/shared/form/select-field"
 import { SubmitButton } from "@/components/shared/form/submit-button"
 import { TextField } from "@/components/shared/form/text-field"
 import { Button } from "@/components/ui/button"
@@ -12,6 +13,7 @@ import { FieldGroup } from "@/components/ui/field"
 import { useActionForm } from "@/hooks/use-action-form"
 import type { BatchRequestResult } from "@/lib/api/types"
 import { formatDateTime } from "@/lib/format"
+import { CITY_OPTIONS } from "@/lib/geo/cities"
 import { ROUTES } from "@/lib/routes"
 import { batchRequestSchema } from "@/lib/validation/schemas/rider"
 import { submitBatchRequestAction } from "./actions"
@@ -72,20 +74,22 @@ export function BatchForm({ modeSwitch }: { modeSwitch: React.ReactNode }) {
           maxLength={200}
         />
 
-        <TextField
+        <SelectField
           control={form.control}
           name="from"
           label="From"
           hideLabel
-          placeholder="From"
+          placeholder="Select departure city"
+          options={CITY_OPTIONS}
         />
 
-        <TextField
+        <SelectField
           control={form.control}
           name="to"
           label="To"
           hideLabel
-          placeholder="To"
+          placeholder="Select destination city"
+          options={CITY_OPTIONS}
         />
       </FieldGroup>
 

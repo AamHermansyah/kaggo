@@ -67,7 +67,10 @@ export default function AdminRootLayout({
     >
       <body className="bg-muted">
         <ThemeProvider>
-          <div className="relative mx-auto flex h-dvh max-w-107.5 flex-col overflow-y-auto bg-background">
+          <div
+            id="app-container"
+            className="relative mx-auto flex h-dvh max-w-107.5 flex-col overflow-hidden bg-background shadow-2xl"
+          >
             <Header />
             <div className="relative flex flex-1 flex-col overflow-x-hidden overflow-y-auto px-5 pt-2 pb-6">
               {children}
