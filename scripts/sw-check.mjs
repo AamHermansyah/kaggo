@@ -68,7 +68,8 @@ const sandbox = {
 sandbox.globalThis = sandbox
 
 vm.createContext(sandbox)
-vm.runInContext(fs.readFileSync("public/sw.js", "utf8"), sandbox)
+vm.runInContext(fs.readFileSync("apps/user-company/public/sw.js", "utf8"), sandbox)
+
 
 function request({ url, method = "GET", mode = "no-cors", headers = {} }) {
   return {

@@ -1,0 +1,10 @@
+{
+  "extends": "@kaggo/config/tsconfig.package.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    }
+  },
+  "include": ["src"]
+}

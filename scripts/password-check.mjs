@@ -8,7 +8,8 @@
  *
  * Run with `npm run password:check`.
  */
-import { assessPassword } from "../lib/validation/password.ts"
+import { assessPassword } from "../packages/validation/src/password.ts"
+
 
 const TIER = { weak: 0, medium: 1, strong: 2 }
 const results = []

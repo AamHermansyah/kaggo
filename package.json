@@ -1,15 +1,16 @@
 {
-  "name": "kaggo",
+  "name": "kaggo-monorepo",
   "version": "0.0.1",
-  "type": "module",
   "private": true,
   "scripts": {
-    "dev": "next dev",
-    "build": "next build",
-    "start": "next start",
-    "lint": "eslint",
-    "format": "prettier --write \"**/*.{ts,tsx}\"",
-    "typecheck": "tsc --noEmit",
+    "dev": "turbo dev",
+    "dev:user-company": "pnpm --filter @kaggo/user-company dev",
+    "dev:driver": "pnpm --filter @kaggo/driver dev",
+    "dev:admin": "pnpm --filter @kaggo/admin dev",
+    "build": "turbo build",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "format": "prettier --write \"**/*.{ts,tsx,json,md}\"",
     "sw:check": "node scripts/sw-check.mjs",
     "shots": "node scripts/screenshots.mjs",
     "password:check": "node --experimental-strip-types scripts/password-check.mjs",
@@ -17,32 +18,13 @@
     "phone:check": "node --experimental-strip-types scripts/phone-check.mjs"
   },
   "dependencies": {
-    "@base-ui/react": "^1.6.0",
-    "@hookform/resolvers": "^5.9.1",
-    "class-variance-authority": "^0.7.1",
-    "clsx": "^2.1.1",
-    "lucide-react": "^1.25.0",
-    "next": "16.2.6",
-    "next-themes": "^0.4.6",
-    "react": "19.2.4",
-    "react-dom": "19.2.4",
-    "react-hook-form": "^7.86.0",
-    "server-only": "^0.0.1",
-    "shadcn": "^4.13.1",
-    "sonner": "^2.0.7",
-    "tailwind-merge": "^3.6.0",
-    "tw-animate-css": "^1.4.0"
+    "server-only": "^0.0.1"
   },
   "devDependencies": {
-    "@tailwindcss/postcss": "^4",
-    "@types/node": "^20",
-    "@types/react": "^19",
-    "@types/react-dom": "^19",
-    "eslint": "^9",
-    "eslint-config-next": "16.2.6",
     "prettier": "^3.8.3",
     "prettier-plugin-tailwindcss": "^0.8.0",
-    "tailwindcss": "^4",
+    "turbo": "^2.4.4",
     "typescript": "^5"
-  }
+  },
+  "packageManager": "pnpm@10.33.2"
 }

@@ -1,0 +1,41 @@
+Hi,
+
+MyKaggo backend is live and ready for frontend integration.
+
+API base URL (set this in the frontend)
+https://backend-production-6e6bd.up.railway.app
+
+Service	Base URL
+Mobile / main API
+https://backend-production-6e6bd.up.railway.app
+Admin API
+https://backend-production-6e6bd.up.railway.app/admin
+Company API
+https://backend-production-6e6bd.up.railway.app/company
+Note: These are API bases, not websites. Opening / or /company in a browser will not show a page — the app must call real endpoints (e.g. login, identify).
+
+Health
+https://backend-production-6e6bd.up.railway.app/health
+→ should return "status":"healthy"
+
+API reference (OpenAPI YAML)
+Mobile: https://backend-production-6e6bd.up.railway.app/openapi.yaml
+Admin: https://backend-production-6e6bd.up.railway.app/admin/openapi.yaml
+Admin login
+Endpoint: POST /admin/auth/login
+Full URL: https://backend-production-6e6bd.up.railway.app/admin/auth/login
+Email: solvebyrovasoft@gmail.com
+Password: admin1234
+Role: SUPERADMIN
+
+Paystack
+Configured on the backend.
+Webhook URL (Paystack dashboard you add this link there ):
+https://backend-production-6e6bd.up.railway.app/payments/paystack/webhook
+
+PWA (deep link) Callback: kaggo://payment-complete
+
+Ready for frontend
+Identify users, shipments, vehicles, Paystack payments, admin API, company API.
+
+Thanks

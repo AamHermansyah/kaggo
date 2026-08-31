@@ -13,7 +13,8 @@ import {
   isValidPhone,
   normalizePhone,
   toE164,
-} from "../lib/validation/phone.ts"
+} from "../packages/validation/src/phone.ts"
+
 
 const results = []
 const check = (label, pass, detail = "") =>
