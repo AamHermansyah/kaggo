@@ -21,6 +21,10 @@ dist/
 # production
 .turbo/
 
+# documentations
+.documentations/
+.documentation/
+
 # environment variables
 .env
 .env.local
